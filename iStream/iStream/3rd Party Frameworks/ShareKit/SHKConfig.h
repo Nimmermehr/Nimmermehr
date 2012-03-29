@@ -116,6 +116,17 @@
 #define SHKInstapaperConsumerKey    @"302ZU7O90gmFNHhE4Ull0vUPsq1cYUOxXmatmrZFk6WqsS2K3d"
 #define SHKInstapaperSecret         @"Dn1l6elkR3kpwzMsHOx8mDZ4Wcegwdil72orOGx4QXSjXEImhh"
 
+// DeviantART
+#define SHKDeviantARTConsumerKey    @"168"
+#define SHKDeviantARTSecret         @"98d6378310a127f07e4a4ecc29d364dd"
+
+// GitHub
+#define SHKGitHubConsumerKey        @"2b64684a14de05457688"
+#define SHKGitHubSecret             @"0716c0e4617441f2291fc66947bec7f6a0ad74ca"
+
+// Steam
+#define SHKSteamAPIKey              @"7670B9C5CA1D9BAFA66978F265843093"
+
 // ShareMenu Ordering
 #define SHKShareMenuAlphabeticalOrder 1 // Setting this to 1 will show list in Alphabetical Order, setting to 0 will follow the order in SHKShares.plist
 

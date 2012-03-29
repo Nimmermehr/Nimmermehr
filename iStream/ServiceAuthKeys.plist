@@ -92,5 +92,24 @@
 		<key>consumer-secret</key>
 		<string>Dn1l6elkR3kpwzMsHOx8mDZ4Wcegwdil72orOGx4QXSjXEImhh</string>
 	</dict>
+	<key>deviantart</key>
+	<dict>
+		<key>consumer-key</key>
+		<string>168</string>
+		<key>consumer-secret</key>
+		<string>98d6378310a127f07e4a4ecc29d364dd</string>
+	</dict>
+	<key>github</key>
+	<dict>
+		<key>consumer-key</key>
+		<string>2b64684a14de05457688</string>
+		<key>consumer-secret</key>
+		<string>0716c0e4617441f2291fc66947bec7f6a0ad74ca</string>
+	</dict>
+	<key>steam</key>
+	<dict>
+		<key>api-key</key>
+		<string>7670B9C5CA1D9BAFA66978F265843093</string>
+	</dict>
 </dict>
 </plist>

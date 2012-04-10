@@ -111,5 +111,12 @@
 		<key>api-key</key>
 		<string>7670B9C5CA1D9BAFA66978F265843093</string>
 	</dict>
+	<key>instagram</key>
+	<dict>
+		<key>client-id</key>
+		<string>83d239da6c4a4035b4f8afc3b99768c0</string>
+		<key>client-secret</key>
+		<string>4d89b93ae0cb40408e9259dd8268f68b</string>
+	</dict>
 </dict>
 </plist>

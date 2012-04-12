@@ -7,6 +7,9 @@
 //
 
 #import "MTAppDelegate.h"
+#import "MTTwitterConnector.h"
+#import "MTServiceConnectorManager.h"
+#import "MTNewsItem.h"
 
 @implementation MTAppDelegate
 
@@ -15,6 +18,17 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    
+    MTServiceConnectorManager *mgr = [MTServiceConnectorManager sharedServiceConnectorManager];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleTwitterAuthenticated:) name:MTTwitterAuthenticationSucceeded object:mgr];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleTwitterContentReceived:) name:MTTwitterNewsItemsReceived object:mgr];
+    
+    // Pre-loaded from UserDefaults in final version
+    // If nothing is in the User Defaults --> Show ServiceLogin Screen
+    [mgr createAndConnectService:MTServiceTypeTwitter];
+    
+    [mgr authenticateServices];
     return YES;
 }
 							
@@ -56,5 +70,23 @@
      See also applicationDidEnterBackground:.
      */
 }
+
+// Service Notification Handlers
+- (void)handleTwitterAuthenticated:(NSNotification *)notification
+{
+    NSLog(@"%@.%@: %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd), notification);
+    
+    [[MTServiceConnectorManager sharedServiceConnectorManager] requestTwitterUserTimeline];
+}
+
+- (void)handleTwitterContentReceived:(NSNotification *)notification
+{
+    NSLog(@"%@.%@: %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd), notification);
+    
+    NSLog(@"%@.%@: %@=[%@]", NSStringFromClass([self class]), NSStringFromSelector(_cmd), MTServiceTypeKey, [[notification userInfo] objectForKey:MTServiceTypeKey]);
+    
+    NSLog(@"%@.%@: %@=[%@]", NSStringFromClass([self class]), NSStringFromSelector(_cmd), MTServiceContentKey, [[notification userInfo] objectForKey:MTServiceContentKey]);
+}
+
 
 @end

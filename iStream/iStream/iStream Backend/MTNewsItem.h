@@ -19,6 +19,7 @@
     NSString    *_serviceType;
     NSString    *_authorRealName;
     NSDate      *_timestamp;
+    UIImage     *_authorProfileImage;
     BOOL        _unread;
 }
 
@@ -27,13 +28,15 @@
 @property (strong, nonatomic, readonly) NSString    *serviceType;
 @property (strong, nonatomic, readonly) NSString    *authorRealName;
 @property (strong, nonatomic, readonly) NSDate      *timestamp;
+@property (strong, nonatomic, readonly) UIImage     *authorProfileImage;
 @property (nonatomic)                   BOOL        unread;
 
 - (id)initWithAuthor:(NSString *)author 
              content:(NSString *)content 
          serviceType:(NSString *)serviceType 
       authorRealName:(NSString *)authorRealName
-           timestamp:(NSDate *)timestamp;
+           timestamp:(NSDate *)timestamp
+  authorProfileImage:(UIImage *)authorProfileImage;
 
 - (NSString *)description;
 // TODO: isEqual + hashCode

@@ -10,6 +10,7 @@
 #import "TWRequest+Utils.h"
 #import "MTServiceConnectorDelegate.h"
 #import "MTNewsItem.h"
+#import "UIImage+Utils.h"
 
 // Twitter API Request overview: https://dev.twitter.com/docs/api
 
@@ -168,16 +169,21 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"eee MMM dd HH:mm:ss ZZZZ yyyy"]; // eg. Thu Apr 12 17:33:37 +0000 2012
     
+    UIImage *profilePic = nil;
+    
     for (NSDictionary *tweet in theTimeline) {
         
         // TODO: use consts for the twitter keys
         timestamp = [formatter dateFromString:[tweet objectForKey:@"created_at"]];
+        
+        profilePic = [UIImage imageWithContentsOfURL:[[tweet objectForKey:@"user"] objectForKey:@"profile_image_url_https"]];
         
         thePost = [[MTNewsItem alloc] initWithAuthor:[[tweet objectForKey:@"user"] objectForKey:@"screen_name"]
                                              content:[tweet objectForKey:@"text"]
                                          serviceType:MTServiceTypeTwitter 
                                       authorRealName:[[tweet objectForKey:@"user"] objectForKey:@"name"]
                                            timestamp:timestamp
+                                  authorProfileImage:profilePic
                    ];
         
         [newPosts addObject:thePost];

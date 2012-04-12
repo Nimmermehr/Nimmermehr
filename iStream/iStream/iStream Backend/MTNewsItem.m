@@ -10,26 +10,29 @@
 
 @implementation MTNewsItem
 
-@synthesize author          = _author;
-@synthesize content         = _content;
-@synthesize serviceType     = _serviceType;
-@synthesize authorRealName  = _authorRealName;
-@synthesize timestamp       = _timestamp;
-@synthesize unread          = _unread;
+@synthesize author              = _author;
+@synthesize content             = _content;
+@synthesize serviceType         = _serviceType;
+@synthesize authorRealName      = _authorRealName;
+@synthesize timestamp           = _timestamp;
+@synthesize authorProfileImage  = _authorProfileImage;
+@synthesize unread              = _unread;
 
 - (id)initWithAuthor:(NSString *)author 
              content:(NSString *)content 
          serviceType:(NSString *)serviceType 
       authorRealName:(NSString *)authorRealName
            timestamp:(NSDate *)timestamp
+  authorProfileImage:(UIImage *)authorProfileImage
 {
     if ((self = [super init])) {
-        _author         = author;
-        _content        = content;
-        _serviceType    = serviceType;
-        _authorRealName = authorRealName;
-        _timestamp      = timestamp;
-        _unread         = YES;
+        _author             = author;
+        _content            = content;
+        _serviceType        = serviceType;
+        _authorRealName     = authorRealName;
+        _timestamp          = timestamp;
+        _authorProfileImage = authorProfileImage;
+        _unread             = YES;
     }
     
     return self;

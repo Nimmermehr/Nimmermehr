@@ -23,6 +23,7 @@
 		E9CE31B5152332EE00C3C051 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E9CE31B3152332EE00C3C051 /* MainStoryboard.storyboard */; };
 		E9CE31B8152332EF00C3C051 /* MTMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9CE31B7152332EF00C3C051 /* MTMasterViewController.m */; };
 		E9CE31BB152332EF00C3C051 /* MTDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9CE31BA152332EF00C3C051 /* MTDetailViewController.m */; };
+		E9DD4E981537668F0040C9C7 /* UIImage+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = E9DD4E971537668F0040C9C7 /* UIImage+Utils.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +58,8 @@
 		E9CE31BA152332EF00C3C051 /* MTDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTDetailViewController.m; sourceTree = "<group>"; };
 		E9CE32BB1523857F00C3C051 /* SupportedServices */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SupportedServices; sourceTree = "<group>"; };
 		E9CE32BE1523875900C3C051 /* ServiceAuthKeys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = ServiceAuthKeys.plist; path = ../ServiceAuthKeys.plist; sourceTree = "<group>"; };
+		E9DD4E961537668F0040C9C7 /* UIImage+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Utils.h"; sourceTree = "<group>"; };
+		E9DD4E971537668F0040C9C7 /* UIImage+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Utils.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +83,8 @@
 			children = (
 				E922F7C6153761E700A5988B /* TWRequest+Utils.h */,
 				E922F7C7153761E700A5988B /* TWRequest+Utils.m */,
+				E9DD4E961537668F0040C9C7 /* UIImage+Utils.h */,
+				E9DD4E971537668F0040C9C7 /* UIImage+Utils.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -257,6 +262,7 @@
 				E922F7D4153761F700A5988B /* MTServiceConnectorManager.m in Sources */,
 				E922F7D5153761F700A5988B /* MTTwitterConnector.m in Sources */,
 				E922F7D81537620C00A5988B /* MTConstants.m in Sources */,
+				E9DD4E981537668F0040C9C7 /* UIImage+Utils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -386,6 +386,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CURRENT_PROJECT_VERSION = 4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iStream/iStream-Prefix.pch";
 				INFOPLIST_FILE = "iStream/iStream-Info.plist";
@@ -402,6 +403,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CURRENT_PROJECT_VERSION = 4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iStream/iStream-Prefix.pch";
 				INFOPLIST_FILE = "iStream/iStream-Info.plist";

@@ -14,8 +14,9 @@
 
 @required
 - (void)authenticate;
-- (BOOL)authenticated;
 - (NSString *)serviceType;
+
+@property (nonatomic, readonly) BOOL authenticated;
 @property (nonatomic) BOOL autoPolling;
 @property (nonatomic) float autoPollingInterval;
 @property (weak, nonatomic) id<MTServiceConnectorDelegate> delegate;

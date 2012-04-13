@@ -63,4 +63,9 @@
 - (void)requestTwitterReplyMessages;
 - (void)requestTwitterDirectMessages;
 
+// Facebook specific methods
+- (void)requestFacebookUserTimeline;
+- (void)requestFacebookUserWall;
+- (void)requestFacebookUserPosts;
+
 @end

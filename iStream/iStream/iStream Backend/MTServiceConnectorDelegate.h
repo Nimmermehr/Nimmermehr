@@ -10,8 +10,12 @@
 
 @protocol MTServiceConnectorDelegate <NSObject>
 
+@required
 - (void)serviceAuthenticatedSuccessfully:(NSString *)serviceType;
 - (void)serviceAuthenticationFailed:(NSString *)serviceType errDict:(NSDictionary *)errDict;
+
+- (void)serviceConnectionInterrupted:(NSString *)serviceType errDict:(NSDictionary *)errDict;
+- (void)serviceConnectionReEstablished:(NSString *)serviceType;
 
 - (void)accessNotGranted:(NSString *)serviceType;
 

@@ -9,6 +9,7 @@
 #import "MTServiceConnectorManager.h"
 #import "MTServiceConnector.h"
 #import "MTTwitterConnector.h"
+#import "MTFacebookConnector.h"
 #import "MTNewsItem.h"
 
 @interface MTServiceConnectorManager (Private)
@@ -98,6 +99,10 @@ static MTServiceConnectorManager *_sharedInstance = nil;
     [self requestTwitterUserTimeline];
     [self requestTwitterReplyMessages];
     [self requestTwitterDirectMessages];
+    
+    [self requestFacebookUserTimeline];
+    [self requestFacebookUserWall];
+    [self requestFacebookUserPosts];
 }
 
 - (void)requestContentForService:(NSString *)serviceType
@@ -106,6 +111,38 @@ static MTServiceConnectorManager *_sharedInstance = nil;
         [self requestTwitterUserTimeline];
         [self requestTwitterReplyMessages];
         [self requestTwitterDirectMessages];
+    } else if ([serviceType isEqualToString:MTServiceTypeFacebook]) {
+        [self requestFacebookUserTimeline];
+        [self requestFacebookUserWall];
+        [self requestFacebookUserPosts];
+    }
+}
+
+#pragma mark Facebook specific Service Implementation
+- (void)requestFacebookUserTimeline
+{
+    MTFacebookConnector *facebookConnector = [_services objectForKey:MTServiceTypeFacebook];
+    
+    if (facebookConnector) {
+        [facebookConnector requestUserTimeline];
+    }
+}
+
+- (void)requestFacebookUserWall
+{
+    MTFacebookConnector *facebookConnector = [_services objectForKey:MTServiceTypeFacebook];
+    
+    if (facebookConnector) {
+        [facebookConnector requestUserWall];
+    }
+}
+
+- (void)requestFacebookUserPosts
+{
+    MTFacebookConnector *facebookConnector = [_services objectForKey:MTServiceTypeFacebook];
+    
+    if (facebookConnector) {
+        [facebookConnector requestUserPosts];
     }
 }
 
@@ -155,6 +192,13 @@ static MTServiceConnectorManager *_sharedInstance = nil;
         [[NSNotificationCenter defaultCenter] postNotificationName:MTTwitterAuthenticationSucceeded object:self];
         
         _authenticatedServices++;
+    
+    } else if ([serviceType isEqualToString:MTServiceTypeFacebook]) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:MTFacebookAuthenticationSucceeded object:self];
+        
+        _authenticatedServices++;
+            
     }
     
     // TODO: We need some checking authenticatedServices vs. failedServices, etc
@@ -172,6 +216,10 @@ static MTServiceConnectorManager *_sharedInstance = nil;
         
         [[NSNotificationCenter defaultCenter] postNotificationName:MTTwitterAuthenticationFailed object:self userInfo:errDict];
         
+    } else if ([serviceType isEqualToString:MTServiceTypeFacebook]) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:MTFacebookAuthenticationFailed object:self userInfo:errDict];
+        
     }
 }
 
@@ -180,6 +228,36 @@ static MTServiceConnectorManager *_sharedInstance = nil;
     if ([serviceType isEqualToString:MTServiceTypeTwitter]) {
         
         [[NSNotificationCenter defaultCenter] postNotificationName:MTTwitterAccessNotGranted object:self];
+        
+    } else if ([serviceType isEqualToString:MTServiceTypeFacebook]) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:MTFacebookAccessNotGranted object:self];
+        
+    }
+}
+
+- (void)serviceConnectionInterrupted:(NSString *)serviceType errDict:(NSDictionary *)errDict
+{
+    if ([serviceType isEqualToString:MTServiceTypeTwitter]) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:MTTwitterConnectionInterrupted object:self userInfo:errDict];
+        
+    } else if ([serviceType isEqualToString:MTServiceTypeFacebook]) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:MTFacebookConnectionInterrupted object:self userInfo:errDict];
+        
+    }
+}
+
+- (void)serviceConnectionReEstablished:(NSString *)serviceType
+{
+    if ([serviceType isEqualToString:MTServiceTypeTwitter]) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:MTTwitterConnectionReEstablished object:self];
+        
+    } else if ([serviceType isEqualToString:MTServiceTypeFacebook]) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:MTFacebookConnectionReEstablished object:self];
         
     }
 }
@@ -191,6 +269,10 @@ static MTServiceConnectorManager *_sharedInstance = nil;
     if ([[theContent objectForKey:MTServiceTypeKey] isEqualToString:MTServiceTypeTwitter]) {
         
         [[NSNotificationCenter defaultCenter] postNotificationName:MTTwitterNewsItemsReceived object:self userInfo:theContent];
+        
+    } else if ([[theContent objectForKey:MTServiceTypeKey] isEqualToString:MTServiceTypeFacebook]) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:MTFacebookNewsItemsReceived object:self userInfo:theContent];
         
     }
 }

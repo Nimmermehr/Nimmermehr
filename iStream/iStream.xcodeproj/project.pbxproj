@@ -14,6 +14,9 @@
 		E922F7D81537620C00A5988B /* MTConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = E922F7D71537620C00A5988B /* MTConstants.m */; };
 		E922F7DA153762D800A5988B /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E922F7D9153762D800A5988B /* Twitter.framework */; };
 		E922F7DC153762E200A5988B /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E922F7DB153762E200A5988B /* Accounts.framework */; };
+		E95891EE1538BB3100E72668 /* MTFacebookConnector.m in Sources */ = {isa = PBXBuildFile; fileRef = E95891ED1538BB3100E72668 /* MTFacebookConnector.m */; };
+		E95892121538BDC700E72668 /* FBDialog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E95892051538BDC700E72668 /* FBDialog.bundle */; };
+		E95892131538BDC700E72668 /* libfacebook_ios_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E958920B1538BDC700E72668 /* libfacebook_ios_sdk.a */; };
 		E9CE31A2152332EE00C3C051 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9CE31A1152332EE00C3C051 /* UIKit.framework */; };
 		E9CE31A4152332EE00C3C051 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9CE31A3152332EE00C3C051 /* Foundation.framework */; };
 		E9CE31A6152332EE00C3C051 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9CE31A5152332EE00C3C051 /* CoreGraphics.framework */; };
@@ -41,6 +44,23 @@
 		E922F7D71537620C00A5988B /* MTConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTConstants.m; sourceTree = "<group>"; };
 		E922F7D9153762D800A5988B /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		E922F7DB153762E200A5988B /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
+		E95891EC1538BB3100E72668 /* MTFacebookConnector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTFacebookConnector.h; sourceTree = "<group>"; };
+		E95891ED1538BB3100E72668 /* MTFacebookConnector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTFacebookConnector.m; sourceTree = "<group>"; };
+		E95892031538BDC700E72668 /* Facebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Facebook.h; sourceTree = "<group>"; };
+		E95892041538BDC700E72668 /* FBConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBConnect.h; sourceTree = "<group>"; };
+		E95892051538BDC700E72668 /* FBDialog.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FBDialog.bundle; sourceTree = "<group>"; };
+		E95892061538BDC700E72668 /* FBDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBDialog.h; sourceTree = "<group>"; };
+		E95892071538BDC700E72668 /* FBFrictionlessRequestSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBFrictionlessRequestSettings.h; sourceTree = "<group>"; };
+		E95892081538BDC700E72668 /* FBLoginDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBLoginDialog.h; sourceTree = "<group>"; };
+		E95892091538BDC700E72668 /* FBRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBRequest.h; sourceTree = "<group>"; };
+		E958920A1538BDC700E72668 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
+		E958920B1538BDC700E72668 /* libfacebook_ios_sdk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libfacebook_ios_sdk.a; sourceTree = "<group>"; };
+		E958920C1538BDC700E72668 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
+		E958920D1538BDC700E72668 /* NSString+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SBJSON.h"; sourceTree = "<group>"; };
+		E958920E1538BDC700E72668 /* SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJSON.h; sourceTree = "<group>"; };
+		E958920F1538BDC700E72668 /* SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonBase.h; sourceTree = "<group>"; };
+		E95892101538BDC700E72668 /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
+		E95892111538BDC700E72668 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		E9CE319D152332EE00C3C051 /* iStream.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iStream.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9CE31A1152332EE00C3C051 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E9CE31A3152332EE00C3C051 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -72,6 +92,7 @@
 				E9CE31A2152332EE00C3C051 /* UIKit.framework in Frameworks */,
 				E9CE31A4152332EE00C3C051 /* Foundation.framework in Frameworks */,
 				E9CE31A6152332EE00C3C051 /* CoreGraphics.framework in Frameworks */,
+				E95892131538BDC700E72668 /* libfacebook_ios_sdk.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,8 +129,33 @@
 				E922F7D0153761F600A5988B /* MTServiceConnector.h */,
 				E922F7D1153761F600A5988B /* MTTwitterConnector.h */,
 				E922F7D2153761F600A5988B /* MTTwitterConnector.m */,
+				E95891EC1538BB3100E72668 /* MTFacebookConnector.h */,
+				E95891ED1538BB3100E72668 /* MTFacebookConnector.m */,
 			);
 			path = "Service Connectors";
+			sourceTree = "<group>";
+		};
+		E95892021538BDC700E72668 /* facebook-ios-sdk */ = {
+			isa = PBXGroup;
+			children = (
+				E95892031538BDC700E72668 /* Facebook.h */,
+				E95892041538BDC700E72668 /* FBConnect.h */,
+				E95892051538BDC700E72668 /* FBDialog.bundle */,
+				E95892061538BDC700E72668 /* FBDialog.h */,
+				E95892071538BDC700E72668 /* FBFrictionlessRequestSettings.h */,
+				E95892081538BDC700E72668 /* FBLoginDialog.h */,
+				E95892091538BDC700E72668 /* FBRequest.h */,
+				E958920A1538BDC700E72668 /* JSON.h */,
+				E958920B1538BDC700E72668 /* libfacebook_ios_sdk.a */,
+				E958920C1538BDC700E72668 /* NSObject+SBJSON.h */,
+				E958920D1538BDC700E72668 /* NSString+SBJSON.h */,
+				E958920E1538BDC700E72668 /* SBJSON.h */,
+				E958920F1538BDC700E72668 /* SBJsonBase.h */,
+				E95892101538BDC700E72668 /* SBJsonParser.h */,
+				E95892111538BDC700E72668 /* SBJsonWriter.h */,
+			);
+			name = "facebook-ios-sdk";
+			path = "iStream/3rd Party Frameworks/facebook-ios-sdk";
 			sourceTree = "<group>";
 		};
 		E9CE3192152332EE00C3C051 = {
@@ -176,6 +222,7 @@
 		E9CE31D81523773500C3C051 /* 3rd Party Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E95892021538BDC700E72668 /* facebook-ios-sdk */,
 			);
 			name = "3rd Party Frameworks";
 			sourceTree = "<group>";
@@ -243,6 +290,7 @@
 			files = (
 				E9CE31AC152332EE00C3C051 /* InfoPlist.strings in Resources */,
 				E9CE31B5152332EE00C3C051 /* MainStoryboard.storyboard in Resources */,
+				E95892121538BDC700E72668 /* FBDialog.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -263,6 +311,7 @@
 				E922F7D5153761F700A5988B /* MTTwitterConnector.m in Sources */,
 				E922F7D81537620C00A5988B /* MTConstants.m in Sources */,
 				E9DD4E981537668F0040C9C7 /* UIImage+Utils.m in Sources */,
+				E95891EE1538BB3100E72668 /* MTFacebookConnector.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,6 +389,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iStream/iStream-Prefix.pch";
 				INFOPLIST_FILE = "iStream/iStream-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/iStream/3rd Party Frameworks/facebook-ios-sdk\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -352,6 +405,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iStream/iStream-Prefix.pch";
 				INFOPLIST_FILE = "iStream/iStream-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/iStream/3rd Party Frameworks/facebook-ios-sdk\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

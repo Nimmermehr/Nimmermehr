@@ -15,11 +15,24 @@ extern NSString * const MTServiceTypeTumblr;
 extern NSString * const MTServiceTypeGooglePlus;
 extern NSString * const MTServiceTypeBitly;
 
+extern NSString * const MTTwitterAppId;
+extern NSString * const MTTwitterAppSecret;
+extern NSString * const MTFacebookAppId;
+extern NSString * const MTFacebookAppSecret;
 
 extern NSString * const MTTwitterAuthenticationSucceeded;
 extern NSString * const MTTwitterAuthenticationFailed;
+extern NSString * const MTTwitterConnectionInterrupted;
+extern NSString * const MTTwitterConnectionReEstablished;
 extern NSString * const MTTwitterAccessNotGranted;
 extern NSString * const MTTwitterNewsItemsReceived;
+
+extern NSString * const MTFacebookAuthenticationSucceeded;
+extern NSString * const MTFacebookAuthenticationFailed;
+extern NSString * const MTFacebookConnectionInterrupted;
+extern NSString * const MTFacebookConnectionReEstablished;
+extern NSString * const MTFacebookAccessNotGranted;
+extern NSString * const MTFacebookNewsItemsReceived;
 
 extern NSString * const MTAllServicesAuthenticationSucceeded;
 extern NSString * const MTServiceNewsItemsReceived;

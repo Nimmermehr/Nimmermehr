@@ -70,4 +70,10 @@
 - (void)requestFacebookUserPosts;
 - (void)logoutFromFacebook;
 
+// Google+ specific methods
+- (void)requestGooglePlusUserTimeline;
+- (void)requestGooglePlusUserWall;
+- (void)requestGooglePlusUserPosts;
+- (void)logoutFromGooglePlus;
+
 @end

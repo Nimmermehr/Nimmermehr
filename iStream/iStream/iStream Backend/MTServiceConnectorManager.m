@@ -10,10 +10,12 @@
 #import "MTServiceConnector.h"
 #import "MTTwitterConnector.h"
 #import "MTFacebookConnector.h"
+#import "MTGooglePlusConnector.h"
 #import "MTNewsItem.h"
 
 @interface MTServiceConnectorManager (Private)
 - (void)initSharedInstance;
+- (BOOL)checkServiceConnectedAndAuthenticated:(NSString *)serviceType;
 @end
 
 @implementation MTServiceConnectorManager
@@ -21,7 +23,7 @@
 @synthesize autoPolling         = _autoPolling;
 @synthesize autoPollingInterval = _autoPollingInterval;
 
-static MTServiceConnectorManager *_sharedInstance = nil;
+__strong static MTServiceConnectorManager *_sharedInstance = nil;
 
 + (MTServiceConnectorManager *)sharedServiceConnectorManager
 {
@@ -64,6 +66,13 @@ static MTServiceConnectorManager *_sharedInstance = nil;
         id<MTServiceConnector> facebook = [[MTFacebookConnector alloc] init];
         
         [self connectService:facebook];
+    
+    } else if ([serviceType isEqualToString:MTServiceTypeGooglePlus]) {
+        
+        id<MTServiceConnector> googlePlus = [[MTGooglePlusConnector alloc] init];
+        
+            
+        [self connectService:googlePlus];
     }
 }
 
@@ -71,6 +80,10 @@ static MTServiceConnectorManager *_sharedInstance = nil;
 {
     if ([serviceType isEqualToString:MTServiceTypeTwitter]) {
         [[_services objectForKey:MTServiceTypeTwitter] authenticate];
+    } else if ([serviceType isEqualToString:MTServiceTypeFacebook]) {
+        [[_services objectForKey:MTServiceTypeFacebook] authenticate];
+    } else if ([serviceType isEqualToString:MTServiceTypeGooglePlus]) {
+        [[_services objectForKey:MTServiceTypeGooglePlus] authenticate];
     }
 }
 
@@ -103,13 +116,23 @@ static MTServiceConnectorManager *_sharedInstance = nil;
 
 - (void)requestContentForAllConnectedServices
 {
-    [self requestTwitterUserTimeline];
-    [self requestTwitterReplyMessages];
-    [self requestTwitterDirectMessages];
+    if ([self isServiceConnected:MTServiceTypeTwitter]) {
+        [self requestTwitterUserTimeline];
+        [self requestTwitterReplyMessages];
+        [self requestTwitterDirectMessages];
+    }
     
-    [self requestFacebookUserTimeline];
-    [self requestFacebookUserWall];
-    [self requestFacebookUserPosts];
+    if ([self isServiceConnected:MTServiceTypeFacebook]) {
+        [self requestFacebookUserTimeline];
+        [self requestFacebookUserWall];
+        [self requestFacebookUserPosts];
+    }
+    
+    if ([self isServiceConnected:MTServiceTypeGooglePlus]) {
+        [self requestGooglePlusUserTimeline];
+        [self requestGooglePlusUserWall];
+        [self requestGooglePlusUserPosts];
+    }
 }
 
 - (void)requestContentForService:(NSString *)serviceType
@@ -122,43 +145,40 @@ static MTServiceConnectorManager *_sharedInstance = nil;
         [self requestFacebookUserTimeline];
         [self requestFacebookUserWall];
         [self requestFacebookUserPosts];
+    } else if ([serviceType isEqualToString:MTServiceTypeGooglePlus]) {
+        [self requestGooglePlusUserTimeline];
+        [self requestGooglePlusUserWall];
+        [self requestGooglePlusUserPosts];
     }
 }
 
 #pragma mark Facebook specific Service Implementation
 - (void)requestFacebookUserTimeline
 {
-    MTFacebookConnector *facebookConnector = [_services objectForKey:MTServiceTypeFacebook];
-    
-    if (facebookConnector) {
-        [facebookConnector requestUserTimeline];
-    }
+    // TODO: Maybe use Exceptions instead of Notifs??
+    if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeFacebook]) {
+        [[_services objectForKey:MTServiceTypeFacebook] requestUserTimeline];
+    } 
 }
 
 - (void)requestFacebookUserWall
 {
-    MTFacebookConnector *facebookConnector = [_services objectForKey:MTServiceTypeFacebook];
-    
-    if (facebookConnector) {
-        [facebookConnector requestUserWall];
-    }
+    if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeFacebook]) {
+        [[_services objectForKey:MTServiceTypeFacebook] requestUserWall];
+    } 
 }
 
 - (void)requestFacebookUserPosts
 {
-    MTFacebookConnector *facebookConnector = [_services objectForKey:MTServiceTypeFacebook];
-    
-    if (facebookConnector) {
-        [facebookConnector requestUserPosts];
+    if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeFacebook]) {
+        [[_services objectForKey:MTServiceTypeFacebook] requestUserPosts];
     }
 }
 
 - (void)logoutFromFacebook
 {
-    MTFacebookConnector *facebookConnector = [_services objectForKey:MTServiceTypeFacebook];
-    
-    if (facebookConnector) {
-        [facebookConnector logout];
+    if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeFacebook]) {
+        [[_services objectForKey:MTServiceTypeFacebook] logout];
     }
 }
 
@@ -166,46 +186,65 @@ static MTServiceConnectorManager *_sharedInstance = nil;
 
 - (void)requestTwitterUserTimeline
 {
-    MTTwitterConnector *twitterConnector = [_services objectForKey:MTServiceTypeTwitter];
-    
-    if (twitterConnector) {
-        [twitterConnector requestUserTimeline];
+    if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeTwitter]) {
+        [[_services objectForKey:MTServiceTypeTwitter] requestUserTimeline];
     }
 }
 
 - (void)requestTwitterPublicTimeline
 {
-    MTTwitterConnector *twitterConnector = [_services objectForKey:MTServiceTypeTwitter];
-    
-    if (twitterConnector) {
-        [twitterConnector requestPublicTimeline];
+    if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeTwitter]) {
+        [[_services objectForKey:MTServiceTypeTwitter] requestPublicTimeline];
     }
 }
 
 - (void)requestTwitterReplyMessages
 {
-    MTTwitterConnector *twitterConnector = [_services objectForKey:MTServiceTypeTwitter];
-    
-    if (twitterConnector) {
-        [twitterConnector requestReplyMessages];
+    if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeTwitter]) {
+        [[_services objectForKey:MTServiceTypeTwitter] requestReplyMessages];
     }
 }
 
 - (void)requestTwitterDirectMessages
 {
-    MTTwitterConnector *twitterConnector = [_services objectForKey:MTServiceTypeTwitter];
-    
-    if (twitterConnector) {
-        [twitterConnector requestDirectMessages];
+    if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeTwitter]) {
+        [[_services objectForKey:MTServiceTypeTwitter] requestDirectMessages];
     }
 }
 
 - (void)logoutFromTwitter
 {
-    MTTwitterConnector *twitterConnector = [_services objectForKey:MTServiceTypeTwitter];
-    
-    if (twitterConnector) {
-        [twitterConnector logout];
+    if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeTwitter]) {
+        [[_services objectForKey:MTServiceTypeTwitter] logout];
+    }
+}
+
+#pragma mark Google+ specific Implementation
+- (void)requestGooglePlusUserTimeline
+{
+    if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeGooglePlus]) {
+        [[_services objectForKey:MTServiceTypeGooglePlus] requestUserTimeline];
+    }
+}
+
+- (void)requestGooglePlusUserWall
+{
+    if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeGooglePlus]) {
+        [[_services objectForKey:MTServiceTypeGooglePlus] requestUserWall];
+    }
+}
+
+- (void)requestGooglePlusUserPosts
+{
+    if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeGooglePlus]) {
+        [[_services objectForKey:MTServiceTypeGooglePlus] requestUserPosts];
+    }
+}
+
+- (void)logoutFromGooglePlus
+{
+    if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeGooglePlus]) {
+        [[_services objectForKey:MTServiceTypeGooglePlus] logout];
     }
 }
 
@@ -224,6 +263,11 @@ static MTServiceConnectorManager *_sharedInstance = nil;
         
         _authenticatedServices++;
             
+    } else if ([serviceType isEqualToString:MTServiceTypeGooglePlus]) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:MTGooglePlusAuthenticationSucceeded object:self];
+        
+        _authenticatedServices++;
     }
     
     // TODO: We need some checking authenticatedServices vs. failedServices, etc
@@ -245,6 +289,10 @@ static MTServiceConnectorManager *_sharedInstance = nil;
         
         [[NSNotificationCenter defaultCenter] postNotificationName:MTFacebookAuthenticationFailed object:self userInfo:errDict];
         
+    } else if ([serviceType isEqualToString:MTServiceTypeGooglePlus]) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:MTGooglePlusAuthenticationFailed object:self userInfo:errDict];
+        
     }
 }
 
@@ -257,6 +305,10 @@ static MTServiceConnectorManager *_sharedInstance = nil;
     } else if ([serviceType isEqualToString:MTServiceTypeFacebook]) {
         
         [[NSNotificationCenter defaultCenter] postNotificationName:MTFacebookAccessNotGranted object:self];
+        
+    } else if ([serviceType isEqualToString:MTServiceTypeGooglePlus]) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:MTGooglePlusAccessNotGranted object:self];
         
     }
 }
@@ -271,6 +323,10 @@ static MTServiceConnectorManager *_sharedInstance = nil;
         
         [[NSNotificationCenter defaultCenter] postNotificationName:MTFacebookConnectionInterrupted object:self userInfo:errDict];
         
+    } else if ([serviceType isEqualToString:MTServiceTypeGooglePlus]) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:MTGooglePlusConnectionInterrupted object:self userInfo:errDict];
+        
     }
 }
 
@@ -283,6 +339,10 @@ static MTServiceConnectorManager *_sharedInstance = nil;
     } else if ([serviceType isEqualToString:MTServiceTypeFacebook]) {
         
         [[NSNotificationCenter defaultCenter] postNotificationName:MTFacebookConnectionReEstablished object:self];
+        
+    } else if ([serviceType isEqualToString:MTServiceTypeGooglePlus]) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:MTGooglePlusConnectionReEstablished object:self];
         
     }
 }
@@ -299,6 +359,9 @@ static MTServiceConnectorManager *_sharedInstance = nil;
         
         [[NSNotificationCenter defaultCenter] postNotificationName:MTFacebookNewsItemsReceived object:self userInfo:theContent];
         
+    } else if ([[theContent objectForKey:MTServiceTypeKey] isEqualToString:MTServiceTypeGooglePlus]) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:MTGooglePlusNewsItemsReceived object:self userInfo:theContent];
     }
 }
 
@@ -314,6 +377,10 @@ static MTServiceConnectorManager *_sharedInstance = nil;
         
         [[NSNotificationCenter defaultCenter] postNotificationName:MTFacebookNewsItemsRequestFailed object:self userInfo:errDict];
         
+    } else if ([[errDict objectForKey:MTServiceTypeKey] isEqualToString:MTServiceTypeGooglePlus]) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:MTGooglePlusNewsItemsRequestFailed object:self userInfo:errDict];
+        
     }
 }
 
@@ -326,6 +393,10 @@ static MTServiceConnectorManager *_sharedInstance = nil;
     } else if ([serviceType isEqualToString:MTServiceTypeFacebook]) {
         
         [[NSNotificationCenter defaultCenter] postNotificationName:MTFacebookLogoutCompleted object:self];
+        
+    } else if ([serviceType isEqualToString:MTServiceTypeGooglePlus]) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:MTGooglePlusLogoutCompleted object:self];
         
     }
 }
@@ -353,6 +424,50 @@ static MTServiceConnectorManager *_sharedInstance = nil;
     _authenticatedServices = 0;
     
     // Check DB/Prefs File for connected services and add them
+}
+
+- (BOOL)checkServiceConnectedAndAuthenticated:(NSString *)serviceType
+{
+    BOOL connectedAndAuthenticated = NO;
+    
+    if ([serviceType isEqualToString:MTServiceTypeTwitter]) {
+        
+        if ([_services objectForKey:MTServiceTypeTwitter]) {
+            if ([[_services objectForKey:MTServiceTypeTwitter] authenticated]) {
+                connectedAndAuthenticated = YES;
+            } else {
+                [[NSNotificationCenter defaultCenter] postNotificationName:MTTwitterNotAuthenticated object:self];
+            }
+        } else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:MTTwitterServiceNotConnected object:self];
+        }
+        
+    } else if ([serviceType isEqualToString:MTServiceTypeFacebook]) {
+        
+        if ([_services objectForKey:MTServiceTypeFacebook]) {
+            if ([[_services objectForKey:MTServiceTypeFacebook] authenticated]) {
+                connectedAndAuthenticated = YES;
+            } else {
+                [[NSNotificationCenter defaultCenter] postNotificationName:MTFacebookNotAuthenticated object:self];
+            }
+        } else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:MTFacebookServiceNotConnected object:self];
+        }
+        
+    } else if ([serviceType isEqualToString:MTServiceTypeGooglePlus]) {
+        
+        if ([_services objectForKey:MTServiceTypeGooglePlus]) {
+            if ([[_services objectForKey:MTServiceTypeGooglePlus] authenticated]) {
+                connectedAndAuthenticated = YES;
+            } else {
+                [[NSNotificationCenter defaultCenter] postNotificationName:MTGooglePlusNotAuthenticated object:self];
+            }
+        } else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:MTGooglePlusServiceNotConnected object:self];
+        }
+    }
+    
+    return connectedAndAuthenticated;
 }
 
 @end

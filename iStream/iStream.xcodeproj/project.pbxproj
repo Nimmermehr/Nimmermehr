@@ -17,6 +17,7 @@
 		E95891EE1538BB3100E72668 /* MTFacebookConnector.m in Sources */ = {isa = PBXBuildFile; fileRef = E95891ED1538BB3100E72668 /* MTFacebookConnector.m */; };
 		E95892121538BDC700E72668 /* FBDialog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E95892051538BDC700E72668 /* FBDialog.bundle */; };
 		E95892131538BDC700E72668 /* libfacebook_ios_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E958920B1538BDC700E72668 /* libfacebook_ios_sdk.a */; };
+		E9B406B71539958E00FD0340 /* MTUser.m in Sources */ = {isa = PBXBuildFile; fileRef = E9B406B61539958E00FD0340 /* MTUser.m */; };
 		E9CE31A2152332EE00C3C051 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9CE31A1152332EE00C3C051 /* UIKit.framework */; };
 		E9CE31A4152332EE00C3C051 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9CE31A3152332EE00C3C051 /* Foundation.framework */; };
 		E9CE31A6152332EE00C3C051 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9CE31A5152332EE00C3C051 /* CoreGraphics.framework */; };
@@ -61,6 +62,8 @@
 		E958920F1538BDC700E72668 /* SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonBase.h; sourceTree = "<group>"; };
 		E95892101538BDC700E72668 /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
 		E95892111538BDC700E72668 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
+		E9B406B51539958E00FD0340 /* MTUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTUser.h; sourceTree = "<group>"; };
+		E9B406B61539958E00FD0340 /* MTUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTUser.m; sourceTree = "<group>"; };
 		E9CE319D152332EE00C3C051 /* iStream.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iStream.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9CE31A1152332EE00C3C051 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E9CE31A3152332EE00C3C051 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -118,6 +121,8 @@
 				E922F7CC153761F600A5988B /* MTServiceConnectorDelegate.h */,
 				E922F7CD153761F600A5988B /* MTServiceConnectorManager.h */,
 				E922F7CE153761F600A5988B /* MTServiceConnectorManager.m */,
+				E9B406B51539958E00FD0340 /* MTUser.h */,
+				E9B406B61539958E00FD0340 /* MTUser.m */,
 				E922F7CF153761F600A5988B /* Service Connectors */,
 			);
 			path = "iStream Backend";
@@ -312,6 +317,7 @@
 				E922F7D81537620C00A5988B /* MTConstants.m in Sources */,
 				E9DD4E981537668F0040C9C7 /* UIImage+Utils.m in Sources */,
 				E95891EE1538BB3100E72668 /* MTFacebookConnector.m in Sources */,
+				E9B406B71539958E00FD0340 /* MTUser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

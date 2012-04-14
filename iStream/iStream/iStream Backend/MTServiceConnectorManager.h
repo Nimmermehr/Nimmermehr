@@ -62,10 +62,12 @@
 - (void)requestTwitterPublicTimeline;
 - (void)requestTwitterReplyMessages;
 - (void)requestTwitterDirectMessages;
+- (void)logoutFromTwitter;
 
 // Facebook specific methods
 - (void)requestFacebookUserTimeline;
 - (void)requestFacebookUserWall;
 - (void)requestFacebookUserPosts;
+- (void)logoutFromFacebook;
 
 @end

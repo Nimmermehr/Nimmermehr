@@ -15,6 +15,7 @@
 @required
 - (void)authenticate;
 - (NSString *)serviceType;
+- (void)logout;
 
 @property (nonatomic, readonly) BOOL authenticated;
 @property (nonatomic) BOOL autoPolling;

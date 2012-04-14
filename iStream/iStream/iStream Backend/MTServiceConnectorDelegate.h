@@ -14,11 +14,14 @@
 - (void)serviceAuthenticatedSuccessfully:(NSString *)serviceType;
 - (void)serviceAuthenticationFailed:(NSString *)serviceType errDict:(NSDictionary *)errDict;
 
+- (void)serviceLogoutCompleted:(NSString *)serviceType;
+
 - (void)serviceConnectionInterrupted:(NSString *)serviceType errDict:(NSDictionary *)errDict;
 - (void)serviceConnectionReEstablished:(NSString *)serviceType;
 
 - (void)accessNotGranted:(NSString *)serviceType;
 
 - (void)contentReceived:(NSDictionary *)theContent;
+- (void)contentRequestFailed:(NSDictionary *)errDict;
 
 @end

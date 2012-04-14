@@ -118,6 +118,11 @@
     [self sendTwitterRequestWithURL:TwitterAPIDirectMessagesURL];
 }
 
+- (void)logout
+{
+    NSLog(@"%@.%@ NOT YET IMPLEMENTED :(", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
+}
+
 @end
 
 @implementation MTTwitterConnector (Private)
@@ -148,7 +153,14 @@
             
         } else {
             // FAIL
-            NSLog(@"FAILPUT: %@", error);
+            NSDictionary *errDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                        [self serviceType], MTServiceTypeKey,
+                                        error,              MTServiceContentRequestFailedErrorKey,
+                                        urlResponse,        MTServiceContentRequestFailedResponseKey,
+                                        nil
+                                     ];
+            
+            [_delegate contentRequestFailed:errDict];
         }
         
     }];
@@ -174,16 +186,22 @@
     for (NSDictionary *tweet in theTimeline) {
         
         // TODO: use consts for the twitter keys
+        // TODO: get all related @msgs to this tweet + count, also get share count
+        // TODO: get all related/tagged/@recipients
         timestamp = [formatter dateFromString:[tweet objectForKey:@"created_at"]];
         
-        profilePic = [UIImage imageWithContentsOfURL:[[tweet objectForKey:@"user"] objectForKey:@"profile_image_url_https"]];
+        profilePic = [UIImage imageWithContentsOfURL:[NSURL URLWithString:[[tweet objectForKey:@"user"] objectForKey:@"profile_image_url_https"]]];
         
         thePost = [[MTNewsItem alloc] initWithAuthor:[[tweet objectForKey:@"user"] objectForKey:@"screen_name"]
                                              content:[tweet objectForKey:@"text"]
-                                         serviceType:MTServiceTypeTwitter 
+                                         serviceType:[self serviceType] 
                                       authorRealName:[[tweet objectForKey:@"user"] objectForKey:@"name"]
                                            timestamp:timestamp
                                   authorProfileImage:profilePic
+                                adherentConversation:nil //TODO: 
+                                  conversationLength:0 //TODO:
+                                          shareCount:0 //TODO:
+                                        taggedPeople:nil//TODO:
                    ];
         
         [newPosts addObject:thePost];

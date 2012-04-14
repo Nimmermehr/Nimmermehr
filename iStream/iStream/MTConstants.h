@@ -26,6 +26,8 @@ extern NSString * const MTTwitterConnectionInterrupted;
 extern NSString * const MTTwitterConnectionReEstablished;
 extern NSString * const MTTwitterAccessNotGranted;
 extern NSString * const MTTwitterNewsItemsReceived;
+extern NSString * const MTTwitterNewsItemsRequestFailed;
+extern NSString * const MTTwitterLogoutCompleted;
 
 extern NSString * const MTFacebookAuthenticationSucceeded;
 extern NSString * const MTFacebookAuthenticationFailed;
@@ -33,9 +35,15 @@ extern NSString * const MTFacebookConnectionInterrupted;
 extern NSString * const MTFacebookConnectionReEstablished;
 extern NSString * const MTFacebookAccessNotGranted;
 extern NSString * const MTFacebookNewsItemsReceived;
+extern NSString * const MTFacebookNewsItemsRequestFailed;
+extern NSString * const MTFacebookLogoutCompleted;
 
 extern NSString * const MTAllServicesAuthenticationSucceeded;
 extern NSString * const MTServiceNewsItemsReceived;
+extern NSString * const MTServiceNewsItemsRequestFailed;
+
 extern NSString * const MTServiceAuthenticationErrorKey;
 extern NSString * const MTServiceTypeKey;
 extern NSString * const MTServiceContentKey;
+extern NSString * const MTServiceContentRequestFailedErrorKey;
+extern NSString * const MTServiceContentRequestFailedResponseKey;

@@ -20,6 +20,10 @@
     NSString    *_authorRealName;
     NSDate      *_timestamp;
     UIImage     *_authorProfileImage;
+    NSArray     *_adherentConversation; // Comments (FB, G+)/@msgs (Twitter)
+    NSUInteger  _conversationLength;
+    NSUInteger  _shareCount; // Likes (FB), +1 (G+), RT's (Twitter)
+    NSArray     *_taggedPeople; // tagged People/"with..." (FB), @recipients (Twitter)
     BOOL        _unread;
 }
 
@@ -29,6 +33,10 @@
 @property (strong, nonatomic, readonly) NSString    *authorRealName;
 @property (strong, nonatomic, readonly) NSDate      *timestamp;
 @property (strong, nonatomic, readonly) UIImage     *authorProfileImage;
+@property (strong, nonatomic, readonly) NSArray     *adherentConversation;
+@property (nonatomic, readonly)         NSUInteger  conversationLength;
+@property (nonatomic, readonly)         NSUInteger  shareCount;
+@property (strong, nonatomic, readonly) NSArray     *taggedPeople;
 @property (nonatomic)                   BOOL        unread;
 
 - (id)initWithAuthor:(NSString *)author 
@@ -36,7 +44,11 @@
          serviceType:(NSString *)serviceType 
       authorRealName:(NSString *)authorRealName
            timestamp:(NSDate *)timestamp
-  authorProfileImage:(UIImage *)authorProfileImage;
+  authorProfileImage:(UIImage *)authorProfileImage
+adherentConversation:(NSArray *)adherentConversation
+  conversationLength:(NSUInteger)conversationLength
+          shareCount:(NSUInteger)shareCount
+        taggedPeople:(NSArray *)taggedPeople;
 
 - (NSString *)description;
 // TODO: isEqual + hashCode

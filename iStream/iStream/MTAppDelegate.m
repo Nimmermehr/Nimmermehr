@@ -15,18 +15,57 @@
 
 @synthesize window = _window;
 
+/**
+ * MTServiceConnectorManager Notification Overview:
+ * 
+ * MTTwitterAuthenticationSucceeded     // Twitter Auth successful
+ * MTTwitterAuthenticationFailed        // Twitter Auth failed (contains userInfo dict)
+ * MTTwitterConnectionInterrupted       // Twitter Connection interrupted (contains userInfo dict, but not used yet)
+ * MTTwitterConnectionReEstablished     // Twitter Connection re-established
+ * MTTwitterAccessNotGranted            // Twitter access not granted by user
+ * MTTwitterNewsItemsReceived           // Twitter items received (contains userInfo dict)
+ * MTTwitterNewsItemsRequestFailed      // Twitter news item request failed (contains userInfo dict)
+ * MTTwitterLogoutCompleted             // Twitter logout finished successfully
+ *
+ * MTFacebookAuthenticationSucceeded    // Facebook Auth successful
+ * MTFacebookAuthenticationFailed       // Facebook Auth failed (contains userInfo dict)
+ * MTFacebookConnectionInterrupted      // Facebook Connection interrupted (contains userInfo dict, but not used yet)
+ * MTFacebookConnectionReEstablished    // Facebook Connection re-established
+ * MTFacebookAccessNotGranted           // Facebook access not granted by user
+ * MTFacebookNewsItemsReceived          // Facebook items received (contains userInfo dict)
+ * MTFacebookNewsItemsRequestFailed     // Facebook news item request failed (contains userInfo dict)
+ * MTFacebookLogoutCompleted            // Facebook logout finished successfully
+ *
+ * MTAllServicesAuthenticationSucceeded // All services authenticated successfully
+ * MTServiceNewsItemsReceived           // Any news items received, this notif is always sent before the service specific ones are sent (contains userInfo dict)
+ * MTServiceNewsItemsRequestFailed      // Any news item request failed, always sent before the service specific ones (contains userInfo dict)
+ *
+ * Notification UserInfo dict Keys:
+ *  
+ * MTServiceAuthenticationErrorKey (MTTwitterAuthenticationFailed, MTFacebookAuthenticationFailed)
+ * MTServiceTypeKey (MTTwitterNewsItemsReceived, MTTwitterNewsItemsRequestFailed, MTFacebookNewsItemsReceived, MTFacebookNewsItemsRequestFailed, MTServiceNewsItemsReceived, MTServiceNewsItemsRequestFailed)
+ * MTServiceContentKey (MTTwitterNewsItemsReceived, MTFacebookNewsItemsReceived, MTServiceNewsItemsReceived)
+ * MTServiceContentRequestFailedErrorKey (MTTwitterNewsItemsRequestFailed, MTFacebookNewsItemsRequestFailed, MTServiceNewsItemsRequestFailed)
+ * MTServiceContentRequestFailedResponseKey (MTTwitterNewsItemsRequestFailed, MTFacebookNewsItemsRequestFailed, MTServiceNewsItemsRequestFailed)
+ *
+ */
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    
     
     MTServiceConnectorManager *mgr = [MTServiceConnectorManager sharedServiceConnectorManager];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleTwitterAuthenticated:) name:MTTwitterAuthenticationSucceeded object:mgr];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleTwitterContentReceived:) name:MTTwitterNewsItemsReceived object:mgr];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleFacebookAuthenticated:) name:MTFacebookAuthenticationSucceeded object:mgr];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleFacebookContentReceived:) name:MTFacebookNewsItemsReceived object:mgr];
     
     // Pre-loaded from UserDefaults in final version
     // If nothing is in the User Defaults --> Show ServiceLogin Screen
     [mgr createAndConnectService:MTServiceTypeTwitter];
+    [mgr createAndConnectService:MTServiceTypeFacebook];
     
     [mgr authenticateServices];
     return YES;
@@ -80,6 +119,22 @@
 }
 
 - (void)handleTwitterContentReceived:(NSNotification *)notification
+{
+    NSLog(@"%@.%@: %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd), notification);
+    
+    NSLog(@"%@.%@: %@=[%@]", NSStringFromClass([self class]), NSStringFromSelector(_cmd), MTServiceTypeKey, [[notification userInfo] objectForKey:MTServiceTypeKey]);
+    
+    NSLog(@"%@.%@: %@=[%@]", NSStringFromClass([self class]), NSStringFromSelector(_cmd), MTServiceContentKey, [[notification userInfo] objectForKey:MTServiceContentKey]);
+}
+
+- (void)handleFacebookAuthenticated:(NSNotification *)notification
+{
+    NSLog(@"%@.%@: %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd), notification);
+    
+    [[MTServiceConnectorManager sharedServiceConnectorManager] requestFacebookUserTimeline];
+}
+
+- (void)handleFacebookContentReceived:(NSNotification *)notification
 {
     NSLog(@"%@.%@: %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd), notification);
     

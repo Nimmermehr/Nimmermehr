@@ -54,10 +54,17 @@ static MTServiceConnectorManager *_sharedInstance = nil;
 - (void)createAndConnectService:(NSString *)serviceType
 {
     if ([serviceType isEqualToString:MTServiceTypeTwitter]) {
+        
         id<MTServiceConnector> twitter = [[MTTwitterConnector alloc] init];
         
         [self connectService:twitter];
-    } 
+    
+    } else if ([serviceType isEqualToString:MTServiceTypeFacebook]) {
+        
+        id<MTServiceConnector> facebook = [[MTFacebookConnector alloc] init];
+        
+        [self connectService:facebook];
+    }
 }
 
 - (void)authenticateService:(NSString *)serviceType
@@ -146,6 +153,15 @@ static MTServiceConnectorManager *_sharedInstance = nil;
     }
 }
 
+- (void)logoutFromFacebook
+{
+    MTFacebookConnector *facebookConnector = [_services objectForKey:MTServiceTypeFacebook];
+    
+    if (facebookConnector) {
+        [facebookConnector logout];
+    }
+}
+
 #pragma mark Twitter specific Service Implementation
 
 - (void)requestTwitterUserTimeline
@@ -181,6 +197,15 @@ static MTServiceConnectorManager *_sharedInstance = nil;
     
     if (twitterConnector) {
         [twitterConnector requestDirectMessages];
+    }
+}
+
+- (void)logoutFromTwitter
+{
+    MTTwitterConnector *twitterConnector = [_services objectForKey:MTServiceTypeTwitter];
+    
+    if (twitterConnector) {
+        [twitterConnector logout];
     }
 }
 
@@ -273,6 +298,34 @@ static MTServiceConnectorManager *_sharedInstance = nil;
     } else if ([[theContent objectForKey:MTServiceTypeKey] isEqualToString:MTServiceTypeFacebook]) {
         
         [[NSNotificationCenter defaultCenter] postNotificationName:MTFacebookNewsItemsReceived object:self userInfo:theContent];
+        
+    }
+}
+
+- (void)contentRequestFailed:(NSDictionary *)errDict
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:MTServiceNewsItemsRequestFailed object:self userInfo:errDict];
+    
+    if ([[errDict objectForKey:MTServiceTypeKey] isEqualToString:MTServiceTypeKey]) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:MTTwitterNewsItemsRequestFailed object:self userInfo:errDict];
+        
+    } else if ([[errDict objectForKey:MTServiceTypeKey] isEqualToString:MTServiceTypeFacebook]) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:MTFacebookNewsItemsRequestFailed object:self userInfo:errDict];
+        
+    }
+}
+
+- (void)serviceLogoutCompleted:(NSString *)serviceType
+{
+    if ([serviceType isEqualToString:MTServiceTypeTwitter]) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:MTTwitterLogoutCompleted object:self];
+        
+    } else if ([serviceType isEqualToString:MTServiceTypeFacebook]) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:MTFacebookLogoutCompleted object:self];
         
     }
 }

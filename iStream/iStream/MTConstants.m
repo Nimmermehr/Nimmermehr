@@ -17,7 +17,7 @@ NSString * const MTServiceTypeBitly         = @"Bit.ly";
 NSString * const MTTwitterAppId         = @"wk79XRDGhXbiaN3o3XI2Cw";
 NSString * const MTTwitterAppSecret     = @"jPJxaTAVUJdV768fUSUmCX6JHoVpTQ8WPPlwTqRWnz0";
 NSString * const MTFacebookAppId        = @"351817994870666";
-NSString * const MTFacebookAppSecret    = @"fe8fe1013f147a3a11c6fea35449f7dd";
+NSString * const MTFacebookAppSecret    = @"ecc46b32cb22e0d0db046c7d4b215fe9";
 
 NSString * const MTTwitterAuthenticationSucceeded       = @"TwitterAuthenticationSucceeded";
 NSString * const MTTwitterAuthenticationFailed          = @"TwitterAuthenticationFailed";

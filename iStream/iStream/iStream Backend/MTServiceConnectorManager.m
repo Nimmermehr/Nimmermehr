@@ -330,6 +330,19 @@ static MTServiceConnectorManager *_sharedInstance = nil;
     }
 }
 
+- (BOOL)handleFacebookSSOCallback:(NSURL *)theURL
+{
+    MTFacebookConnector *facebookConnector = [_services objectForKey:MTServiceTypeFacebook];
+    
+    BOOL canHandle = NO;
+    
+    if (facebookConnector && [facebookConnector respondsToSelector:@selector(handleSSOCallback:)]) {
+        canHandle = [facebookConnector handleSSOCallback:theURL];
+    }
+    
+    return canHandle;
+}
+
 @end
 
 @implementation MTServiceConnectorManager (Private)

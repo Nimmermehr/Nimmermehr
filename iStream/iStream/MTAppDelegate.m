@@ -67,10 +67,21 @@
     [mgr createAndConnectService:MTServiceTypeTwitter];
     [mgr createAndConnectService:MTServiceTypeFacebook];
     
+    //[mgr logoutFromFacebook];
+    
     [mgr authenticateServices];
     return YES;
 }
-							
+
+- (BOOL)application:(UIApplication *)application 
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication 
+         annotation:(id)annotation {
+    
+    //TODO: Filter the sourceApplication, allow com.apple.mobilesafari & the FB App, do we need any other?
+    return [[MTServiceConnectorManager sharedServiceConnectorManager] handleFacebookSSOCallback:url];
+}
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     /*

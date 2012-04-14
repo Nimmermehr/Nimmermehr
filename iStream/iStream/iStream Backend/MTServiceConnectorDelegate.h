@@ -24,4 +24,7 @@
 - (void)contentReceived:(NSDictionary *)theContent;
 - (void)contentRequestFailed:(NSDictionary *)errDict;
 
+// Facebook specific SSO Callback
+- (BOOL)handleFacebookSSOCallback:(NSURL *)theURL;
+
 @end

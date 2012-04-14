@@ -28,13 +28,20 @@
 @synthesize autoPolling         = _autoPolling;
 @synthesize autoPollingInterval = _autoPollingInterval;
 @synthesize delegate            = _delegate;
+@synthesize facebook            = _facebook;
 
 - (id)init
 {
     if ((self = [super init])) {
         
         _authenticated = NO;
-        _facebook = [[Facebook alloc] initWithAppId:MTFacebookAppId andDelegate:self];
+        
+        //TODO: prep macro to define whether we are premium or free app
+        // paidapp
+        // freeapp
+        // testapp
+        
+        _facebook = [[Facebook alloc] initWithAppId:MTFacebookAppId urlSchemeSuffix:@"paidapp" andDelegate:self];
     }
     
     return self;
@@ -68,6 +75,10 @@
     
     if (![_facebook isSessionValid]) {
         [_facebook authorize:permissions];
+    } else { // We're already authenticated, notify everybody, good news, yay!!!
+        _authenticated = YES;
+        
+        [_delegate serviceAuthenticatedSuccessfully:[self serviceType]];
     }
 }
 
@@ -91,13 +102,9 @@
     [_facebook logout];
 }
 
-// Access request Callback
-- (BOOL)application:(UIApplication *)application 
-            openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication 
-         annotation:(id)annotation {
-    
-    return [_facebook handleOpenURL:url]; 
+- (BOOL)handleSSOCallback:(NSURL *)url
+{
+    return [_facebook handleOpenURL:url];
 }
 
 #pragma mark FBSessionDelegate Implementation
@@ -118,7 +125,7 @@
 
 - (void)fbDidExtendToken:(NSString *)accessToken expiresAt:(NSDate *)expiresAt
 {
-    if ([_facebook isSessionValid]) {
+    if ([_facebook isSessionValid] && !_authenticated) {
         _authenticated = YES;
         
         [_delegate serviceConnectionReEstablished:[self serviceType]];
@@ -154,6 +161,11 @@
 - (void)fbDidLogin
 {
     _authenticated = YES;
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:[_facebook accessToken] forKey:@"FBAccessTokenKey"];
+    [defaults setObject:[_facebook expirationDate] forKey:@"FBExpirationDateKey"];
+    [defaults synchronize];
     
     [_delegate serviceAuthenticatedSuccessfully:[self serviceType]];
     

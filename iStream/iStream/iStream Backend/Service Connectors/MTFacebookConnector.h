@@ -24,9 +24,12 @@
 @property (nonatomic)           BOOL                            autoPolling;
 @property (nonatomic)           float                           autoPollingInterval;
 @property (weak, nonatomic)     id<MTServiceConnectorDelegate>  delegate;
+@property (strong, nonatomic)   Facebook                        *facebook;
 
 - (void)authenticate;
 - (NSString *)serviceType;
+
+- (BOOL)handleSSOCallback:(NSURL *)url;
 
 - (void)requestUserTimeline;
 - (void)requestUserWall;

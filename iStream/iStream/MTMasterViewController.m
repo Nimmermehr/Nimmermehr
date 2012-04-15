@@ -7,6 +7,7 @@
 //
 
 #import "MTMasterViewController.h"
+#import "MTServiceConnectorManager.h"
 
 @implementation MTMasterViewController
 
@@ -14,6 +15,11 @@
 - (void)awakeFromNib
 {
     [super awakeFromNib];
+    
+    NSLog(@"SERVICE CONN MGR: %@", [MTServiceConnectorManager sharedServiceConnectorManager]);
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleGooglePlusUserDialogNeedsDisplay:) name:MTGooglePlusOAuth2DialogNeedsDisplay object:[MTServiceConnectorManager sharedServiceConnectorManager]];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleGooglePlusUserDialogNeedsDismissal:) name:MTGooglePlusOAuth2DialogNeedsDismissal object:[MTServiceConnectorManager sharedServiceConnectorManager]];
 }
 
 - (void)didReceiveMemoryWarning
@@ -22,12 +28,26 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
+- (void)handleGooglePlusUserDialogNeedsDisplay:(NSNotification *)notification
+{
+    UIViewController *theDialog = (UIViewController *)[[notification userInfo] objectForKey:MTServiceOAuth2UserDialog];
+    [self presentViewController:theDialog animated:YES completion:NULL];
+}
+
+- (void)handleGooglePlusUserDialogNeedsDismissal:(NSNotification *)notification
+{
+    [self dismissViewControllerAnimated:YES completion:NULL];
+}
+
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    
+    [[MTServiceConnectorManager sharedServiceConnectorManager] authenticateServices];
+    
+    // Do any additional setup after loading the view, typically from a nib.
 }
 
 - (void)viewDidUnload

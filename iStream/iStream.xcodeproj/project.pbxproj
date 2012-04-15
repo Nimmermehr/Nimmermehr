@@ -14,6 +14,13 @@
 		E922F7D81537620C00A5988B /* MTConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = E922F7D71537620C00A5988B /* MTConstants.m */; };
 		E922F7DA153762D800A5988B /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E922F7D9153762D800A5988B /* Twitter.framework */; };
 		E922F7DC153762E200A5988B /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E922F7DB153762E200A5988B /* Accounts.framework */; };
+		E94CF47A153B31400096880D /* GTMHTTPFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = E94CF472153B31400096880D /* GTMHTTPFetcher.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E94CF47B153B31400096880D /* GTMOAuth2Authentication.m in Sources */ = {isa = PBXBuildFile; fileRef = E94CF474153B31400096880D /* GTMOAuth2Authentication.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E94CF47C153B31400096880D /* GTMOAuth2SignIn.m in Sources */ = {isa = PBXBuildFile; fileRef = E94CF476153B31400096880D /* GTMOAuth2SignIn.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E94CF47D153B31400096880D /* GTMOAuth2ViewControllerTouch.m in Sources */ = {isa = PBXBuildFile; fileRef = E94CF478153B31400096880D /* GTMOAuth2ViewControllerTouch.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E94CF47E153B31400096880D /* GTMOAuth2ViewTouch.xib in Resources */ = {isa = PBXBuildFile; fileRef = E94CF479153B31400096880D /* GTMOAuth2ViewTouch.xib */; };
+		E94CF480153B31670096880D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E94CF47F153B31670096880D /* SystemConfiguration.framework */; };
+		E94CF482153B31710096880D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E94CF481153B31710096880D /* Security.framework */; };
 		E95891EE1538BB3100E72668 /* MTFacebookConnector.m in Sources */ = {isa = PBXBuildFile; fileRef = E95891ED1538BB3100E72668 /* MTFacebookConnector.m */; };
 		E95892121538BDC700E72668 /* FBDialog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E95892051538BDC700E72668 /* FBDialog.bundle */; };
 		E95892131538BDC700E72668 /* libfacebook_ios_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E958920B1538BDC700E72668 /* libfacebook_ios_sdk.a */; };
@@ -46,6 +53,17 @@
 		E922F7D71537620C00A5988B /* MTConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTConstants.m; sourceTree = "<group>"; };
 		E922F7D9153762D800A5988B /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		E922F7DB153762E200A5988B /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
+		E94CF471153B31400096880D /* GTMHTTPFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMHTTPFetcher.h; sourceTree = "<group>"; };
+		E94CF472153B31400096880D /* GTMHTTPFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMHTTPFetcher.m; sourceTree = "<group>"; };
+		E94CF473153B31400096880D /* GTMOAuth2Authentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMOAuth2Authentication.h; sourceTree = "<group>"; };
+		E94CF474153B31400096880D /* GTMOAuth2Authentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMOAuth2Authentication.m; sourceTree = "<group>"; };
+		E94CF475153B31400096880D /* GTMOAuth2SignIn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMOAuth2SignIn.h; sourceTree = "<group>"; };
+		E94CF476153B31400096880D /* GTMOAuth2SignIn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMOAuth2SignIn.m; sourceTree = "<group>"; };
+		E94CF477153B31400096880D /* GTMOAuth2ViewControllerTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMOAuth2ViewControllerTouch.h; sourceTree = "<group>"; };
+		E94CF478153B31400096880D /* GTMOAuth2ViewControllerTouch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMOAuth2ViewControllerTouch.m; sourceTree = "<group>"; };
+		E94CF479153B31400096880D /* GTMOAuth2ViewTouch.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GTMOAuth2ViewTouch.xib; sourceTree = "<group>"; };
+		E94CF47F153B31670096880D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		E94CF481153B31710096880D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		E95891EC1538BB3100E72668 /* MTFacebookConnector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTFacebookConnector.h; sourceTree = "<group>"; };
 		E95891ED1538BB3100E72668 /* MTFacebookConnector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTFacebookConnector.m; sourceTree = "<group>"; };
 		E95892031538BDC700E72668 /* Facebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Facebook.h; sourceTree = "<group>"; };
@@ -93,6 +111,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E94CF482153B31710096880D /* Security.framework in Frameworks */,
+				E94CF480153B31670096880D /* SystemConfiguration.framework in Frameworks */,
 				E922F7DC153762E200A5988B /* Accounts.framework in Frameworks */,
 				E922F7DA153762D800A5988B /* Twitter.framework in Frameworks */,
 				E9CE31A2152332EE00C3C051 /* UIKit.framework in Frameworks */,
@@ -145,6 +165,23 @@
 			path = "Service Connectors";
 			sourceTree = "<group>";
 		};
+		E94CF470153B31400096880D /* GTMOAuth2 */ = {
+			isa = PBXGroup;
+			children = (
+				E94CF471153B31400096880D /* GTMHTTPFetcher.h */,
+				E94CF472153B31400096880D /* GTMHTTPFetcher.m */,
+				E94CF473153B31400096880D /* GTMOAuth2Authentication.h */,
+				E94CF474153B31400096880D /* GTMOAuth2Authentication.m */,
+				E94CF475153B31400096880D /* GTMOAuth2SignIn.h */,
+				E94CF476153B31400096880D /* GTMOAuth2SignIn.m */,
+				E94CF477153B31400096880D /* GTMOAuth2ViewControllerTouch.h */,
+				E94CF478153B31400096880D /* GTMOAuth2ViewControllerTouch.m */,
+				E94CF479153B31400096880D /* GTMOAuth2ViewTouch.xib */,
+			);
+			name = GTMOAuth2;
+			path = "iStream/3rd Party Frameworks/GTMOAuth2";
+			sourceTree = "<group>";
+		};
 		E95892021538BDC700E72668 /* facebook-ios-sdk */ = {
 			isa = PBXGroup;
 			children = (
@@ -189,6 +226,8 @@
 			isa = PBXGroup;
 			children = (
 				E9CE31D81523773500C3C051 /* 3rd Party Frameworks */,
+				E94CF481153B31710096880D /* Security.framework */,
+				E94CF47F153B31670096880D /* SystemConfiguration.framework */,
 				E922F7DB153762E200A5988B /* Accounts.framework */,
 				E922F7D9153762D800A5988B /* Twitter.framework */,
 				E9CE31A1152332EE00C3C051 /* UIKit.framework */,
@@ -232,6 +271,7 @@
 		E9CE31D81523773500C3C051 /* 3rd Party Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E94CF470153B31400096880D /* GTMOAuth2 */,
 				E95892021538BDC700E72668 /* facebook-ios-sdk */,
 			);
 			name = "3rd Party Frameworks";
@@ -301,6 +341,7 @@
 				E9CE31AC152332EE00C3C051 /* InfoPlist.strings in Resources */,
 				E9CE31B5152332EE00C3C051 /* MainStoryboard.storyboard in Resources */,
 				E95892121538BDC700E72668 /* FBDialog.bundle in Resources */,
+				E94CF47E153B31400096880D /* GTMOAuth2ViewTouch.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -324,6 +365,10 @@
 				E95891EE1538BB3100E72668 /* MTFacebookConnector.m in Sources */,
 				E9B406B71539958E00FD0340 /* MTUser.m in Sources */,
 				E983B815153A173700AAE2F5 /* MTGooglePlusConnector.m in Sources */,
+				E94CF47A153B31400096880D /* GTMHTTPFetcher.m in Sources */,
+				E94CF47B153B31400096880D /* GTMOAuth2Authentication.m in Sources */,
+				E94CF47C153B31400096880D /* GTMOAuth2SignIn.m in Sources */,
+				E94CF47D153B31400096880D /* GTMOAuth2ViewControllerTouch.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

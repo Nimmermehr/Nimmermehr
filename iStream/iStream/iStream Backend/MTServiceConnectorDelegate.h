@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+@class GTMOAuth2ViewControllerTouch;
 @protocol MTServiceConnectorDelegate <NSObject>
 
 @required
@@ -23,6 +24,9 @@
 
 - (void)contentReceived:(NSDictionary *)theContent;
 - (void)contentRequestFailed:(NSDictionary *)errDict;
+
+- (void)displayOAuth2UserDialog:(NSString *)serviceType userDialog:(id)theDialog;
+- (void)dismissOAuth2UserDialog:(NSString *)serviceType;
 
 // Facebook specific SSO Callback
 - (BOOL)handleFacebookSSOCallback:(NSURL *)theURL;

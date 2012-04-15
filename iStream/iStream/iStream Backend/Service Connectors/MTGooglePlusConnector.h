@@ -9,13 +9,18 @@
 #import <Foundation/Foundation.h>
 #import "MTServiceConnector.h"
 
+@class GTMOAuth2ViewControllerTouch;
+@class GTMOAuth2Authentication;
 @protocol MTServiceConnectorDelegate;
 
 @interface MTGooglePlusConnector : NSObject<MTServiceConnector> {
     
-    BOOL    _authenticated;
-    BOOL    _autoPolling;
-    float   _autoPollingInterval;
+    BOOL                                _authenticated;
+    BOOL                                _autoPolling;
+    float                               _autoPollingInterval;
+    GTMOAuth2ViewControllerTouch        *_viewController;
+    __strong GTMOAuth2Authentication    *_authToken;
+    
 }
 
 @property (nonatomic, readonly) BOOL                            authenticated;

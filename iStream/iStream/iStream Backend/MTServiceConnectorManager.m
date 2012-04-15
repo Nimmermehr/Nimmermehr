@@ -414,6 +414,26 @@ __strong static MTServiceConnectorManager *_sharedInstance = nil;
     return canHandle;
 }
 
+- (void)displayOAuth2UserDialog:(NSString *)serviceType userDialog:(id)theDialog
+{
+    NSLog(@"SELF MANAGER: %@", self);
+    
+    if ([serviceType isEqualToString:MTServiceTypeGooglePlus]) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:MTGooglePlusOAuth2DialogNeedsDisplay object:self userInfo:[NSDictionary dictionaryWithObject:theDialog forKey:MTServiceOAuth2UserDialog]];
+    
+    }
+}
+
+- (void)dismissOAuth2UserDialog:(NSString *)serviceType
+{
+    if ([serviceType isEqualToString:MTServiceTypeGooglePlus]) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:MTGooglePlusOAuth2DialogNeedsDismissal object:self];
+        
+    }
+}
+
 @end
 
 @implementation MTServiceConnectorManager (Private)

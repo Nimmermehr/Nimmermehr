@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-
 extern NSString * const MTServiceTypeTwitter;
 extern NSString * const MTServiceTypeFacebook;
 extern NSString * const MTServiceTypeTumblr;
@@ -19,6 +18,8 @@ extern NSString * const MTTwitterAppId;
 extern NSString * const MTTwitterAppSecret;
 extern NSString * const MTFacebookAppId;
 extern NSString * const MTFacebookAppSecret;
+extern NSString * const MTGooglePlusAppId;
+extern NSString * const MTGooglePlusAppSecret;
 
 extern NSString * const MTTwitterAuthenticationSucceeded;
 extern NSString * const MTTwitterNotAuthenticated;
@@ -52,6 +53,10 @@ extern NSString * const MTGooglePlusAccessNotGranted;
 extern NSString * const MTGooglePlusNewsItemsReceived;
 extern NSString * const MTGooglePlusNewsItemsRequestFailed;
 extern NSString * const MTGooglePlusLogoutCompleted;
+extern NSString * const MTGooglePlusOAuthScope;
+extern NSInteger  const MTGooglePlusAccessNotGrantedErrorCode;
+extern NSString * const MTGooglePlusOAuth2DialogNeedsDisplay;
+extern NSString * const MTGooglePlusOAuth2DialogNeedsDismissal;
 
 extern NSString * const MTAllServicesAuthenticationSucceeded;
 extern NSString * const MTServiceNewsItemsReceived;
@@ -62,3 +67,4 @@ extern NSString * const MTServiceTypeKey;
 extern NSString * const MTServiceContentKey;
 extern NSString * const MTServiceContentRequestFailedErrorKey;
 extern NSString * const MTServiceContentRequestFailedResponseKey;
+extern NSString * const MTServiceOAuth2UserDialog;

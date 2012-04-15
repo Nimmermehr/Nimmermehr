@@ -18,6 +18,8 @@ NSString * const MTTwitterAppId         = @"wk79XRDGhXbiaN3o3XI2Cw";
 NSString * const MTTwitterAppSecret     = @"jPJxaTAVUJdV768fUSUmCX6JHoVpTQ8WPPlwTqRWnz0";
 NSString * const MTFacebookAppId        = @"351817994870666";
 NSString * const MTFacebookAppSecret    = @"ecc46b32cb22e0d0db046c7d4b215fe9";
+NSString * const MTGooglePlusAppId      = @"1045145999063.apps.googleusercontent.com";
+NSString * const MTGooglePlusAppSecret  = @"OjrMiXR2pjojH4DPK_mwbsdB";
 
 NSString * const MTTwitterAuthenticationSucceeded       = @"TwitterAuthenticationSucceeded";
 NSString * const MTTwitterNotAuthenticated              = @"TwitterNotAuthenticated";
@@ -51,6 +53,10 @@ NSString * const MTGooglePlusAccessNotGranted           = @"GooglePlusAccessNotG
 NSString * const MTGooglePlusNewsItemsReceived          = @"GooglePlusNewsItemsReceived";
 NSString * const MTGooglePlusNewsItemsRequestFailed     = @"GooglePlusNewsItemsRequestFailed";
 NSString * const MTGooglePlusLogoutCompleted            = @"GooglePlusLogoutCompleted";
+NSString * const MTGooglePlusOAuthScope                 = @"https://www.googleapis.com/auth/plus.me";
+NSInteger  const MTGooglePlusAccessNotGrantedErrorCode  = -1001;
+NSString * const MTGooglePlusOAuth2DialogNeedsDisplay   = @"GooglePlusOAuth2DialogNeedsDisplay";
+NSString * const MTGooglePlusOAuth2DialogNeedsDismissal = @"GooglePlusOAuth2DialogNeedsDismissal";
 
 NSString * const MTAllServicesAuthenticationSucceeded   = @"AllServicesAuthenticationSucceeded";
 NSString * const MTServiceNewsItemsReceived             = @"ServiceNewsItemsReceived";
@@ -61,3 +67,4 @@ NSString * const MTServiceTypeKey                           = @"serviceType";
 NSString * const MTServiceContentKey                        = @"serviceContent";
 NSString * const MTServiceContentRequestFailedErrorKey      = @"reqError";
 NSString * const MTServiceContentRequestFailedResponseKey   = @"urlResponse";
+NSString * const MTServiceOAuth2UserDialog                  = @"oAuth2UserDialog";

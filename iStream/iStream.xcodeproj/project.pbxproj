@@ -11,6 +11,7 @@
 		4CE6E20C153C87EC004539E9 /* UIImage+ImageWithUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE6E20A153C87EC004539E9 /* UIImage+ImageWithUIView.m */; };
 		4CE6E211153C8C58004539E9 /* MTBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE6E210153C8C58004539E9 /* MTBaseViewController.m */; };
 		4CE6E214153C8F17004539E9 /* MTNewsItemsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE6E213153C8F17004539E9 /* MTNewsItemsViewController.m */; };
+		4CE6E217153C9383004539E9 /* MTServicesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE6E216153C9383004539E9 /* MTServicesViewController.m */; };
 		E922F7C8153761E700A5988B /* TWRequest+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = E922F7C7153761E700A5988B /* TWRequest+Utils.m */; };
 		E922F7D3153761F700A5988B /* MTNewsItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E922F7CB153761F600A5988B /* MTNewsItem.m */; };
 		E922F7D4153761F700A5988B /* MTServiceConnectorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E922F7CE153761F600A5988B /* MTServiceConnectorManager.m */; };
@@ -43,6 +44,8 @@
 		4CE6E210153C8C58004539E9 /* MTBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTBaseViewController.m; sourceTree = "<group>"; };
 		4CE6E212153C8F17004539E9 /* MTNewsItemsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTNewsItemsViewController.h; sourceTree = "<group>"; };
 		4CE6E213153C8F17004539E9 /* MTNewsItemsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTNewsItemsViewController.m; sourceTree = "<group>"; };
+		4CE6E215153C9383004539E9 /* MTServicesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTServicesViewController.h; sourceTree = "<group>"; };
+		4CE6E216153C9383004539E9 /* MTServicesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTServicesViewController.m; sourceTree = "<group>"; };
 		E922F7C6153761E700A5988B /* TWRequest+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TWRequest+Utils.h"; sourceTree = "<group>"; };
 		E922F7C7153761E700A5988B /* TWRequest+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TWRequest+Utils.m"; sourceTree = "<group>"; };
 		E922F7CA153761F600A5988B /* MTNewsItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTNewsItem.h; sourceTree = "<group>"; };
@@ -133,6 +136,8 @@
 				4CE6E210153C8C58004539E9 /* MTBaseViewController.m */,
 				4CE6E212153C8F17004539E9 /* MTNewsItemsViewController.h */,
 				4CE6E213153C8F17004539E9 /* MTNewsItemsViewController.m */,
+				4CE6E215153C9383004539E9 /* MTServicesViewController.h */,
+				4CE6E216153C9383004539E9 /* MTServicesViewController.m */,
 			);
 			path = "iStream Frontend";
 			sourceTree = "<group>";
@@ -359,6 +364,7 @@
 				4CE6E20C153C87EC004539E9 /* UIImage+ImageWithUIView.m in Sources */,
 				4CE6E211153C8C58004539E9 /* MTBaseViewController.m in Sources */,
 				4CE6E214153C8F17004539E9 /* MTNewsItemsViewController.m in Sources */,
+				4CE6E217153C9383004539E9 /* MTServicesViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

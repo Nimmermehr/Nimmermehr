@@ -28,11 +28,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
+	// Appearances
 	self.view.layer.shadowOpacity	= .75;
 	self.view.layer.shadowRadius	= 5.;
 	self.view.layer.shadowColor		= [UIColor blackColor].CGColor;
 	self.view.layer.shadowPath		= [UIBezierPath bezierPathWithRect:self.view.bounds].CGPath;	// <-- massive performance increase!
 	
+	// Interactions
 	[self.view addGestureRecognizer:self.slidingViewController.panGesture];
 }
 

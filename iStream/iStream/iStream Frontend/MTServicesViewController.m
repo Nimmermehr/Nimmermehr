@@ -1,18 +1,18 @@
 //
-//  MTBaseViewController.m
+//  MTServicesViewController.m
 //  iStream
 //
 //  Created by Michael Hörl on 16.04.12.
 //  Copyright (c) 2012 Nimmermehr. All rights reserved.
 //
 
-#import "MTBaseViewController.h"
+#import "MTServicesViewController.h"
 
-@interface MTBaseViewController ()
+@interface MTServicesViewController ()
 
 @end
 
-@implementation MTBaseViewController
+@implementation MTServicesViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -24,15 +24,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	
-	// Setup basic VC structure
-	UIViewController *newsItemsVC	= [self.storyboard instantiateViewControllerWithIdentifier:@"NewsItemsVC"];
-	self.topViewController = newsItemsVC;
-	
-	UIViewController *servicesVC	= [self.storyboard instantiateViewControllerWithIdentifier:@"ServicesVC"];
-	self.underLeftViewController = servicesVC;
-	
-	[self setAnchorRightRevealAmount:50.];
+	// Do any additional setup after loading the view.
 }
 
 - (void)viewDidUnload {
@@ -41,7 +33,7 @@
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 @end

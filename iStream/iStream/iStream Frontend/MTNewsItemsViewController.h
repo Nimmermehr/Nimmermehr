@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MTNewsItemsViewController : UIViewController
+@interface MTNewsItemsViewController : UITableViewController <UITableViewDataSource,UITableViewDelegate>
+
+@property (strong) NSMutableArray *newsItems;
 
 @end

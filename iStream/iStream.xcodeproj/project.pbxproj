@@ -10,8 +10,8 @@
 		4CE6E20B153C87EC004539E9 /* ECSlidingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE6E208153C87EC004539E9 /* ECSlidingViewController.m */; };
 		4CE6E20C153C87EC004539E9 /* UIImage+ImageWithUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE6E20A153C87EC004539E9 /* UIImage+ImageWithUIView.m */; };
 		4CE6E211153C8C58004539E9 /* MTBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE6E210153C8C58004539E9 /* MTBaseViewController.m */; };
-		4CE6E214153C8F17004539E9 /* MTNewsItemsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE6E213153C8F17004539E9 /* MTNewsItemsViewController.m */; };
 		4CE6E217153C9383004539E9 /* MTServicesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE6E216153C9383004539E9 /* MTServicesViewController.m */; };
+		4CE6E21A153C9BE2004539E9 /* MTNewsItemsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE6E219153C9BE2004539E9 /* MTNewsItemsViewController.m */; };
 		E922F7C8153761E700A5988B /* TWRequest+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = E922F7C7153761E700A5988B /* TWRequest+Utils.m */; };
 		E922F7D3153761F700A5988B /* MTNewsItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E922F7CB153761F600A5988B /* MTNewsItem.m */; };
 		E922F7D4153761F700A5988B /* MTServiceConnectorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E922F7CE153761F600A5988B /* MTServiceConnectorManager.m */; };
@@ -30,8 +30,6 @@
 		E9CE31AE152332EE00C3C051 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E9CE31AD152332EE00C3C051 /* main.m */; };
 		E9CE31B2152332EE00C3C051 /* MTAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E9CE31B1152332EE00C3C051 /* MTAppDelegate.m */; };
 		E9CE31B5152332EE00C3C051 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E9CE31B3152332EE00C3C051 /* MainStoryboard.storyboard */; };
-		E9CE31B8152332EF00C3C051 /* MTMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9CE31B7152332EF00C3C051 /* MTMasterViewController.m */; };
-		E9CE31BB152332EF00C3C051 /* MTDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9CE31BA152332EF00C3C051 /* MTDetailViewController.m */; };
 		E9DD4E981537668F0040C9C7 /* UIImage+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = E9DD4E971537668F0040C9C7 /* UIImage+Utils.m */; };
 /* End PBXBuildFile section */
 
@@ -42,10 +40,10 @@
 		4CE6E20A153C87EC004539E9 /* UIImage+ImageWithUIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageWithUIView.m"; sourceTree = "<group>"; };
 		4CE6E20F153C8C58004539E9 /* MTBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTBaseViewController.h; sourceTree = "<group>"; };
 		4CE6E210153C8C58004539E9 /* MTBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTBaseViewController.m; sourceTree = "<group>"; };
-		4CE6E212153C8F17004539E9 /* MTNewsItemsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTNewsItemsViewController.h; sourceTree = "<group>"; };
-		4CE6E213153C8F17004539E9 /* MTNewsItemsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTNewsItemsViewController.m; sourceTree = "<group>"; };
 		4CE6E215153C9383004539E9 /* MTServicesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTServicesViewController.h; sourceTree = "<group>"; };
 		4CE6E216153C9383004539E9 /* MTServicesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTServicesViewController.m; sourceTree = "<group>"; };
+		4CE6E218153C9BE2004539E9 /* MTNewsItemsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTNewsItemsViewController.h; sourceTree = "<group>"; };
+		4CE6E219153C9BE2004539E9 /* MTNewsItemsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTNewsItemsViewController.m; sourceTree = "<group>"; };
 		E922F7C6153761E700A5988B /* TWRequest+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TWRequest+Utils.h"; sourceTree = "<group>"; };
 		E922F7C7153761E700A5988B /* TWRequest+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TWRequest+Utils.m"; sourceTree = "<group>"; };
 		E922F7CA153761F600A5988B /* MTNewsItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTNewsItem.h; sourceTree = "<group>"; };
@@ -90,10 +88,6 @@
 		E9CE31B0152332EE00C3C051 /* MTAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTAppDelegate.h; sourceTree = "<group>"; };
 		E9CE31B1152332EE00C3C051 /* MTAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTAppDelegate.m; sourceTree = "<group>"; };
 		E9CE31B4152332EE00C3C051 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
-		E9CE31B6152332EE00C3C051 /* MTMasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTMasterViewController.h; sourceTree = "<group>"; };
-		E9CE31B7152332EF00C3C051 /* MTMasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTMasterViewController.m; sourceTree = "<group>"; };
-		E9CE31B9152332EF00C3C051 /* MTDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTDetailViewController.h; sourceTree = "<group>"; };
-		E9CE31BA152332EF00C3C051 /* MTDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTDetailViewController.m; sourceTree = "<group>"; };
 		E9CE32BB1523857F00C3C051 /* SupportedServices */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SupportedServices; sourceTree = "<group>"; };
 		E9CE32BE1523875900C3C051 /* ServiceAuthKeys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = ServiceAuthKeys.plist; path = ../ServiceAuthKeys.plist; sourceTree = "<group>"; };
 		E9DD4E961537668F0040C9C7 /* UIImage+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Utils.h"; sourceTree = "<group>"; };
@@ -134,8 +128,8 @@
 			children = (
 				4CE6E20F153C8C58004539E9 /* MTBaseViewController.h */,
 				4CE6E210153C8C58004539E9 /* MTBaseViewController.m */,
-				4CE6E212153C8F17004539E9 /* MTNewsItemsViewController.h */,
-				4CE6E213153C8F17004539E9 /* MTNewsItemsViewController.m */,
+				4CE6E218153C9BE2004539E9 /* MTNewsItemsViewController.h */,
+				4CE6E219153C9BE2004539E9 /* MTNewsItemsViewController.m */,
 				4CE6E215153C9383004539E9 /* MTServicesViewController.h */,
 				4CE6E216153C9383004539E9 /* MTServicesViewController.m */,
 			);
@@ -245,10 +239,6 @@
 				E9CE31B0152332EE00C3C051 /* MTAppDelegate.h */,
 				E9CE31B1152332EE00C3C051 /* MTAppDelegate.m */,
 				E9CE31B3152332EE00C3C051 /* MainStoryboard.storyboard */,
-				E9CE31B6152332EE00C3C051 /* MTMasterViewController.h */,
-				E9CE31B7152332EF00C3C051 /* MTMasterViewController.m */,
-				E9CE31B9152332EF00C3C051 /* MTDetailViewController.h */,
-				E9CE31BA152332EF00C3C051 /* MTDetailViewController.m */,
 				E9CE31A8152332EE00C3C051 /* Supporting Files */,
 			);
 			path = iStream;
@@ -350,8 +340,6 @@
 			files = (
 				E9CE31AE152332EE00C3C051 /* main.m in Sources */,
 				E9CE31B2152332EE00C3C051 /* MTAppDelegate.m in Sources */,
-				E9CE31B8152332EF00C3C051 /* MTMasterViewController.m in Sources */,
-				E9CE31BB152332EF00C3C051 /* MTDetailViewController.m in Sources */,
 				E922F7C8153761E700A5988B /* TWRequest+Utils.m in Sources */,
 				E922F7D3153761F700A5988B /* MTNewsItem.m in Sources */,
 				E922F7D4153761F700A5988B /* MTServiceConnectorManager.m in Sources */,
@@ -363,8 +351,8 @@
 				4CE6E20B153C87EC004539E9 /* ECSlidingViewController.m in Sources */,
 				4CE6E20C153C87EC004539E9 /* UIImage+ImageWithUIView.m in Sources */,
 				4CE6E211153C8C58004539E9 /* MTBaseViewController.m in Sources */,
-				4CE6E214153C8F17004539E9 /* MTNewsItemsViewController.m in Sources */,
 				4CE6E217153C9383004539E9 /* MTServicesViewController.m in Sources */,
+				4CE6E21A153C9BE2004539E9 /* MTNewsItemsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

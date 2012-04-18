@@ -32,6 +32,7 @@
 - (void)requestPublicTimeline;
 - (void)requestReplyMessages;
 - (void)requestDirectMessages;
+- (void)requestUserPosts;
 
 - (void)authenticate;
 

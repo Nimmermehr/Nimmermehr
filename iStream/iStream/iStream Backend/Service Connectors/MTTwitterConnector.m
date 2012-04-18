@@ -18,6 +18,8 @@
 #define TwitterAPIReplyMessagesURL  [NSURL URLWithString:@"http://api.twitter.com/1/statuses/mentions.json"]
 #define TwitterAPIUserTimelineURL   [NSURL URLWithString:@"http://api.twitter.com/1/statuses/home_timeline.json"]
 #define TwitterAPIPublicTimelineURL [NSURL URLWithString:@"http://api.twitter.com/1/statuses/public_timeline.json"]
+#define TwitterAPIUserPostsURL      [NSURL URLWithString:@"http://api.twitter.com/1/statuses/user_timeline.json"]
+#define RegexExtractRecipients      @"@([a-zA-Z0-9-_])+"
 
 @interface MTTwitterConnector (Private)
 - (void)sendTwitterRequestWithURL:(NSURL *)theURL;
@@ -25,6 +27,8 @@
 - (void)setTwitterAccounts:(NSArray *)twitterAccounts;
 
 - (NSArray *)parseContent:(NSArray *)theTimeline;
+
+- (NSArray *)parseRecipients:(NSString *)content;
 @end
 
 @implementation MTTwitterConnector
@@ -98,6 +102,11 @@
     }
 }
 
+- (void)requestUserPosts
+{
+    [self sendTwitterRequestWithURL:TwitterAPIUserPostsURL];
+}
+
 - (void)requestUserTimeline
 {
     [self sendTwitterRequestWithURL:TwitterAPIUserTimelineURL];
@@ -143,10 +152,12 @@
             
             twitterContent = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:&jsonParsingError];
             
+            NSLog(@"### CONTENT: %@", twitterContent);
+            
             NSDictionary *newPosts = [NSDictionary dictionaryWithObjectsAndKeys:
-                                      [self parseContent:twitterContent],   MTServiceContentKey,
-                                      [self serviceType],                   MTServiceTypeKey,
-                                      nil
+                                        [self parseContent:twitterContent],   MTServiceContentKey,
+                                        [self serviceType],                   MTServiceTypeKey,
+                                        nil
                                       ];
             
             [_delegate contentReceived:newPosts];
@@ -188,6 +199,7 @@
         // TODO: use consts for the twitter keys
         // TODO: get all related @msgs to this tweet + count, also get share count
         // TODO: get all related/tagged/@recipients
+        
         timestamp = [formatter dateFromString:[tweet objectForKey:@"created_at"]];
         
         profilePic = [UIImage imageWithContentsOfURL:[NSURL URLWithString:[[tweet objectForKey:@"user"] objectForKey:@"profile_image_url_https"]]];
@@ -200,14 +212,43 @@
                                   authorProfileImage:profilePic
                                 adherentConversation:nil //TODO: 
                                   conversationLength:0 //TODO:
-                                          shareCount:0 //TODO:
-                                        taggedPeople:nil//TODO:
+                                          shareCount:[[tweet objectForKey:@"retweet_count"] unsignedIntegerValue]
+                                        taggedPeople:[self parseRecipients:[tweet objectForKey:@"user"]]
                    ];
         
         [newPosts addObject:thePost];
     }
     
     return newPosts;
+}
+
+- (NSArray *)parseRecipients:(NSString *)content
+{
+    NSArray *theArray = nil;
+    
+    NSError *terror = nil;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:RegexExtractRecipients options:NSRegularExpressionCaseInsensitive error:&terror];
+    
+    if (!terror) {
+        NSArray *matches = [regex matchesInString:content
+                                          options:0
+                                            range:NSMakeRange(0, [content length])
+                            ];
+        
+        NSMutableArray *taggedPeople = [NSMutableArray array];
+        
+        for (NSTextCheckingResult *match in matches) {
+            
+            [taggedPeople addObject:[content substringWithRange:[match range]]];
+            
+        }
+        
+        theArray = (NSArray *)taggedPeople;
+    } else {
+        NSLog(@"REGEX TERROR: %@", terror);
+    }
+    
+    return theArray;
 }
 
 @end

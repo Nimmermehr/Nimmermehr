@@ -120,6 +120,7 @@ __strong static MTServiceConnectorManager *_sharedInstance = nil;
         [self requestTwitterUserTimeline];
         [self requestTwitterReplyMessages];
         [self requestTwitterDirectMessages];
+        [self requestTwitterUserPosts];
     }
     
     if ([self isServiceConnected:MTServiceTypeFacebook]) {
@@ -141,6 +142,7 @@ __strong static MTServiceConnectorManager *_sharedInstance = nil;
         [self requestTwitterUserTimeline];
         [self requestTwitterReplyMessages];
         [self requestTwitterDirectMessages];
+        [self requestTwitterUserPosts];
     } else if ([serviceType isEqualToString:MTServiceTypeFacebook]) {
         [self requestFacebookUserTimeline];
         [self requestFacebookUserWall];
@@ -209,6 +211,13 @@ __strong static MTServiceConnectorManager *_sharedInstance = nil;
 {
     if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeTwitter]) {
         [[_services objectForKey:MTServiceTypeTwitter] requestDirectMessages];
+    }
+}
+
+- (void)requestTwitterUserPosts
+{
+    if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeTwitter]) {
+        [[_services objectForKey:MTServiceTypeTwitter] requestUserPosts];
     }
 }
 

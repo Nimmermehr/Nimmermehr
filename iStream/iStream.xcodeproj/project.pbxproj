@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E91494091540AE0C0096E7B8 /* MTIOManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E91494081540AE0C0096E7B8 /* MTIOManager.m */; };
 		E922F7C8153761E700A5988B /* TWRequest+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = E922F7C7153761E700A5988B /* TWRequest+Utils.m */; };
 		E922F7D3153761F700A5988B /* MTNewsItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E922F7CB153761F600A5988B /* MTNewsItem.m */; };
 		E922F7D4153761F700A5988B /* MTServiceConnectorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E922F7CE153761F600A5988B /* MTServiceConnectorManager.m */; };
@@ -39,6 +40,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E91494071540AE0C0096E7B8 /* MTIOManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTIOManager.h; sourceTree = "<group>"; };
+		E91494081540AE0C0096E7B8 /* MTIOManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTIOManager.m; sourceTree = "<group>"; };
 		E922F7C6153761E700A5988B /* TWRequest+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TWRequest+Utils.h"; sourceTree = "<group>"; };
 		E922F7C7153761E700A5988B /* TWRequest+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TWRequest+Utils.m"; sourceTree = "<group>"; };
 		E922F7CA153761F600A5988B /* MTNewsItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTNewsItem.h; sourceTree = "<group>"; };
@@ -125,6 +128,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E91494051540ADC10096E7B8 /* Database */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Database;
+			sourceTree = "<group>";
+		};
 		E922F7C5153761E700A5988B /* Categories */ = {
 			isa = PBXGroup;
 			children = (
@@ -147,6 +157,9 @@
 				E9B406B51539958E00FD0340 /* MTUser.h */,
 				E9B406B61539958E00FD0340 /* MTUser.m */,
 				E922F7CF153761F600A5988B /* Service Connectors */,
+				E91494071540AE0C0096E7B8 /* MTIOManager.h */,
+				E91494081540AE0C0096E7B8 /* MTIOManager.m */,
+				E91494051540ADC10096E7B8 /* Database */,
 			);
 			path = "iStream Backend";
 			sourceTree = "<group>";
@@ -369,6 +382,7 @@
 				E94CF47B153B31400096880D /* GTMOAuth2Authentication.m in Sources */,
 				E94CF47C153B31400096880D /* GTMOAuth2SignIn.m in Sources */,
 				E94CF47D153B31400096880D /* GTMOAuth2ViewControllerTouch.m in Sources */,
+				E91494091540AE0C0096E7B8 /* MTIOManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -65,12 +65,12 @@
     
     // TODO: Check what more permissions we need
     NSArray *permissions = [NSArray arrayWithObjects:
-                            @"user_likes", 
-                            @"read_stream",
-                            @"user_photos",
-                            @"user_status",
-                            @"user_videos",
-                            nil
+                                @"user_likes", 
+                                @"read_stream",
+                                @"user_photos",
+                                @"user_status",
+                                @"user_videos",
+                                nil
                             ];
     
     if (![_facebook isSessionValid]) {
@@ -148,7 +148,7 @@
 - (void)fbDidNotLogin:(BOOL)cancelled
 {
     // If cancelled == YES --> access not granted
-    
+
     _authenticated = NO;
     
     if (cancelled) {
@@ -176,7 +176,7 @@
 
 - (void)requestLoading:(FBRequest *)request
 {
-    [_delegate serviceDidStartLoading:[self serviceType]];
+    
 }
 
 - (void)request:(FBRequest *)request didReceiveResponse:(NSURLResponse *)response
@@ -187,10 +187,10 @@
 - (void)request:(FBRequest *)request didFailWithError:(NSError *)error
 {
     NSDictionary *errDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                             [self serviceType], MTServiceTypeKey,
-                             error,              MTServiceContentRequestFailedErrorKey,
-                             nil,                MTServiceContentRequestFailedResponseKey,
-                             nil
+                                [self serviceType], MTServiceTypeKey,
+                                error,              MTServiceContentRequestFailedErrorKey,
+                                nil,                MTServiceContentRequestFailedResponseKey,
+                                nil
                              ];
     
     [_delegate contentRequestFailed:errDict];
@@ -211,9 +211,9 @@
     }
     
     NSDictionary *newPosts = [NSDictionary dictionaryWithObjectsAndKeys:
-                              theContent,         MTServiceContentKey,
-                              [self serviceType], MTServiceTypeKey,
-                              nil
+                                theContent,         MTServiceContentKey,
+                                [self serviceType], MTServiceTypeKey,
+                                nil
                               ];
     
     [_delegate contentReceived:newPosts];

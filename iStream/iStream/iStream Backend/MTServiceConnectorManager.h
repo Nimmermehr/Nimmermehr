@@ -62,6 +62,7 @@
 - (void)requestTwitterPublicTimeline;
 - (void)requestTwitterReplyMessages;
 - (void)requestTwitterDirectMessages;
+- (void)requestTwitterUserPosts;
 - (void)logoutFromTwitter;
 
 // Facebook specific methods
@@ -69,5 +70,11 @@
 - (void)requestFacebookUserWall;
 - (void)requestFacebookUserPosts;
 - (void)logoutFromFacebook;
+
+// Google+ specific methods
+- (void)requestGooglePlusUserTimeline;
+- (void)requestGooglePlusUserWall;
+- (void)requestGooglePlusUserPosts;
+- (void)logoutFromGooglePlus;
 
 @end

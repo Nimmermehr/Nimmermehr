@@ -1,6 +1,6 @@
 //
 //  MTNewsItem.m
-//  TwitterConnect
+//  iStream
 //
 //  Created by Thomas Kober on 4/1/12.
 //  Copyright (c) 2012 Nimmermehr. All rights reserved.
@@ -48,6 +48,24 @@ adherentConversation:(NSArray *)adherentConversation
     }
     
     return self;
+}
+
+- (id)initUserPostTemplateWithContent:(NSString *)content
+                          serviceType:(NSString *)serviceType
+{
+    // TODO: Improve
+    // TODO: What about Cross-Share among more services?
+    return [self initWithAuthor:[_template author] 
+                        content:content 
+                    serviceType:serviceType 
+                 authorRealName:[_template authorRealName] 
+                      timestamp:nil 
+             authorProfileImage:[_template authorProfileImage] 
+           adherentConversation:nil 
+             conversationLength:0 
+                     shareCount:0 
+                   taggedPeople:nil
+            ];
 }
 
 - (NSString *)description

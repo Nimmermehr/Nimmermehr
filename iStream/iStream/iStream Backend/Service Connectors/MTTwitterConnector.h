@@ -1,6 +1,6 @@
 //
 //  MTTwitterConnector.h
-//  TwitterConnect
+//  iStream
 //
 //  Created by Thomas Kober on 3/30/12.
 //  Copyright (c) 2012 Nimmermehr. All rights reserved.
@@ -32,6 +32,7 @@
 - (void)requestPublicTimeline;
 - (void)requestReplyMessages;
 - (void)requestDirectMessages;
+- (void)requestUserPosts;
 
 - (void)authenticate;
 

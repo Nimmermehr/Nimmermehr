@@ -22,6 +22,8 @@
 		E95891EE1538BB3100E72668 /* MTFacebookConnector.m in Sources */ = {isa = PBXBuildFile; fileRef = E95891ED1538BB3100E72668 /* MTFacebookConnector.m */; };
 		E95892121538BDC700E72668 /* FBDialog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E95892051538BDC700E72668 /* FBDialog.bundle */; };
 		E95892131538BDC700E72668 /* libfacebook_ios_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E958920B1538BDC700E72668 /* libfacebook_ios_sdk.a */; };
+		E999CEAD15420B2D00DB4095 /* MTGooglePlusConnector.m in Sources */ = {isa = PBXBuildFile; fileRef = E999CEAC15420B2D00DB4095 /* MTGooglePlusConnector.m */; };
+		E999CEB115420B6900DB4095 /* MTIOManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E999CEB015420B6800DB4095 /* MTIOManager.m */; };
 		E9B406B71539958E00FD0340 /* MTUser.m in Sources */ = {isa = PBXBuildFile; fileRef = E9B406B61539958E00FD0340 /* MTUser.m */; };
 		E9CE31A2152332EE00C3C051 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9CE31A1152332EE00C3C051 /* UIKit.framework */; };
 		E9CE31A4152332EE00C3C051 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9CE31A3152332EE00C3C051 /* Foundation.framework */; };
@@ -75,6 +77,10 @@
 		E958920F1538BDC700E72668 /* SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonBase.h; sourceTree = "<group>"; };
 		E95892101538BDC700E72668 /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
 		E95892111538BDC700E72668 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
+		E999CEAB15420B2C00DB4095 /* MTGooglePlusConnector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTGooglePlusConnector.h; sourceTree = "<group>"; };
+		E999CEAC15420B2D00DB4095 /* MTGooglePlusConnector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTGooglePlusConnector.m; sourceTree = "<group>"; };
+		E999CEAF15420B6800DB4095 /* MTIOManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTIOManager.h; sourceTree = "<group>"; };
+		E999CEB015420B6800DB4095 /* MTIOManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTIOManager.m; sourceTree = "<group>"; };
 		E9B406B51539958E00FD0340 /* MTUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTUser.h; sourceTree = "<group>"; };
 		E9B406B61539958E00FD0340 /* MTUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTUser.m; sourceTree = "<group>"; };
 		E9CE319D152332EE00C3C051 /* iStream.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iStream.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -158,6 +164,8 @@
 				E9B406B51539958E00FD0340 /* MTUser.h */,
 				E9B406B61539958E00FD0340 /* MTUser.m */,
 				E922F7CF153761F600A5988B /* Service Connectors */,
+				E999CEAF15420B6800DB4095 /* MTIOManager.h */,
+				E999CEB015420B6800DB4095 /* MTIOManager.m */,
 			);
 			path = "iStream Backend";
 			sourceTree = "<group>";
@@ -170,6 +178,8 @@
 				E922F7D2153761F600A5988B /* MTTwitterConnector.m */,
 				E95891EC1538BB3100E72668 /* MTFacebookConnector.h */,
 				E95891ED1538BB3100E72668 /* MTFacebookConnector.m */,
+				E999CEAB15420B2C00DB4095 /* MTGooglePlusConnector.h */,
+				E999CEAC15420B2D00DB4095 /* MTGooglePlusConnector.m */,
 			);
 			path = "Service Connectors";
 			sourceTree = "<group>";
@@ -353,6 +363,8 @@
 				4CE6E211153C8C58004539E9 /* MTBaseViewController.m in Sources */,
 				4CE6E217153C9383004539E9 /* MTServicesViewController.m in Sources */,
 				4CE6E21A153C9BE2004539E9 /* MTNewsItemsViewController.m in Sources */,
+				E999CEAD15420B2D00DB4095 /* MTGooglePlusConnector.m in Sources */,
+				E999CEB115420B6900DB4095 /* MTIOManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

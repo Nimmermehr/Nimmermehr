@@ -7,14 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <sqlite3.h>
 
 // Another singleton???
 
 @interface MTIOManager : NSObject {
-    BOOL _connected;
-    BOOL _cached;
-    NSUInteger chacheSize;
+@private
+    BOOL                _connected;
+    BOOL                _cached;
+    NSUInteger          _chacheSize;
     NSMutableDictionary *_cache;
+    sqlite3             *_db;
 }
 
 @property (nonatomic)   BOOL        connected;

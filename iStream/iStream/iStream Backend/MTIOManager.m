@@ -9,6 +9,9 @@
 #import "MTIOManager.h"
 #import "MTServiceConnectorManager.h"
 
+#define iStreamDataStorageResourceName  @"iStreamBase"
+#define iStreamDataStorageResourceType  @"sqlite"
+
 @interface MTIOManager (Private)
 - (void)initSharedInstance;
 @end
@@ -95,7 +98,7 @@ __strong static MTIOManager *_sharedInstance = nil;
 
 - (void)handleTwitterNewsItemsReceived:(NSNotification *)notification
 {
-    
+    // Add items with respect to the cache size
 }
 
 - (void)handleFacebookNewsItemsReceived:(NSNotification *)notification
@@ -106,6 +109,11 @@ __strong static MTIOManager *_sharedInstance = nil;
 - (void)handleGooglePlusNewsItemsReceived:(NSNotification *)notification
 {
     
+}
+
+- (void)handleDidReceiveMemoryWarning:(NSNotification *)notification
+{
+    [self flushCache];
 }
 
 @end
@@ -136,6 +144,43 @@ __strong static MTIOManager *_sharedInstance = nil;
                                                  name:MTGooglePlusNewsItemsReceived 
                                                object:mgr
      ];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(handleDidReceiveMemoryWarning:) 
+                                                 name:UIApplicationDidReceiveMemoryWarningNotification 
+                                               object:[UIApplication sharedApplication]
+     ];
+    
+    // Connect DB & fill cache
+    NSFileManager *fileMgr = [NSFileManager defaultManager];
+    
+    NSString *dbPath = [[NSBundle mainBundle] pathForResource:iStreamDataStorageResourceName ofType:iStreamDataStorageResourceType];
+    
+    if ([fileMgr fileExistsAtPath:dbPath]) {
+        if (sqlite3_open([dbPath UTF8String], &_db) == SQLITE_OK) {
+            
+            // TODO: define a prep const
+            const char *query = "SELECT * FROM TBL_NEWSITEM";
+            sqlite3_stmt *stmt = nil;
+            
+            if (sqlite3_prepare(_db, query, -1, &stmt, NULL) == SQLITE_OK) {
+                
+                _connected = YES;
+                
+                while (sqlite3_step(stmt) == SQLITE_ROW) {
+                    // TODO: do all the stuff here
+                }
+                
+            } else {
+                 NSLog(@"%@.%@ - EPIC FAIL: STMT COULD NOT BE PREPARED!", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
+            }
+            
+        } else {
+             NSLog(@"%@.%@ - EPIC FAIL: DB COULD NOT BE OPENED!", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
+        }
+    } else {
+        NSLog(@"%@.%@ - EPIC FAIL: DB NOT AVAILABLE AT PATH=[%@]", NSStringFromClass([self class]), NSStringFromSelector(_cmd), dbPath);
+    }
     
     // TODO: set up & connect db & fill cache
 }

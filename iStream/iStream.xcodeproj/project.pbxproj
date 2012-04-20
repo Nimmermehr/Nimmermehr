@@ -12,6 +12,13 @@
 		4CE6E211153C8C58004539E9 /* MTBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE6E210153C8C58004539E9 /* MTBaseViewController.m */; };
 		4CE6E217153C9383004539E9 /* MTServicesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE6E216153C9383004539E9 /* MTServicesViewController.m */; };
 		4CE6E21A153C9BE2004539E9 /* MTNewsItemsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE6E219153C9BE2004539E9 /* MTNewsItemsViewController.m */; };
+		E905A39C1542117400EA5218 /* GTMHTTPFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = E905A3941542117400EA5218 /* GTMHTTPFetcher.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E905A39D1542117400EA5218 /* GTMOAuth2Authentication.m in Sources */ = {isa = PBXBuildFile; fileRef = E905A3961542117400EA5218 /* GTMOAuth2Authentication.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E905A39E1542117400EA5218 /* GTMOAuth2SignIn.m in Sources */ = {isa = PBXBuildFile; fileRef = E905A3981542117400EA5218 /* GTMOAuth2SignIn.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E905A39F1542117400EA5218 /* GTMOAuth2ViewControllerTouch.m in Sources */ = {isa = PBXBuildFile; fileRef = E905A39A1542117400EA5218 /* GTMOAuth2ViewControllerTouch.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E905A3A01542117400EA5218 /* GTMOAuth2ViewTouch.xib in Resources */ = {isa = PBXBuildFile; fileRef = E905A39B1542117400EA5218 /* GTMOAuth2ViewTouch.xib */; };
+		E905A3A3154211FB00EA5218 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E905A3A2154211FB00EA5218 /* SystemConfiguration.framework */; };
+		E905A3A51542125600EA5218 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E905A3A41542125600EA5218 /* Security.framework */; };
 		E922F7C8153761E700A5988B /* TWRequest+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = E922F7C7153761E700A5988B /* TWRequest+Utils.m */; };
 		E922F7D3153761F700A5988B /* MTNewsItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E922F7CB153761F600A5988B /* MTNewsItem.m */; };
 		E922F7D4153761F700A5988B /* MTServiceConnectorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E922F7CE153761F600A5988B /* MTServiceConnectorManager.m */; };
@@ -45,6 +52,17 @@
 		4CE6E216153C9383004539E9 /* MTServicesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTServicesViewController.m; sourceTree = "<group>"; };
 		4CE6E218153C9BE2004539E9 /* MTNewsItemsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTNewsItemsViewController.h; sourceTree = "<group>"; };
 		4CE6E219153C9BE2004539E9 /* MTNewsItemsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTNewsItemsViewController.m; sourceTree = "<group>"; };
+		E905A3931542117400EA5218 /* GTMHTTPFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMHTTPFetcher.h; sourceTree = "<group>"; };
+		E905A3941542117400EA5218 /* GTMHTTPFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMHTTPFetcher.m; sourceTree = "<group>"; };
+		E905A3951542117400EA5218 /* GTMOAuth2Authentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMOAuth2Authentication.h; sourceTree = "<group>"; };
+		E905A3961542117400EA5218 /* GTMOAuth2Authentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMOAuth2Authentication.m; sourceTree = "<group>"; };
+		E905A3971542117400EA5218 /* GTMOAuth2SignIn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMOAuth2SignIn.h; sourceTree = "<group>"; };
+		E905A3981542117400EA5218 /* GTMOAuth2SignIn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMOAuth2SignIn.m; sourceTree = "<group>"; };
+		E905A3991542117400EA5218 /* GTMOAuth2ViewControllerTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMOAuth2ViewControllerTouch.h; sourceTree = "<group>"; };
+		E905A39A1542117400EA5218 /* GTMOAuth2ViewControllerTouch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMOAuth2ViewControllerTouch.m; sourceTree = "<group>"; };
+		E905A39B1542117400EA5218 /* GTMOAuth2ViewTouch.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GTMOAuth2ViewTouch.xib; sourceTree = "<group>"; };
+		E905A3A2154211FB00EA5218 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		E905A3A41542125600EA5218 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		E922F7C6153761E700A5988B /* TWRequest+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TWRequest+Utils.h"; sourceTree = "<group>"; };
 		E922F7C7153761E700A5988B /* TWRequest+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TWRequest+Utils.m"; sourceTree = "<group>"; };
 		E922F7CA153761F600A5988B /* MTNewsItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTNewsItem.h; sourceTree = "<group>"; };
@@ -102,6 +120,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E905A3A51542125600EA5218 /* Security.framework in Frameworks */,
+				E905A3A3154211FB00EA5218 /* SystemConfiguration.framework in Frameworks */,
 				E922F7DC153762E200A5988B /* Accounts.framework in Frameworks */,
 				E922F7DA153762D800A5988B /* Twitter.framework in Frameworks */,
 				E9CE31A2152332EE00C3C051 /* UIKit.framework in Frameworks */,
@@ -137,6 +157,23 @@
 				4CE6E216153C9383004539E9 /* MTServicesViewController.m */,
 			);
 			path = "iStream Frontend";
+			sourceTree = "<group>";
+		};
+		E905A3921542117400EA5218 /* GTMOAuth2 */ = {
+			isa = PBXGroup;
+			children = (
+				E905A3931542117400EA5218 /* GTMHTTPFetcher.h */,
+				E905A3941542117400EA5218 /* GTMHTTPFetcher.m */,
+				E905A3951542117400EA5218 /* GTMOAuth2Authentication.h */,
+				E905A3961542117400EA5218 /* GTMOAuth2Authentication.m */,
+				E905A3971542117400EA5218 /* GTMOAuth2SignIn.h */,
+				E905A3981542117400EA5218 /* GTMOAuth2SignIn.m */,
+				E905A3991542117400EA5218 /* GTMOAuth2ViewControllerTouch.h */,
+				E905A39A1542117400EA5218 /* GTMOAuth2ViewControllerTouch.m */,
+				E905A39B1542117400EA5218 /* GTMOAuth2ViewTouch.xib */,
+			);
+			name = GTMOAuth2;
+			path = "iStream/3rd Party Frameworks/GTMOAuth2";
 			sourceTree = "<group>";
 		};
 		E922F7C5153761E700A5988B /* Categories */ = {
@@ -223,6 +260,8 @@
 			isa = PBXGroup;
 			children = (
 				E9CE31D81523773500C3C051 /* 3rd Party Frameworks */,
+				E905A3A41542125600EA5218 /* Security.framework */,
+				E905A3A2154211FB00EA5218 /* SystemConfiguration.framework */,
 				E922F7DB153762E200A5988B /* Accounts.framework */,
 				E922F7D9153762D800A5988B /* Twitter.framework */,
 				E9CE31A1152332EE00C3C051 /* UIKit.framework */,
@@ -263,6 +302,7 @@
 		E9CE31D81523773500C3C051 /* 3rd Party Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E905A3921542117400EA5218 /* GTMOAuth2 */,
 				4CE6E206153C87EC004539E9 /* ECSlidingViewController */,
 				E95892021538BDC700E72668 /* facebook-ios-sdk */,
 			);
@@ -333,6 +373,7 @@
 				E9CE31AC152332EE00C3C051 /* InfoPlist.strings in Resources */,
 				E9CE31B5152332EE00C3C051 /* MainStoryboard.storyboard in Resources */,
 				E95892121538BDC700E72668 /* FBDialog.bundle in Resources */,
+				E905A3A01542117400EA5218 /* GTMOAuth2ViewTouch.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,6 +400,10 @@
 				4CE6E217153C9383004539E9 /* MTServicesViewController.m in Sources */,
 				4CE6E21A153C9BE2004539E9 /* MTNewsItemsViewController.m in Sources */,
 				E95D1BF315420FDB001BA5E3 /* MTGooglePlusConnector.m in Sources */,
+				E905A39C1542117400EA5218 /* GTMHTTPFetcher.m in Sources */,
+				E905A39D1542117400EA5218 /* GTMOAuth2Authentication.m in Sources */,
+				E905A39E1542117400EA5218 /* GTMOAuth2SignIn.m in Sources */,
+				E905A39F1542117400EA5218 /* GTMOAuth2ViewControllerTouch.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

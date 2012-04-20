@@ -45,7 +45,7 @@
 {
     [super viewDidLoad];
     
-    //[[MTServiceConnectorManager sharedServiceConnectorManager] authenticateServices];
+    [[MTServiceConnectorManager sharedServiceConnectorManager] authenticateServices];
     
     // Do any additional setup after loading the view, typically from a nib.
 }

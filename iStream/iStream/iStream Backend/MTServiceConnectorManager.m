@@ -116,20 +116,20 @@ __strong static MTServiceConnectorManager *_sharedInstance = nil;
 
 - (void)requestContentForAllConnectedServices
 {
-    if ([self isServiceConnected:MTServiceTypeTwitter]) {
+    if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeTwitter]) {
         [self requestTwitterUserTimeline];
         [self requestTwitterReplyMessages];
         [self requestTwitterDirectMessages];
         [self requestTwitterUserPosts];
     }
     
-    if ([self isServiceConnected:MTServiceTypeFacebook]) {
+    if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeFacebook]) {
         [self requestFacebookUserTimeline];
         [self requestFacebookUserWall];
         [self requestFacebookUserPosts];
     }
     
-    if ([self isServiceConnected:MTServiceTypeGooglePlus]) {
+    if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeGooglePlus]) {
         [self requestGooglePlusUserTimeline];
         [self requestGooglePlusUserWall];
         [self requestGooglePlusUserPosts];

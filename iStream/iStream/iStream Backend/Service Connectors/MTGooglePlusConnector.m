@@ -10,6 +10,14 @@
 #import "GTMOAuth2ViewControllerTouch.h"
 #import "MTServiceConnectorDelegate.h"
 
+#define GooglePlusKeychainItemName      @"Google+ OAuth2"
+#define GooglePlusAPIUserTimelineURL    [NSURL URLWithString:@""]
+#define GooglePlusAPIUserPostsURL       [NSURL URLWithString:@"https://www.googleapis.com/plus/v1/people/me/activities/public"]
+
+@interface MTGooglePlusConnector (Private)
+- (void)sendGooglePlusRequestWithURL:(NSURL *)reqURL;
+@end
+
 @implementation MTGooglePlusConnector
 
 @synthesize authenticated       = _authenticated;
@@ -25,7 +33,7 @@
         _viewController = [[GTMOAuth2ViewControllerTouch alloc] initWithScope:MTGooglePlusOAuthScope
                                                                      clientID:MTGooglePlusAppId 
                                                                  clientSecret:MTGooglePlusAppSecret
-                                                             keychainItemName:@"Google+ OAuth2:" 
+                                                             keychainItemName:GooglePlusKeychainItemName 
                                                                      delegate:self 
                                                              finishedSelector:@selector(viewController:finishedWithAuth:error:)
                            ];
@@ -47,7 +55,11 @@
 
 - (void)logout
 {
+    [GTMOAuth2ViewControllerTouch removeAuthFromKeychainForName:GooglePlusKeychainItemName];
     
+    [GTMOAuth2ViewControllerTouch revokeTokenForGoogleAuthentication:_authToken];
+    
+    [_delegate serviceLogoutCompleted:[self serviceType]];
 }
 
 - (void)requestUserTimeline
@@ -62,7 +74,7 @@
 
 - (void)requestUserPosts
 {
-    
+    [self sendGooglePlusRequestWithURL:GooglePlusAPIUserPostsURL];
 }
 
 - (void)viewController:(GTMOAuth2ViewControllerTouch *)viewController
@@ -89,6 +101,23 @@
         
         [_delegate serviceAuthenticatedSuccessfully:[self serviceType]];
     }
+}
+
+@end
+
+@implementation MTGooglePlusConnector (Private)
+
+- (void)sendGooglePlusRequestWithURL:(NSURL *)reqURL
+{
+    // TODO: Create NSMutableURLRequest with URL & some Params
+    // https://developers.google.com/+/api/
+    
+    [_authToken authorizeRequest:nil
+         completionHandler:^(NSError *error) {
+             if (error == nil) {
+                 // the request has been authorized
+             }
+         }];
 }
 
 @end

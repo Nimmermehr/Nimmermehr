@@ -18,8 +18,6 @@
 #define TwitterAPIReplyMessagesURL  [NSURL URLWithString:@"http://api.twitter.com/1/statuses/mentions.json"]
 #define TwitterAPIUserTimelineURL   [NSURL URLWithString:@"http://api.twitter.com/1/statuses/home_timeline.json"]
 #define TwitterAPIPublicTimelineURL [NSURL URLWithString:@"http://api.twitter.com/1/statuses/public_timeline.json"]
-#define TwitterAPIUserPostsURL      [NSURL URLWithString:@"http://api.twitter.com/1/statuses/user_timeline.json"]
-#define RegexExtractRecipients      @"@([a-zA-Z0-9-_])+"
 
 @interface MTTwitterConnector (Private)
 - (void)sendTwitterRequestWithURL:(NSURL *)theURL;
@@ -27,8 +25,6 @@
 - (void)setTwitterAccounts:(NSArray *)twitterAccounts;
 
 - (NSArray *)parseContent:(NSArray *)theTimeline;
-
-- (NSArray *)parseRecipients:(NSString *)content;
 @end
 
 @implementation MTTwitterConnector
@@ -43,7 +39,7 @@
     if ((self = [super init])) {
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAccountStoreChanged:) name:ACAccountStoreDidChangeNotification object:nil];
-        
+                
         _twitterAccounts = [[NSArray alloc] init];
         
         _authenticated = NO;
@@ -102,11 +98,6 @@
     }
 }
 
-- (void)requestUserPosts
-{
-    [self sendTwitterRequestWithURL:TwitterAPIUserPostsURL];
-}
-
 - (void)requestUserTimeline
 {
     [self sendTwitterRequestWithURL:TwitterAPIUserTimelineURL];
@@ -145,16 +136,12 @@
     
     __block NSArray *twitterContent = nil;
     
-    [_delegate serviceDidStartLoading:[self serviceType]];
-    
     [twitterReq performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
         
         if ([urlResponse statusCode] == 200) {
             NSError *jsonParsingError = nil;
             
             twitterContent = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:&jsonParsingError];
-            
-            NSLog(@"### CONTENT: %@", twitterContent);
             
             NSDictionary *newPosts = [NSDictionary dictionaryWithObjectsAndKeys:
                                       [self parseContent:twitterContent],   MTServiceContentKey,
@@ -167,10 +154,10 @@
         } else {
             // FAIL
             NSDictionary *errDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                                     [self serviceType], MTServiceTypeKey,
-                                     error,              MTServiceContentRequestFailedErrorKey,
-                                     urlResponse,        MTServiceContentRequestFailedResponseKey,
-                                     nil
+                                        [self serviceType], MTServiceTypeKey,
+                                        error,              MTServiceContentRequestFailedErrorKey,
+                                        urlResponse,        MTServiceContentRequestFailedResponseKey,
+                                        nil
                                      ];
             
             [_delegate contentRequestFailed:errDict];
@@ -201,7 +188,6 @@
         // TODO: use consts for the twitter keys
         // TODO: get all related @msgs to this tweet + count, also get share count
         // TODO: get all related/tagged/@recipients
-        
         timestamp = [formatter dateFromString:[tweet objectForKey:@"created_at"]];
         
         profilePic = [UIImage imageWithContentsOfURL:[NSURL URLWithString:[[tweet objectForKey:@"user"] objectForKey:@"profile_image_url_https"]]];
@@ -214,43 +200,14 @@
                                   authorProfileImage:profilePic
                                 adherentConversation:nil //TODO: 
                                   conversationLength:0 //TODO:
-                                          shareCount:[[tweet objectForKey:@"retweet_count"] unsignedIntegerValue]
-                                        taggedPeople:[self parseRecipients:[tweet objectForKey:@"user"]]
+                                          shareCount:0 //TODO:
+                                        taggedPeople:nil//TODO:
                    ];
         
         [newPosts addObject:thePost];
     }
     
     return newPosts;
-}
-
-- (NSArray *)parseRecipients:(NSString *)content
-{
-    NSArray *theArray = nil;
-    
-    NSError *terror = nil;
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:RegexExtractRecipients options:NSRegularExpressionCaseInsensitive error:&terror];
-    
-    if (!terror) {
-        NSArray *matches = [regex matchesInString:content
-                                          options:0
-                                            range:NSMakeRange(0, [content length])
-                            ];
-        
-        NSMutableArray *taggedPeople = [NSMutableArray array];
-        
-        for (NSTextCheckingResult *match in matches) {
-            
-            [taggedPeople addObject:[content substringWithRange:[match range]]];
-            
-        }
-        
-        theArray = (NSArray *)taggedPeople;
-    } else {
-        NSLog(@"REGEX TERROR: %@", terror);
-    }
-    
-    return theArray;
 }
 
 @end

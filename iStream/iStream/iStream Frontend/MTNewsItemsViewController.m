@@ -85,7 +85,14 @@
 	
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[self.tableView reloadData];
+		[self stopLoading];
 	});
+}
+
+#pragma mark PullToRefresh methods
+
+- (void)refresh {
+	[[MTServiceConnectorManager sharedServiceConnectorManager] requestTwitterUserTimeline];
 }
 
 #pragma mark Table view data source

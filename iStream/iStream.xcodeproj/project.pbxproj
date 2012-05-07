@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C7583C11558559D00D6B81E /* PullRefreshTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C7583C01558559D00D6B81E /* PullRefreshTableViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		4C7583C5155855B900D6B81E /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C7583C4155855B900D6B81E /* arrow.png */; };
+		4C7583C7155856BA00D6B81E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C7583C6155856BA00D6B81E /* QuartzCore.framework */; };
 		4CE6E20B153C87EC004539E9 /* ECSlidingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE6E208153C87EC004539E9 /* ECSlidingViewController.m */; };
 		4CE6E20C153C87EC004539E9 /* UIImage+ImageWithUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE6E20A153C87EC004539E9 /* UIImage+ImageWithUIView.m */; };
 		4CE6E211153C8C58004539E9 /* MTBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE6E210153C8C58004539E9 /* MTBaseViewController.m */; };
@@ -42,6 +45,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4C7583BF1558559D00D6B81E /* PullRefreshTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PullRefreshTableViewController.h; sourceTree = "<group>"; };
+		4C7583C01558559D00D6B81E /* PullRefreshTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PullRefreshTableViewController.m; sourceTree = "<group>"; };
+		4C7583C4155855B900D6B81E /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
+		4C7583C6155856BA00D6B81E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		4CE6E207153C87EC004539E9 /* ECSlidingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECSlidingViewController.h; sourceTree = "<group>"; };
 		4CE6E208153C87EC004539E9 /* ECSlidingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ECSlidingViewController.m; sourceTree = "<group>"; };
 		4CE6E209153C87EC004539E9 /* UIImage+ImageWithUIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageWithUIView.h"; sourceTree = "<group>"; };
@@ -120,6 +127,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C7583C7155856BA00D6B81E /* QuartzCore.framework in Frameworks */,
 				E905A3A51542125600EA5218 /* Security.framework in Frameworks */,
 				E905A3A3154211FB00EA5218 /* SystemConfiguration.framework in Frameworks */,
 				E922F7DC153762E200A5988B /* Accounts.framework in Frameworks */,
@@ -134,6 +142,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4C7583BE1558559D00D6B81E /* PullToRefresh */ = {
+			isa = PBXGroup;
+			children = (
+				4C7583BF1558559D00D6B81E /* PullRefreshTableViewController.h */,
+				4C7583C01558559D00D6B81E /* PullRefreshTableViewController.m */,
+			);
+			name = PullToRefresh;
+			path = "iStream/3rd Party Frameworks/PullToRefresh";
+			sourceTree = "<group>";
+		};
+		4C7583C3155855B900D6B81E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				4C7583C4155855B900D6B81E /* arrow.png */,
+			);
+			name = Resources;
+			path = iStream/Resources;
+			sourceTree = "<group>";
+		};
 		4CE6E206153C87EC004539E9 /* ECSlidingViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -243,6 +270,7 @@
 			isa = PBXGroup;
 			children = (
 				E9CE31A7152332EE00C3C051 /* iStream */,
+				4C7583C3155855B900D6B81E /* Resources */,
 				E9CE31A0152332EE00C3C051 /* Frameworks */,
 				E9CE319E152332EE00C3C051 /* Products */,
 			);
@@ -267,6 +295,7 @@
 				E9CE31A1152332EE00C3C051 /* UIKit.framework */,
 				E9CE31A3152332EE00C3C051 /* Foundation.framework */,
 				E9CE31A5152332EE00C3C051 /* CoreGraphics.framework */,
+				4C7583C6155856BA00D6B81E /* QuartzCore.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -302,6 +331,7 @@
 		E9CE31D81523773500C3C051 /* 3rd Party Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4C7583BE1558559D00D6B81E /* PullToRefresh */,
 				E905A3921542117400EA5218 /* GTMOAuth2 */,
 				4CE6E206153C87EC004539E9 /* ECSlidingViewController */,
 				E95892021538BDC700E72668 /* facebook-ios-sdk */,
@@ -374,6 +404,7 @@
 				E9CE31B5152332EE00C3C051 /* MainStoryboard.storyboard in Resources */,
 				E95892121538BDC700E72668 /* FBDialog.bundle in Resources */,
 				E905A3A01542117400EA5218 /* GTMOAuth2ViewTouch.xib in Resources */,
+				4C7583C5155855B900D6B81E /* arrow.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -404,6 +435,7 @@
 				E905A39D1542117400EA5218 /* GTMOAuth2Authentication.m in Sources */,
 				E905A39E1542117400EA5218 /* GTMOAuth2SignIn.m in Sources */,
 				E905A39F1542117400EA5218 /* GTMOAuth2ViewControllerTouch.m in Sources */,
+				4C7583C11558559D00D6B81E /* PullRefreshTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

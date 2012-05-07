@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PullRefreshTableViewController.h"
 
-@interface MTNewsItemsViewController : UITableViewController <UITableViewDataSource,UITableViewDelegate>
+
+@interface MTNewsItemsViewController : PullRefreshTableViewController <UITableViewDataSource,UITableViewDelegate>
 
 @property (strong) NSMutableArray *newsItems;
 

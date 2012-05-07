@@ -13,6 +13,9 @@
 #import "MTNewsItem.h"
 
 
+NSString * const UITableViewDidScrollToTopNotification	= @"UITableViewDidScrollToTopNotification";
+
+
 @interface MTNewsItemsViewController ()
 
 @end
@@ -52,47 +55,85 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleTableViewDidScrollToTop:) name:UITableViewDidScrollToTopNotification object:self];
 	
-	NSLog(@"%@.%@ - observing Twitter", NSStringFromClass(self.class),NSStringFromSelector(_cmd));
+	DLog(@"%@.%@ - observing Twitter", NSStringFromClass(self.class),NSStringFromSelector(_cmd));
 	MTServiceConnectorManager *mgr = [MTServiceConnectorManager sharedServiceConnectorManager];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleTwitterContentReceived:) name:MTTwitterNewsItemsReceived object:mgr];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleTwitterDidStartLoading:) name:MTTwitterDidStartLoading object:mgr];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleTwitterContentReceived:) name:MTTwitterNewsItemsReceived object:mgr];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleTwitterContentFailed:) name:MTTwitterNewsItemsRequestFailed object:mgr];
 }
 
 - (void)viewDidUnload {
-    MTServiceConnectorManager *mgr = [MTServiceConnectorManager sharedServiceConnectorManager];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:MTTwitterNewsItemsReceived object:mgr];
+	MTServiceConnectorManager *mgr = [MTServiceConnectorManager sharedServiceConnectorManager];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:MTTwitterNewsItemsRequestFailed object:mgr];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:MTTwitterNewsItemsReceived object:mgr];
 	
-    [super viewDidUnload];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:UITableViewDidScrollToTopNotification object:self];
+	
+	[super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+	return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 #pragma mark Notification handlers
 
+- (void)handleTableViewDidScrollToTop:(NSNotification *)notification {
+	DLog(@"%@.%@ - dude, you're like totally up to date now!", NSStringFromClass(self.class),NSStringFromSelector(_cmd));
+	// TODO: clear some kind of new-items-indicator here!
+}
+
+- (void)handleTwitterDidStartLoading:(NSNotification *)notification {
+	DLog(@"%@.%@ - I starteded it!", NSStringFromClass(self.class),NSStringFromSelector(_cmd));
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+	[self stopLoading];
+}
+
 - (void)handleTwitterContentReceived:(NSNotification *)notification {
 	NSArray *newItems = [[notification userInfo] objectForKey:MTServiceContentKey];
-	NSLog(@"%@.%@ - received %u messages from Twitter!", NSStringFromClass(self.class),NSStringFromSelector(_cmd),[newItems count]);
+	DLog(@"%@.%@ - received %u messages from Twitter!", NSStringFromClass(self.class),NSStringFromSelector(_cmd),[newItems count]);
 	
 	if (!self.newsItems)
 		self.newsItems = [NSMutableArray array];
 	
-	if (newItems.count > 0)
-		[self.newsItems addObjectsFromArray:newItems];
+	if (newItems.count > 0)	// TODO: that's nice and all, but we'll have to filter out dupes soon!
+		[self.newsItems insertObjects:newItems atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, newItems.count)]];
 	
 	dispatch_async(dispatch_get_main_queue(), ^{
+		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 		[self.tableView reloadData];
-		[self stopLoading];
+		if (self.newsItems.count > newItems.count)
+			[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:newItems.count inSection:0]
+								  atScrollPosition:UITableViewScrollPositionTop
+										  animated:NO ];
+		// TODO: set some kind of new-items-indicator here!
+	});
+}
+
+- (void)handleTwitterContentFailed:(NSNotification *)notification {
+	NSDictionary *urlFailHeader = [[[notification userInfo] objectForKey:MTServiceContentRequestFailedResponseKey] allHeaderFields];
+	DLog(@"%@.%@ - received FAIL from Twitter: %@", NSStringFromClass(self.class),NSStringFromSelector(_cmd),[urlFailHeader objectForKey:@"Status"]);
+	
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Twitter Fail!"
+														message:[NSString stringWithFormat:@"Status: %@",[urlFailHeader objectForKey:@"Status"]]
+													   delegate:nil 
+											  cancelButtonTitle:@"Dammit"
+											  otherButtonTitles:nil ];
+		[alert show];
 	});
 }
 
 #pragma mark PullToRefresh methods
 
 - (void)refresh {
-	[[MTServiceConnectorManager sharedServiceConnectorManager] requestTwitterUserTimeline];
+	[[MTServiceConnectorManager sharedServiceConnectorManager] requestTwitterPublicTimeline];
 }
 
 #pragma mark Table view data source
@@ -121,6 +162,9 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+	if (indexPath.row == 0)
+		[[NSNotificationCenter defaultCenter] postNotificationName:UITableViewDidScrollToTopNotification object:self];
+	
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     

@@ -126,7 +126,7 @@
 {
     NSLog(@"%@.%@: %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd), notification);
     
-    [[MTServiceConnectorManager sharedServiceConnectorManager] requestTwitterUserTimeline];
+    //[[MTServiceConnectorManager sharedServiceConnectorManager] requestTwitterUserTimeline]; // !!!: TEST!!!
 }
 
 - (void)handleTwitterContentReceived:(NSNotification *)notification

@@ -378,7 +378,7 @@ __strong static MTServiceConnectorManager *_sharedInstance = nil;
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:MTServiceNewsItemsRequestFailed object:self userInfo:errDict];
     
-    if ([[errDict objectForKey:MTServiceTypeKey] isEqualToString:MTServiceTypeKey]) {
+    if ([[errDict objectForKey:MTServiceTypeKey] isEqualToString:MTServiceTypeTwitter]) {
         
         [[NSNotificationCenter defaultCenter] postNotificationName:MTTwitterNewsItemsRequestFailed object:self userInfo:errDict];
         

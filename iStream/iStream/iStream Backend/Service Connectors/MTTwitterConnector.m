@@ -154,7 +154,7 @@
             
             twitterContent = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:&jsonParsingError];
             
-            NSLog(@"### CONTENT: %@", twitterContent);
+            // NSLog(@"### CONTENT: %@", twitterContent); <-- too much text!
             
             NSDictionary *newPosts = [NSDictionary dictionaryWithObjectsAndKeys:
                                       [self parseContent:twitterContent],   MTServiceContentKey,
@@ -215,7 +215,7 @@
                                 adherentConversation:nil //TODO: 
                                   conversationLength:0 //TODO:
                                           shareCount:[[tweet objectForKey:@"retweet_count"] unsignedIntegerValue]
-                                        taggedPeople:[self parseRecipients:[tweet objectForKey:@"user"]]
+                                        taggedPeople:nil/*[self parseRecipients:[tweet objectForKey:@"user"]] <-- crashes! :-( */
                    ];
         
         [newPosts addObject:thePost];

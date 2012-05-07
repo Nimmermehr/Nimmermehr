@@ -32,6 +32,7 @@
 @end
 
 @implementation MTTwitterConnector
+@synthesize acStore;
 
 @synthesize authenticated       = _authenticated;
 @synthesize delegate            = _delegate;
@@ -57,16 +58,16 @@
 - (void)authenticate
 {
     if (!_authenticated) {
-        ACAccountStore *store = [[ACAccountStore alloc] init];
+        acStore = [[ACAccountStore alloc] init];
         
-        ACAccountType *type = [store accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
+        ACAccountType *type = [acStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
         
-        [store requestAccessToAccountsWithType:type withCompletionHandler:^(BOOL accessGranted, NSError *terror) {
+        [acStore requestAccessToAccountsWithType:type withCompletionHandler:^(BOOL accessGranted, NSError *terror) {
             
             if (accessGranted && !terror) {
                 
                 // Get all Twitter Accounts
-                [self setTwitterAccounts:[store accountsWithAccountType:type]];
+                [self setTwitterAccounts:[acStore accountsWithAccountType:type]];
                 
                 _authenticated = YES;
                 

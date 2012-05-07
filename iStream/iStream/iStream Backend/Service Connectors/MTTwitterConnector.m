@@ -14,7 +14,7 @@
 
 // Twitter API Request overview: https://dev.twitter.com/docs/api
 
-#define TwitterAPIDirectMessagesURL [NSURL URLWithString:@"http://api.twitter.com/1/statuses/direct_messages.json"]
+#define TwitterAPIDirectMessagesURL [NSURL URLWithString:@"http://api.twitter.com/1/direct_messages.json"]
 #define TwitterAPIReplyMessagesURL  [NSURL URLWithString:@"http://api.twitter.com/1/statuses/mentions.json"]
 #define TwitterAPIUserTimelineURL   [NSURL URLWithString:@"http://api.twitter.com/1/statuses/home_timeline.json"]
 #define TwitterAPIPublicTimelineURL [NSURL URLWithString:@"http://api.twitter.com/1/statuses/public_timeline.json"]
@@ -168,9 +168,9 @@
         } else {
             // FAIL
             NSDictionary *errDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                                     [self serviceType], MTServiceTypeKey,
-                                     error,              MTServiceContentRequestFailedErrorKey,
-                                     urlResponse,        MTServiceContentRequestFailedResponseKey,
+                                     [self serviceType],	MTServiceTypeKey,
+                                     urlResponse,			MTServiceContentRequestFailedResponseKey,
+                                     error,					MTServiceContentRequestFailedErrorKey,
                                      nil
                                      ];
             

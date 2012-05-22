@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C3F6702156BFF5800DBED32 /* MTNewsItemArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C3F6701156BFF5800DBED32 /* MTNewsItemArchive.m */; };
+		4C3F6705156C07D600DBED32 /* NSSingletonObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C3F6704156C07D600DBED32 /* NSSingletonObject.m */; };
 		4C7583C11558559D00D6B81E /* PullRefreshTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C7583C01558559D00D6B81E /* PullRefreshTableViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		4C7583C5155855B900D6B81E /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C7583C4155855B900D6B81E /* arrow.png */; };
 		4C7583C7155856BA00D6B81E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C7583C6155856BA00D6B81E /* QuartzCore.framework */; };
@@ -45,6 +47,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4C3F6700156BFF5800DBED32 /* MTNewsItemArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTNewsItemArchive.h; sourceTree = "<group>"; };
+		4C3F6701156BFF5800DBED32 /* MTNewsItemArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTNewsItemArchive.m; sourceTree = "<group>"; };
+		4C3F6703156C07D600DBED32 /* NSSingletonObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSSingletonObject.h; sourceTree = "<group>"; };
+		4C3F6704156C07D600DBED32 /* NSSingletonObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSSingletonObject.m; sourceTree = "<group>"; };
 		4C7583BF1558559D00D6B81E /* PullRefreshTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PullRefreshTableViewController.h; sourceTree = "<group>"; };
 		4C7583C01558559D00D6B81E /* PullRefreshTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PullRefreshTableViewController.m; sourceTree = "<group>"; };
 		4C7583C4155855B900D6B81E /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
@@ -206,6 +212,8 @@
 		E922F7C5153761E700A5988B /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				4C3F6703156C07D600DBED32 /* NSSingletonObject.h */,
+				4C3F6704156C07D600DBED32 /* NSSingletonObject.m */,
 				E922F7C6153761E700A5988B /* TWRequest+Utils.h */,
 				E922F7C7153761E700A5988B /* TWRequest+Utils.m */,
 				E9DD4E961537668F0040C9C7 /* UIImage+Utils.h */,
@@ -217,13 +225,15 @@
 		E922F7C9153761F600A5988B /* iStream Backend */ = {
 			isa = PBXGroup;
 			children = (
+				E9B406B51539958E00FD0340 /* MTUser.h */,
+				E9B406B61539958E00FD0340 /* MTUser.m */,
 				E922F7CA153761F600A5988B /* MTNewsItem.h */,
 				E922F7CB153761F600A5988B /* MTNewsItem.m */,
+				4C3F6700156BFF5800DBED32 /* MTNewsItemArchive.h */,
+				4C3F6701156BFF5800DBED32 /* MTNewsItemArchive.m */,
 				E922F7CC153761F600A5988B /* MTServiceConnectorDelegate.h */,
 				E922F7CD153761F600A5988B /* MTServiceConnectorManager.h */,
 				E922F7CE153761F600A5988B /* MTServiceConnectorManager.m */,
-				E9B406B51539958E00FD0340 /* MTUser.h */,
-				E9B406B61539958E00FD0340 /* MTUser.m */,
 				E922F7CF153761F600A5988B /* Service Connectors */,
 			);
 			path = "iStream Backend";
@@ -436,6 +446,8 @@
 				E905A39E1542117400EA5218 /* GTMOAuth2SignIn.m in Sources */,
 				E905A39F1542117400EA5218 /* GTMOAuth2ViewControllerTouch.m in Sources */,
 				4C7583C11558559D00D6B81E /* PullRefreshTableViewController.m in Sources */,
+				4C3F6702156BFF5800DBED32 /* MTNewsItemArchive.m in Sources */,
+				4C3F6705156C07D600DBED32 /* NSSingletonObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

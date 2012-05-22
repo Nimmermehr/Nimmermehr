@@ -7,7 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "NSSingletonObject.h"
 
-@interface MTNewsItemArchive : NSObject
+#import "MTNewsItem.h"
 
+
+@interface MTNewsItemArchive : NSSingletonObject
+@property (strong) NSMutableArray	*cachedItems;
+
++ (NSSortDescriptor *)sortedByTimestampDescending;
+
+- (void)addNewsItem:(MTNewsItem *)anItem;
+- (void)addNewsItems:(NSArray *)someItems;
+
+- (NSArray *)newsItemsFilteredByPredicate:(NSPredicate *)theFilter usingSort:(NSSortDescriptor *)theSortOrder;
 @end

@@ -10,7 +10,6 @@
 #import "ECSlidingViewController.h"
 
 #import "MTServiceConnectorManager.h"
-#import "MTNewsItem.h"
 
 
 NSString * const UITableViewDidScrollToTopNotification	= @"UITableViewDidScrollToTopNotification";
@@ -60,9 +59,9 @@ NSString * const UITableViewDidScrollToTopNotification	= @"UITableViewDidScrollT
 	
 	DLog(@"%@.%@ - observing Twitter", NSStringFromClass(self.class),NSStringFromSelector(_cmd));
 	MTServiceConnectorManager *mgr = [MTServiceConnectorManager sharedServiceConnectorManager];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleTwitterDidStartLoading:) name:MTTwitterDidStartLoading object:mgr];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleTwitterContentReceived:) name:MTTwitterNewsItemsReceived object:mgr];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleTwitterContentFailed:) name:MTTwitterNewsItemsRequestFailed object:mgr];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleServiceDidStartLoading:) name:MTServiceDidStartLoading object:mgr];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleServiceContentReceived:) name:MTServiceNewsItemsReceived object:mgr];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleServiceContentFailed:) name:MTServiceNewsItemsRequestFailed object:mgr];
 }
 
 - (void)viewDidUnload {
@@ -88,40 +87,42 @@ NSString * const UITableViewDidScrollToTopNotification	= @"UITableViewDidScrollT
 	// TODO: clear some kind of new-items-indicator here!
 }
 
-- (void)handleTwitterDidStartLoading:(NSNotification *)notification {
-	DLog(@"%@.%@ - I starteded it!", NSStringFromClass(self.class),NSStringFromSelector(_cmd));
+- (void)handleServiceDidStartLoading:(NSNotification *)notification {
+	DLog(@"%@.%@ - I started'ed it!", NSStringFromClass(self.class),NSStringFromSelector(_cmd));
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-	[self stopLoading];
 }
 
-- (void)handleTwitterContentReceived:(NSNotification *)notification {
+- (void)handleServiceContentReceived:(NSNotification *)notification {
+	NSString *service = [[notification userInfo] objectForKey:MTServiceTypeKey];
 	NSArray *newItems = [[notification userInfo] objectForKey:MTServiceContentKey];
-	DLog(@"%@.%@ - received %u messages from Twitter!", NSStringFromClass(self.class),NSStringFromSelector(_cmd),[newItems count]);
+	DLog(@"%@.%@ - received %u messages from service '%@'!", NSStringFromClass(self.class),NSStringFromSelector(_cmd),[newItems count],service);
 	
-	if (!self.newsItems)
-		self.newsItems = [NSMutableArray array];
-	
-	if (newItems.count > 0)	// TODO: that's nice and all, but we'll have to filter out dupes soon!
-		[self.newsItems insertObjects:newItems atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, newItems.count)]];
-	
-	dispatch_async(dispatch_get_main_queue(), ^{
-		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-		[self.tableView reloadData];
-		if (self.newsItems.count > newItems.count)
-			[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:newItems.count inSection:0]
-								  atScrollPosition:UITableViewScrollPositionTop
-										  animated:NO ];
-		// TODO: set some kind of new-items-indicator here!
-	});
+	if (newItems.count > 0) {
+		[[MTNewsItemArchive sharedInstance] addNewsItems:newItems];
+		self.newsItems = [[MTNewsItemArchive sharedInstance] newsItemsFilteredByPredicate:nil usingSort:[MTNewsItemArchive sortedByTimestampDescending]];
+		
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+			[self stopLoading];
+			[self.tableView reloadData];
+			if (self.newsItems.count > newItems.count)
+				[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:newItems.count inSection:0]
+									  atScrollPosition:UITableViewScrollPositionTop
+											  animated:NO ];
+			// TODO: set some kind of new-items-indicator here!
+		});
+	}
 }
 
-- (void)handleTwitterContentFailed:(NSNotification *)notification {
+- (void)handleServiceContentFailed:(NSNotification *)notification {
+	NSString *service = [[notification userInfo] objectForKey:MTServiceTypeKey];
 	NSDictionary *urlFailHeader = [[[notification userInfo] objectForKey:MTServiceContentRequestFailedResponseKey] allHeaderFields];
-	DLog(@"%@.%@ - received FAIL from Twitter: %@", NSStringFromClass(self.class),NSStringFromSelector(_cmd),[urlFailHeader objectForKey:@"Status"]);
+	DLog(@"%@.%@ - received FAIL from service '%@': %@", NSStringFromClass(self.class),NSStringFromSelector(_cmd),service,[urlFailHeader objectForKey:@"Status"]);
 	
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Twitter Fail!"
+		[self stopLoading];
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"%@ Fail!",service]
 														message:[NSString stringWithFormat:@"Status: %@",[urlFailHeader objectForKey:@"Status"]]
 													   delegate:nil 
 											  cancelButtonTitle:@"Dammit"
@@ -133,7 +134,11 @@ NSString * const UITableViewDidScrollToTopNotification	= @"UITableViewDidScrollT
 #pragma mark PullToRefresh methods
 
 - (void)refresh {
-	[[MTServiceConnectorManager sharedServiceConnectorManager] requestTwitterPublicTimeline];
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+		//[[MTServiceConnectorManager sharedServiceConnectorManager] requestFacebookUserTimeline]; FACEBOOK, I FUCKING HATE YOU LOSERS!!!
+		[[MTServiceConnectorManager sharedServiceConnectorManager] requestTwitterUserTimeline];
+		//[[MTServiceConnectorManager sharedServiceConnectorManager] requestTwitterPublicTimeline];
+	});
 }
 
 #pragma mark Table view data source

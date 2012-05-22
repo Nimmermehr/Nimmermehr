@@ -9,12 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "PullRefreshTableViewController.h"
 
+#import "MTNewsItemArchive.h"
+
 
 extern NSString * const UITableViewDidScrollToTopNotification;
 
 
 @interface MTNewsItemsViewController : PullRefreshTableViewController <UITableViewDataSource,UITableViewDelegate>
 
-@property (strong) NSMutableArray *newsItems;
+@property (strong) NSArray *newsItems;
 
 @end

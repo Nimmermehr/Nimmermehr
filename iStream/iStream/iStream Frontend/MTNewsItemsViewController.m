@@ -98,15 +98,17 @@ NSString * const UITableViewDidScrollToTopNotification	= @"UITableViewDidScrollT
 	DLog(@"%@.%@ - received %u messages from service '%@'!", NSStringFromClass(self.class),NSStringFromSelector(_cmd),[newItems count],service);
 	
 	if (newItems.count > 0) {
+		MTNewsItem *previousItem = self.newsItems.count > 0 ? [self.newsItems objectAtIndex:0] : nil;
 		[[MTNewsItemArchive sharedInstance] addNewsItems:newItems];
 		self.newsItems = [[MTNewsItemArchive sharedInstance] newsItemsFilteredByPredicate:nil usingSort:[MTNewsItemArchive sortedByTimestampDescending]];
+		NSUInteger previousItemIndex = [self.newsItems indexOfObject:previousItem];
 		
 		dispatch_async(dispatch_get_main_queue(), ^{
 			[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 			[self stopLoading];
 			[self.tableView reloadData];
-			if (self.newsItems.count > newItems.count)
-				[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:newItems.count inSection:0]
+			if (previousItemIndex > 0)
+				[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:previousItemIndex inSection:0]
 									  atScrollPosition:UITableViewScrollPositionTop
 											  animated:NO ];
 			// TODO: set some kind of new-items-indicator here!

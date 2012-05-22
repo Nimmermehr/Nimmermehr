@@ -65,7 +65,7 @@
     // Pre-loaded from UserDefaults in final version
     // If nothing is in the User Defaults --> Show ServiceLogin Screen
     [mgr createAndConnectService:MTServiceTypeTwitter];
-    //[mgr createAndConnectService:MTServiceTypeFacebook];
+    [mgr createAndConnectService:MTServiceTypeFacebook];
     
     //[mgr logoutFromFacebook];
     
@@ -131,27 +131,27 @@
 
 - (void)handleTwitterContentReceived:(NSNotification *)notification
 {
-    NSLog(@"%@.%@: %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd), notification);
+    //NSLog(@"%@.%@: %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd), notification);
     
     NSLog(@"%@.%@: %@=[%@]", NSStringFromClass([self class]), NSStringFromSelector(_cmd), MTServiceTypeKey, [[notification userInfo] objectForKey:MTServiceTypeKey]);
     
-    NSLog(@"%@.%@: %@=[%@]", NSStringFromClass([self class]), NSStringFromSelector(_cmd), MTServiceContentKey, [[notification userInfo] objectForKey:MTServiceContentKey]);
+    //NSLog(@"%@.%@: %@=[%@]", NSStringFromClass([self class]), NSStringFromSelector(_cmd), MTServiceContentKey, [[notification userInfo] objectForKey:MTServiceContentKey]);
 }
 
 - (void)handleFacebookAuthenticated:(NSNotification *)notification
 {
     NSLog(@"%@.%@: %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd), notification);
     
-    [[MTServiceConnectorManager sharedServiceConnectorManager] requestFacebookUserTimeline];
+    [[MTServiceConnectorManager sharedServiceConnectorManager] requestFacebookUserTimeline]; // !!!: TEST!!!
 }
 
 - (void)handleFacebookContentReceived:(NSNotification *)notification
 {
-    NSLog(@"%@.%@: %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd), notification);
+    //NSLog(@"%@.%@: %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd), notification);
     
     NSLog(@"%@.%@: %@=[%@]", NSStringFromClass([self class]), NSStringFromSelector(_cmd), MTServiceTypeKey, [[notification userInfo] objectForKey:MTServiceTypeKey]);
     
-    NSLog(@"%@.%@: %@=[%@]", NSStringFromClass([self class]), NSStringFromSelector(_cmd), MTServiceContentKey, [[notification userInfo] objectForKey:MTServiceContentKey]);
+    //NSLog(@"%@.%@: %@=[%@]", NSStringFromClass([self class]), NSStringFromSelector(_cmd), MTServiceContentKey, [[notification userInfo] objectForKey:MTServiceContentKey]);
 }
 
 

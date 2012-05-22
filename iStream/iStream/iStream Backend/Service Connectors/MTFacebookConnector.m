@@ -181,7 +181,7 @@
 
 - (void)request:(FBRequest *)request didReceiveResponse:(NSURLResponse *)response
 {
-    
+	DLog(@"%@.%@ - got response: %@", NSStringFromClass(self.class),NSStringFromSelector(_cmd),response);
 }
 
 - (void)request:(FBRequest *)request didFailWithError:(NSError *)error
@@ -221,7 +221,7 @@
 
 - (void)request:(FBRequest *)request didLoadRawResponse:(NSData *)data
 {
-    
+	DLog(@"%@.%@ - got %u bytes of data", NSStringFromClass(self.class),NSStringFromSelector(_cmd),data.length);
 }
 
 @end
@@ -245,7 +245,7 @@
     NSDate *timestamp = nil;
     
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-mm-ddHH:mm:ssZZZZ"];
+    [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZZ"];
     
     UIImage *profilePic = nil;
     
@@ -258,13 +258,9 @@
         // TODO: profilePic, i guess we need to fetch the pic for the user id #argh
         
         // Check if FB Content is a Message or a Story (fucking FB clusterfuck)
-        if ([thePost objectForKey:@"message"]) {
-            // Message
-            content = [thePost objectForKey:@"message"];
-        } else {
-            // Story
-            content = [thePost objectForKey:@"story"];
-        }
+        if (!(content = [thePost objectForKey:@"message"]))
+			if (!(content = [thePost objectForKey:@"story"]))
+				content = [thePost objectForKey:@"caption"];
         
         newPost = [[MTNewsItem alloc] initWithAuthor:[[thePost objectForKey:@"from"] objectForKey:@"name"]
                                              content:content

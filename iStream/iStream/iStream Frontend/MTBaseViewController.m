@@ -33,11 +33,17 @@
 	self.underLeftViewController = servicesVC;
 	
 	[self setAnchorRightRevealAmount:50.];
+	
+	// !!!: Test [show all (most) notifications]!!!
+	[[NSNotificationCenter defaultCenter] addObserverForName:nil object:nil queue:[NSOperationQueue currentQueue] usingBlock:^(NSNotification *notif){
+		if (![notif.name hasPrefix:@"UIViewAnimation"])	// ..too much information
+			if (YES) DLog(@"%@.%@ - received '%@'", NSStringFromClass(self.class),NSStringFromSelector(_cmd),notif.name);
+	}];
 }
 
 - (void)viewDidUnload {
-    [super viewDidUnload];
     // Release any retained subviews of the main view.
+    [super viewDidUnload];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {

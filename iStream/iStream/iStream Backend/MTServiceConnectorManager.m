@@ -121,19 +121,25 @@ __strong static MTServiceConnectorManager *_sharedInstance = nil;
         [self requestTwitterReplyMessages];
         [self requestTwitterDirectMessages];
         [self requestTwitterUserPosts];
-    }
+    } else {
+		DLog(@"%@.%@ - failed -checkServiceConnectedAndAuthenticated:MTServiceTypeTwitter!", NSStringFromClass(self.class),NSStringFromSelector(_cmd));
+	}
     
     if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeFacebook]) {
         [self requestFacebookUserTimeline];
         [self requestFacebookUserWall];
         [self requestFacebookUserPosts];
-    }
+    } else {
+		DLog(@"%@.%@ - failed -checkServiceConnectedAndAuthenticated:MTServiceTypeFacebook!", NSStringFromClass(self.class),NSStringFromSelector(_cmd));
+	}
     
     if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeGooglePlus]) {
         [self requestGooglePlusUserTimeline];
         [self requestGooglePlusUserWall];
         [self requestGooglePlusUserPosts];
-    }
+    } else {
+		DLog(@"%@.%@ - failed -checkServiceConnectedAndAuthenticated:MTServiceTypeGooglePlus!", NSStringFromClass(self.class),NSStringFromSelector(_cmd));
+	}
 }
 
 - (void)requestContentForService:(NSString *)serviceType
@@ -160,28 +166,36 @@ __strong static MTServiceConnectorManager *_sharedInstance = nil;
     // TODO: Maybe use Exceptions instead of Notifs??
     if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeFacebook]) {
         [[_services objectForKey:MTServiceTypeFacebook] requestUserTimeline];
-    } 
+    } else {
+		DLog(@"%@.%@ - failed -checkServiceConnectedAndAuthenticated:!", NSStringFromClass(self.class),NSStringFromSelector(_cmd));
+	}
 }
 
 - (void)requestFacebookUserWall
 {
     if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeFacebook]) {
         [[_services objectForKey:MTServiceTypeFacebook] requestUserWall];
-    } 
+    } else {
+		DLog(@"%@.%@ - failed -checkServiceConnectedAndAuthenticated:!", NSStringFromClass(self.class),NSStringFromSelector(_cmd));
+	} 
 }
 
 - (void)requestFacebookUserPosts
 {
     if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeFacebook]) {
         [[_services objectForKey:MTServiceTypeFacebook] requestUserPosts];
-    }
+    } else {
+		DLog(@"%@.%@ - failed -checkServiceConnectedAndAuthenticated:!", NSStringFromClass(self.class),NSStringFromSelector(_cmd));
+	}
 }
 
 - (void)logoutFromFacebook
 {
     if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeFacebook]) {
         [[_services objectForKey:MTServiceTypeFacebook] logout];
-    }
+    } else {
+		DLog(@"%@.%@ - failed -checkServiceConnectedAndAuthenticated:!", NSStringFromClass(self.class),NSStringFromSelector(_cmd));
+	}
 }
 
 #pragma mark Twitter specific Service Implementation
@@ -190,42 +204,54 @@ __strong static MTServiceConnectorManager *_sharedInstance = nil;
 {
     if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeTwitter]) {
         [[_services objectForKey:MTServiceTypeTwitter] requestUserTimeline];
-    }
+    } else {
+		DLog(@"%@.%@ - failed -checkServiceConnectedAndAuthenticated:!", NSStringFromClass(self.class),NSStringFromSelector(_cmd));
+	}
 }
 
 - (void)requestTwitterPublicTimeline
 {
     if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeTwitter]) {
         [[_services objectForKey:MTServiceTypeTwitter] requestPublicTimeline];
-    }
+    } else {
+		DLog(@"%@.%@ - failed -checkServiceConnectedAndAuthenticated:!", NSStringFromClass(self.class),NSStringFromSelector(_cmd));
+	}
 }
 
 - (void)requestTwitterReplyMessages
 {
     if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeTwitter]) {
         [[_services objectForKey:MTServiceTypeTwitter] requestReplyMessages];
-    }
+    } else {
+		DLog(@"%@.%@ - failed -checkServiceConnectedAndAuthenticated:!", NSStringFromClass(self.class),NSStringFromSelector(_cmd));
+	}
 }
 
 - (void)requestTwitterDirectMessages
 {
     if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeTwitter]) {
         [[_services objectForKey:MTServiceTypeTwitter] requestDirectMessages];
-    }
+    } else {
+		DLog(@"%@.%@ - failed -checkServiceConnectedAndAuthenticated:!", NSStringFromClass(self.class),NSStringFromSelector(_cmd));
+	}
 }
 
 - (void)requestTwitterUserPosts
 {
     if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeTwitter]) {
         [[_services objectForKey:MTServiceTypeTwitter] requestUserPosts];
-    }
+    } else {
+		DLog(@"%@.%@ - failed -checkServiceConnectedAndAuthenticated:!", NSStringFromClass(self.class),NSStringFromSelector(_cmd));
+	}
 }
 
 - (void)logoutFromTwitter
 {
     if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeTwitter]) {
         [[_services objectForKey:MTServiceTypeTwitter] logout];
-    }
+    } else {
+		DLog(@"%@.%@ - failed -checkServiceConnectedAndAuthenticated:!", NSStringFromClass(self.class),NSStringFromSelector(_cmd));
+	}
 }
 
 #pragma mark Google+ specific Implementation
@@ -233,28 +259,36 @@ __strong static MTServiceConnectorManager *_sharedInstance = nil;
 {
     if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeGooglePlus]) {
         [[_services objectForKey:MTServiceTypeGooglePlus] requestUserTimeline];
-    }
+    } else {
+		DLog(@"%@.%@ - failed -checkServiceConnectedAndAuthenticated:!", NSStringFromClass(self.class),NSStringFromSelector(_cmd));
+	}
 }
 
 - (void)requestGooglePlusUserWall
 {
     if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeGooglePlus]) {
         [[_services objectForKey:MTServiceTypeGooglePlus] requestUserWall];
-    }
+    } else {
+		DLog(@"%@.%@ - failed -checkServiceConnectedAndAuthenticated:!", NSStringFromClass(self.class),NSStringFromSelector(_cmd));
+	}
 }
 
 - (void)requestGooglePlusUserPosts
 {
     if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeGooglePlus]) {
         [[_services objectForKey:MTServiceTypeGooglePlus] requestUserPosts];
-    }
+    } else {
+		DLog(@"%@.%@ - failed -checkServiceConnectedAndAuthenticated:!", NSStringFromClass(self.class),NSStringFromSelector(_cmd));
+	}
 }
 
 - (void)logoutFromGooglePlus
 {
     if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeGooglePlus]) {
         [[_services objectForKey:MTServiceTypeGooglePlus] logout];
-    }
+    } else {
+		DLog(@"%@.%@ - failed -checkServiceConnectedAndAuthenticated:!", NSStringFromClass(self.class),NSStringFromSelector(_cmd));
+	}
 }
 
 #pragma mark MTServiceConnectorDelegate Implementation

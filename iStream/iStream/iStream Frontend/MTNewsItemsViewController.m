@@ -80,6 +80,16 @@ NSString * const UITableViewDidScrollToTopNotification	= @"UITableViewDidScrollT
 	return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+#pragma mark PullToRefresh methods
+
+- (void)refresh {
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+		//[[MTServiceConnectorManager sharedServiceConnectorManager] requestFacebookUserTimeline]; FACEBOOK, I FUCKING HATE YOU LOSERS!!!
+		[[MTServiceConnectorManager sharedServiceConnectorManager] requestTwitterUserTimeline];
+		//[[MTServiceConnectorManager sharedServiceConnectorManager] requestTwitterPublicTimeline];
+	});
+}
+
 #pragma mark Notification handlers
 
 - (void)handleTableViewDidScrollToTop:(NSNotification *)notification {
@@ -106,6 +116,7 @@ NSString * const UITableViewDidScrollToTopNotification	= @"UITableViewDidScrollT
 		dispatch_async(dispatch_get_main_queue(), ^{
 			[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 			[self stopLoading];
+			[[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:.35]];	// wait till refresh tab has closed
 			[self.tableView reloadData];
 			if (previousItemIndex > 0)
 				[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:previousItemIndex inSection:0]
@@ -130,16 +141,6 @@ NSString * const UITableViewDidScrollToTopNotification	= @"UITableViewDidScrollT
 											  cancelButtonTitle:@"Dammit"
 											  otherButtonTitles:nil ];
 		[alert show];
-	});
-}
-
-#pragma mark PullToRefresh methods
-
-- (void)refresh {
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-		//[[MTServiceConnectorManager sharedServiceConnectorManager] requestFacebookUserTimeline]; FACEBOOK, I FUCKING HATE YOU LOSERS!!!
-		[[MTServiceConnectorManager sharedServiceConnectorManager] requestTwitterUserTimeline];
-		//[[MTServiceConnectorManager sharedServiceConnectorManager] requestTwitterPublicTimeline];
 	});
 }
 
@@ -178,7 +179,9 @@ NSString * const UITableViewDidScrollToTopNotification	= @"UITableViewDidScrollT
     // Configure the cell...
 	MTNewsItem *item = (MTNewsItem *)[self.newsItems objectAtIndex:indexPath.row];
 	
-	cell.textLabel.text			= item.author;
+	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+	[formatter setDateFormat:@"dd.MM'@'HH:mm:ss"];
+	cell.textLabel.text			= [NSString stringWithFormat:@"%@ (%@)",item.author,[formatter stringFromDate:item.timestamp]];
 	cell.detailTextLabel.text	= item.content;
 	cell.imageView.image		= item.authorProfileImage;
     

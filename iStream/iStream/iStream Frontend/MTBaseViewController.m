@@ -37,7 +37,7 @@
 	// !!!: Test [show all (most) notifications]!!!
 	[[NSNotificationCenter defaultCenter] addObserverForName:nil object:nil queue:[NSOperationQueue currentQueue] usingBlock:^(NSNotification *notif){
 		if (![notif.name hasPrefix:@"UIViewAnimation"])	// ..too much information
-			if (YES) DLog(@"%@.%@ - received '%@'", NSStringFromClass(self.class),NSStringFromSelector(_cmd),notif.name);
+			if (NO) DLog(@"%@.%@ - received '%@'", NSStringFromClass(self.class),NSStringFromSelector(_cmd),notif.name);
 	}];
 }
 

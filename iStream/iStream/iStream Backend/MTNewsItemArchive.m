@@ -22,14 +22,14 @@
 
 - (void)addNewsItem:(MTNewsItem *)anItem {
 	if (anItem) {
-		DLog(@"%@.%@ - called w/ item:\n%@", NSStringFromClass(self.class),NSStringFromSelector(_cmd),anItem);
+		//DLog(@"%@.%@ - called w/ item:\n%@", NSStringFromClass(self.class),NSStringFromSelector(_cmd),anItem);
 		
 		if (!self.cachedItems)
 			self.cachedItems = [NSMutableArray array];
 		
 		if (![self.cachedItems containsObject:anItem]) {
 			[self.cachedItems addObject:anItem];
-			DLog(@"%@.%@ -  ...added it!", NSStringFromClass(self.class),NSStringFromSelector(_cmd));
+			//DLog(@"%@.%@ -  ...added it!", NSStringFromClass(self.class),NSStringFromSelector(_cmd));
 		}
 	}
 }

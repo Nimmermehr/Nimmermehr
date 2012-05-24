@@ -65,7 +65,7 @@
     // Pre-loaded from UserDefaults in final version
     // If nothing is in the User Defaults --> Show ServiceLogin Screen
     [mgr createAndConnectService:MTServiceTypeTwitter];
-    [mgr createAndConnectService:MTServiceTypeFacebook];
+    //[mgr createAndConnectService:MTServiceTypeFacebook];
     
     //[mgr logoutFromFacebook];
     
@@ -142,7 +142,7 @@
 {
     NSLog(@"%@.%@: %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd), notification);
     
-    [[MTServiceConnectorManager sharedServiceConnectorManager] requestFacebookUserTimeline]; // !!!: TEST!!!
+    //[[MTServiceConnectorManager sharedServiceConnectorManager] requestFacebookUserTimeline]; // !!!: TEST!!!
 }
 
 - (void)handleFacebookContentReceived:(NSNotification *)notification

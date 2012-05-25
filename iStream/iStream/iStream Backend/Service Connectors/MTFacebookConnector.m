@@ -47,6 +47,10 @@
     return self;
 }
 
+- (void)dealloc {
+	DLog(@"%@.%@ - the noes, teh facebokk disappeared!!!", NSStringFromClass(self.class),NSStringFromSelector(_cmd));
+}
+
 - (NSString *)serviceType
 {
     return MTServiceTypeFacebook;
@@ -84,7 +88,8 @@
 
 - (void)requestUserTimeline
 {
-    [self requestContentForGraphAPIPath:FacebookUserTimelinePath];
+	[self requestContentForGraphAPIPath:FacebookUserTimelinePath];
+	//while (YES) [[NSRunLoop mainRunLoop] runMode:NSRunLoopCommonModes beforeDate:[NSDate distantPast]];
 }
 
 - (void)requestUserWall

@@ -20,7 +20,7 @@
     BOOL    _autoPolling;
     float   _autoPollingInterval;
 }
-@property(nonatomic)			ACAccountStore *acStore;
+@property(nonatomic, strong)	ACAccountStore *acStore;
 
 // Handle the Polling of checking for new Posts
 

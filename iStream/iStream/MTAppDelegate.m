@@ -65,7 +65,7 @@
     // Pre-loaded from UserDefaults in final version
     // If nothing is in the User Defaults --> Show ServiceLogin Screen
     [mgr createAndConnectService:MTServiceTypeTwitter];
-    //[mgr createAndConnectService:MTServiceTypeFacebook];
+    [mgr createAndConnectService:MTServiceTypeFacebook];
     
     //[mgr logoutFromFacebook];
     

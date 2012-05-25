@@ -231,7 +231,12 @@
 
 - (void)requestContentForGraphAPIPath:(NSString *)graphAPIPath
 {
-    [_facebook requestWithGraphPath:graphAPIPath andDelegate:self];
+    FBRequest *request = [_facebook requestWithGraphPath:graphAPIPath andDelegate:self];
+	
+	// TODO: v-- maybe we should add a timeout to this thing later
+	while (request.state < kFBRequestStateComplete && [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:.25]]);
+	
+	request = nil;
 }
 
 - (NSArray *)parseDictionaryContent:(NSDictionary *)dictContent
@@ -260,7 +265,8 @@
         // Check if FB Content is a Message or a Story (fucking FB clusterfuck)
         if (!(content = [thePost objectForKey:@"message"]))
 			if (!(content = [thePost objectForKey:@"story"]))
-				content = [thePost objectForKey:@"caption"];
+				if (!(content = [thePost objectForKey:@"caption"]))
+					content = [thePost objectForKey:@"description"];
         
         newPost = [[MTNewsItem alloc] initWithAuthor:[[thePost objectForKey:@"from"] objectForKey:@"name"]
                                              content:content

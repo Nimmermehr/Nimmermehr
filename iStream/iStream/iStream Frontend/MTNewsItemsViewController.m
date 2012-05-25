@@ -84,9 +84,12 @@ NSString * const UITableViewDidScrollToTopNotification	= @"UITableViewDidScrollT
 
 - (void)refresh {
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-		//[[MTServiceConnectorManager sharedServiceConnectorManager] requestFacebookUserTimeline]; FACEBOOK, I FUCKING HATE YOU LOSERS!!!
 		[[MTServiceConnectorManager sharedServiceConnectorManager] requestTwitterUserTimeline];
 		//[[MTServiceConnectorManager sharedServiceConnectorManager] requestTwitterPublicTimeline];
+		//[[MTServiceConnectorManager sharedServiceConnectorManager] requestTwitterPublicTimeline];
+	});
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+		[[MTServiceConnectorManager sharedServiceConnectorManager] requestFacebookUserTimeline];
 	});
 }
 

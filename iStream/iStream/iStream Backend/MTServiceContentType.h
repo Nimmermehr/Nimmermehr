@@ -31,4 +31,7 @@
 + (id)getTwitterUserMessagesContentType;
 + (id)getTwitterAnyContentType;
 
+- (BOOL)isEqual:(id)object;
+// TODO: description, hashCode (I know, I'm lazy...)
+
 @end

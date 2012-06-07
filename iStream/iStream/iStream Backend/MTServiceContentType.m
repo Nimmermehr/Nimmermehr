@@ -15,7 +15,7 @@
 @synthesize contentType         = _contentType;
 @synthesize shouldLoadContent   = _shouldLoadContent;
 
-// twitter static factories
+// twitter static factory singleton objects (PATTERN OVERUSE!!!!)
 __strong static MTServiceContentType *_twitterUserPostsContentType      = nil;
 __strong static MTServiceContentType *_twitterUserWallContentType       = nil;
 __strong static MTServiceContentType *_twitterUserTimelineContentType   = nil;
@@ -86,6 +86,30 @@ __strong static MTServiceContentType *_twitterAnyContentType            = nil;
     }
     
     return _twitterAnyContentType;
+}
+
+- (BOOL)isEqual:(id)object
+{
+    BOOL equals = NO;
+    
+    if (object) {
+        if (self == object) {
+            equals = YES;
+        } else {
+            if ([object isKindOfClass:[self class]]) {
+                MTServiceContentType *other = (MTServiceContentType *)object;
+                
+                // Check serviceType && contentType
+                if (
+                        [[self serviceType] isEqualToString:[other serviceType]] &&
+                        [[self contentType] isEqualToString:[other contentType]]
+                    ) {
+                            equals = YES;
+                }
+            }
+        }
+    }
+    return equals;
 }
 
 

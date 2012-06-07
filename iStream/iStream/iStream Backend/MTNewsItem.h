@@ -7,59 +7,49 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MTServiceContentType.h"
 
 // Encapsulates all relevant data of the service
 // Add location, coords, creationdate, whatever else we need
 
 @interface MTNewsItem : NSObject {
     
-@private
-    NSString    *_author;
-    NSString    *_content;
-    NSString    *_serviceType;
-    NSString    *_authorRealName;
-    NSDate      *_timestamp;
-    UIImage     *_authorProfileImage;
-    NSArray     *_adherentConversation; // Comments (FB, G+)/@msgs (Twitter)
-    NSUInteger  _conversationLength;
-    NSUInteger  _shareCount; // Likes (FB), +1 (G+), RT's (Twitter)
-    NSArray     *_taggedPeople; // tagged People/"with..." (FB), @recipients (Twitter)
-    BOOL        _unread;
-    
     // Template for User Posts
-    MTNewsItem  *_template; // NSUserDefaults
+    MTNewsItem              *_template; // NSUserDefaults
 }
 
-@property (strong, nonatomic, readonly) NSString    *author;
-@property (strong, nonatomic, readonly) NSString    *content;
-@property (strong, nonatomic, readonly) NSString    *serviceType;
-@property (strong, nonatomic, readonly) NSString    *authorRealName;
-@property (strong, nonatomic, readonly) NSDate      *timestamp;
-@property (strong, nonatomic, readonly) UIImage     *authorProfileImage;
-@property (strong, nonatomic, readonly) NSArray     *adherentConversation;
-@property (nonatomic, readonly)         NSUInteger  conversationLength;
-@property (nonatomic, readonly)         NSUInteger  shareCount;
-@property (strong, nonatomic, readonly) NSArray     *taggedPeople;
-@property (nonatomic)                   BOOL        unread;
+@property (strong, nonatomic, readonly) NSString                *author;
+@property (strong, nonatomic, readonly) NSString                *content;
+@property (strong, nonatomic, readonly) MTServiceContentType    *serviceContentType;
+@property (strong, nonatomic, readonly) NSString                *authorRealName;
+@property (strong, nonatomic, readonly) NSDate                  *timestamp;
+@property (strong, nonatomic, readonly) UIImage                 *authorProfileImage;
+@property (strong, nonatomic, readonly) NSArray                 *adherentConversation; // Comments (FB, G+)/@msgs (Twitter)
+@property (nonatomic, readonly)         NSUInteger              conversationLength;
+@property (nonatomic, readonly)         NSUInteger              shareCount; // Likes (FB), +1 (G+), RT's (Twitter)
+@property (strong, nonatomic, readonly) NSArray                 *taggedPeople;// tagged People/"with..." (FB), @recipients (Twitter)
+@property (strong, nonatomic, readonly) NSString                *repliedToMsgId;
+@property (nonatomic)                   BOOL                    unread;
 
 - (id)initWithAuthor:(NSString *)author 
              content:(NSString *)content 
-         serviceType:(NSString *)serviceType 
+  serviceContentType:(MTServiceContentType *)serviceContentType
       authorRealName:(NSString *)authorRealName
            timestamp:(NSDate *)timestamp
   authorProfileImage:(UIImage *)authorProfileImage
 adherentConversation:(NSArray *)adherentConversation
   conversationLength:(NSUInteger)conversationLength
           shareCount:(NSUInteger)shareCount
-        taggedPeople:(NSArray *)taggedPeople;
+        taggedPeople:(NSArray *)taggedPeople
+      repliedToMsgId:(NSString *)repliedToMsgId;
 
 // When the User Posts a new message, we keep a Template with some of his data cached
 // for convenience use by the frontend :)
 - (id)initUserPostTemplateWithContent:(NSString *)content
-                          serviceType:(NSString *)serviceType;
+                   serviceContentType:(MTServiceContentType *)serviceContentType;
 
 
 - (NSString *)description;
-// TODO: isEqual + hashCode
+// TODO: isEqual + hashCode + copy (implement NSCopying)
 
 @end

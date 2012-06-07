@@ -112,5 +112,14 @@ __strong static MTServiceContentType *_twitterAnyContentType            = nil;
     return equals;
 }
 
+- (NSUInteger)hash
+{
+    NSUInteger result = 17;
+    
+    result = 31 * result + [[self serviceType] hash];
+    result = 31 * result + [[self contentType] hash];
+    
+    return result;
+}
 
 @end

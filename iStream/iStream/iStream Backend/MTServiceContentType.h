@@ -32,6 +32,7 @@
 + (id)getTwitterAnyContentType;
 
 - (BOOL)isEqual:(id)object;
-// TODO: description, hashCode (I know, I'm lazy...)
+- (NSUInteger)hash;
+// TODO: description (I know, I'm lazy...)
 
 @end

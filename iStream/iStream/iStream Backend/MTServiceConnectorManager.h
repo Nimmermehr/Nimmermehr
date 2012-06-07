@@ -14,16 +14,17 @@
 
 @interface MTServiceConnectorManager : NSObject <MTServiceConnectorDelegate> {
 @private
-    NSMutableDictionary *_services;
+    __strong NSMutableDictionary *_services;
     
     NSUInteger _authenticatedServices;
     
     BOOL _autoPolling;
-    float _autoPollingInterval;
+    NSTimeInterval _autoPollingInterval;
+    __strong NSTimer *_scheduler;
 }
 
 @property (nonatomic) BOOL  autoPolling;
-@property (nonatomic) float autoPollingInterval;
+@property (nonatomic) NSTimeInterval autoPollingInterval;
 
 // Singleton to manage all services
 // All services comply to the MTServiceConnectorProtocol
@@ -52,6 +53,12 @@
 
 - (BOOL)isServiceConnected:(NSString *)serviceType;
 
+- (NSArray *)getAuthenticatedServices;
+
+- (NSArray *)getAvailableServiceContentTypesForService:(NSString *)serviceType;
+
+- (UIImage *)iconForServiceType:(NSString *)serviceType;
+
 // All Services
 - (void)requestContentForAllConnectedServices;
 
@@ -76,5 +83,8 @@
 - (void)requestGooglePlusUserWall;
 - (void)requestGooglePlusUserPosts;
 - (void)logoutFromGooglePlus;
+
+// Foursquare specific methods
+- (void)requestFoursquareCheckIns;
 
 @end

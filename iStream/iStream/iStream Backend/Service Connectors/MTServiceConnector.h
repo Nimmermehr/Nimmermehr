@@ -13,13 +13,14 @@
 @protocol MTServiceConnector <NSObject>
 
 @required
++ (UIImage *)serviceIcon;
 - (void)authenticate;
 - (NSString *)serviceType;
 - (void)logout;
 
 @property (nonatomic, readonly) BOOL authenticated;
 @property (nonatomic) BOOL autoPolling;
-@property (nonatomic) float autoPollingInterval;
+@property (nonatomic) NSTimeInterval autoPollingInterval;
 @property (weak, nonatomic) id<MTServiceConnectorDelegate> delegate;
 
 @end

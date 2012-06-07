@@ -163,8 +163,8 @@
     _authenticated = YES;
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:[_facebook accessToken] forKey:@"FBAccessTokenKey"];
-    [defaults setObject:[_facebook expirationDate] forKey:@"FBExpirationDateKey"];
+    [defaults setObject:[_facebook accessToken]     forKey:@"FBAccessTokenKey"];
+    [defaults setObject:[_facebook expirationDate]  forKey:@"FBExpirationDateKey"];
     [defaults synchronize];
     
     [_delegate serviceAuthenticatedSuccessfully:[self serviceType]];
@@ -231,7 +231,12 @@
 
 - (void)requestContentForGraphAPIPath:(NSString *)graphAPIPath
 {
-    [_facebook requestWithGraphPath:graphAPIPath andDelegate:self];
+    FBRequest *request = [_facebook requestWithGraphPath:graphAPIPath andDelegate:self];
+    
+	// TODO: v-- maybe we should add a timeout to this thing later
+	while (request.state < kFBRequestStateComplete && [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:.25]]);
+    
+	request = nil;
 }
 
 - (NSArray *)parseDictionaryContent:(NSDictionary *)dictContent
@@ -245,7 +250,7 @@
     NSDate *timestamp = nil;
     
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-mm-ddHH:mm:ssZZZZ"];
+    [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZZ"];
     
     UIImage *profilePic = nil;
     
@@ -258,17 +263,17 @@
         // TODO: profilePic, i guess we need to fetch the pic for the user id #argh
         
         // Check if FB Content is a Message or a Story (fucking FB clusterfuck)
-        if ([thePost objectForKey:@"message"]) {
-            // Message
-            content = [thePost objectForKey:@"message"];
-        } else {
-            // Story
-            content = [thePost objectForKey:@"story"];
+        if (!(content = [thePost objectForKey:@"message"])) {
+			if (!(content = [thePost objectForKey:@"story"])) {
+				if (!(content = [thePost objectForKey:@"caption"])) {
+					content = [thePost objectForKey:@"description"];
+                }
+            }
         }
         
         newPost = [[MTNewsItem alloc] initWithAuthor:[[thePost objectForKey:@"from"] objectForKey:@"name"]
                                              content:content
-                                         serviceType:[self serviceType] 
+                                  serviceContentType:nil // TODO: find out what we have here
                                       authorRealName:[[thePost objectForKey:@"from"] objectForKey:@"name"]
                                            timestamp:timestamp
                                   authorProfileImage:profilePic
@@ -276,6 +281,7 @@
                                   conversationLength:0 //TODO:
                                           shareCount:0 //TODO:
                                         taggedPeople:nil//TODO:
+                                      repliedToMsgId:nil//TODO:
                    ];
         
         [newPosts addObject:newPost];

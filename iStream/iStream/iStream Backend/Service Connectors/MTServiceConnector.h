@@ -18,9 +18,11 @@
 - (NSString *)serviceType;
 - (void)logout;
 
+// Add methods for account management: get, add, delete (probably with MTUser as argument)
+// Add methods for content management: request (with options based on MTServiceContentType as argument)
+// Maybe re-implement auto polling on service level --> TODO: to be discussed
+
 @property (nonatomic, readonly) BOOL authenticated;
-@property (nonatomic) BOOL autoPolling;
-@property (nonatomic) NSTimeInterval autoPollingInterval;
 @property (weak, nonatomic) id<MTServiceConnectorDelegate> delegate;
 
 @end

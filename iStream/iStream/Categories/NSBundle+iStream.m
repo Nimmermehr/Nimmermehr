@@ -16,7 +16,13 @@
     UIImage *serviceIcon = nil;
     
     if ([serviceType isEqualToString:MTServiceTypeTwitter]) {
-        serviceIcon = [NSBundle getImage:@"twitterImg_32x32" withExtension:@"png"];
+        serviceIcon = [NSBundle getImage:@"twitterImg32x32" withExtension:@"png"];
+    } else if ([serviceType isEqualToString:MTServiceTypeFacebook]) {
+        serviceIcon = [NSBundle getImage:@"facebookImg32x32" withExtension:@"png"];
+    } else if ([serviceType isEqualToString:MTServiceTypeGooglePlus]) {
+        serviceIcon = [NSBundle getImage:@"g+Img32x32" withExtension:@"png"];
+    } else if ([serviceType isEqualToString:MTServiceTypeFoursquare]) {
+        serviceIcon = [NSBundle getImage:@"4sqImg32x32" withExtension:@"png"];
     }
     
     return serviceIcon;

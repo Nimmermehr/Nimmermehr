@@ -12,7 +12,7 @@
 // Encapsulates all relevant data of the service
 // Add location, coords, creationdate, whatever else we need
 
-@interface MTNewsItem : NSObject {
+@interface MTNewsItem : NSObject <NSCopying>{
     
     // Template for User Posts
     MTNewsItem              *_template; // NSUserDefaults
@@ -31,17 +31,17 @@
 @property (strong, nonatomic, readonly) NSString                *repliedToMsgId;
 @property (nonatomic)                   BOOL                    unread;
 
-- (id)initWithAuthor:(NSString *)author 
-             content:(NSString *)content 
-  serviceContentType:(MTServiceContentType *)serviceContentType
-      authorRealName:(NSString *)authorRealName
-           timestamp:(NSDate *)timestamp
-  authorProfileImage:(UIImage *)authorProfileImage
-adherentConversation:(NSArray *)adherentConversation
-  conversationLength:(NSUInteger)conversationLength
-          shareCount:(NSUInteger)shareCount
-        taggedPeople:(NSArray *)taggedPeople
-      repliedToMsgId:(NSString *)repliedToMsgId;
+- (id)initWithAuthor:(NSString *)theAuthor 
+             content:(NSString *)theContent 
+  serviceContentType:(MTServiceContentType *)theServiceContentType
+      authorRealName:(NSString *)theAuthorRealName
+           timestamp:(NSDate *)theTimestamp
+  authorProfileImage:(UIImage *)theAuthorProfileImage
+adherentConversation:(NSArray *)theAdherentConversation
+  conversationLength:(NSUInteger)theConversationLength
+          shareCount:(NSUInteger)theShareCount
+        taggedPeople:(NSArray *)theTaggedPeople
+      repliedToMsgId:(NSString *)theRepliedToMsgId;
 
 // When the User Posts a new message, we keep a Template with some of his data cached
 // for convenience use by the frontend :)
@@ -51,5 +51,9 @@ adherentConversation:(NSArray *)adherentConversation
 
 - (NSString *)description;
 // TODO: isEqual + hashCode + copy (implement NSCopying)
+
+- (id)copyWithZone:(NSZone *)zone;
+
+- (NSComparisonResult)compare:(MTNewsItem *)other;
 
 @end

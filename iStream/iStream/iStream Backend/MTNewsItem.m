@@ -19,7 +19,8 @@
 @property (strong, nonatomic, readwrite)	NSArray     			*adherentConversation;
 @property (nonatomic, readwrite)			NSUInteger  			conversationLength;
 @property (nonatomic, readwrite)			NSUInteger  			shareCount;			
-@property (strong, nonatomic, readwrite)	NSArray     			*taggedPeople;		
+@property (strong, nonatomic, readwrite)	NSArray     			*taggedPeople;	
+@property (strong, nonatomic, readwrite)    NSString                *repliedToMsgId;
 @end
 
 
@@ -34,7 +35,8 @@
 ,conversationLength
 ,shareCount
 ,taggedPeople
-,unread;
+,unread
+,repliedToMsgId;
 
 #pragma mark Initialization / Deallocation
 
@@ -47,7 +49,8 @@
 adherentConversation:(NSArray *)theAdherentConversation
   conversationLength:(NSUInteger)theConversationLength
           shareCount:(NSUInteger)theShareCount
-        taggedPeople:(NSArray *)theTaggedPeople {
+        taggedPeople:(NSArray *)theTaggedPeople
+      repliedToMsgId:(NSString *)theRepliedToMsgId{
     
     if ((self = [super init])) {
         self.author					= theAuthor;
@@ -60,6 +63,7 @@ adherentConversation:(NSArray *)theAdherentConversation
         self.conversationLength		= theConversationLength;
         self.shareCount				= theShareCount;
         self.taggedPeople			= theTaggedPeople;
+        self.repliedToMsgId         = theRepliedToMsgId;
         self.unread					= YES;
     }
     
@@ -69,6 +73,7 @@ adherentConversation:(NSArray *)theAdherentConversation
 - (id)initUserPostTemplateWithContent:(NSString *)theContent serviceContentType:(MTServiceContentType *)theServiceContentType {
     // TODO: Improve
     // TODO: What about Cross-Share among more services?
+    // TODO: Support more than 1 account per service for sharing
     return [self initWithAuthor:[_template author]
                         content:theContent 
                 serviceContentType:theServiceContentType 
@@ -78,7 +83,9 @@ adherentConversation:(NSArray *)theAdherentConversation
            adherentConversation:nil 
              conversationLength:0 
                      shareCount:0 
-                   taggedPeople:nil ];
+                   taggedPeople:nil
+                 repliedToMsgId:nil
+            ];
 }
 
 #pragma mark Superclass overrides
@@ -97,6 +104,19 @@ adherentConversation:(NSArray *)theAdherentConversation
 	}
     
 	return equality;
+}
+
+- (NSComparisonResult)compare:(MTNewsItem *)other
+{
+    // So far only comparing the timestamps, do we need more?
+    return [[self timestamp] compare:[other timestamp]];
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    // We only need a shallow copy, as all members are either readonly or primitive
+    // TODO: Check twice if we really only need a shallow copy (I'm thinking Twitter & adherentConversations)
+    return [super copy];
 }
 
 #pragma mark Debug methods

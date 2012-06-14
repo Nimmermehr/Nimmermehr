@@ -39,15 +39,12 @@ static __strong UIImage *_serviceIcon;
 
 - (NSArray *)parseRecipients:(NSString *)content;
 
-- (void)collectConversationForTweet:(MTNewsItem *)initialTweet withCompletionHandler:(void(^)(NSArray *conversation, MTNewsItem *initialTweet))completionHandler;
 @end
 
 @implementation MTTwitterConnector
 
 @synthesize authenticated       = _authenticated;
 @synthesize delegate            = _delegate;
-@synthesize autoPolling         = _autoPolling;
-@synthesize autoPollingInterval = _autoPollingInterval;
 @synthesize acStore             = _acStore;
 
 

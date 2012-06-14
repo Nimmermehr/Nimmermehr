@@ -18,16 +18,12 @@
     
     BOOL            _authenticated;
     NSArray         *_twitterAccounts;
-    BOOL            _autoPolling;
-    NSTimeInterval  _autoPollingInterval;
 }
 
 // Handle the Polling of checking for new Posts
 
 @property(nonatomic, readonly)  BOOL                            authenticated;
 @property(nonatomic, weak)      id<MTServiceConnectorDelegate>  delegate;
-@property(nonatomic)            BOOL                            autoPolling;
-@property(nonatomic)            NSTimeInterval                  autoPollingInterval;
 @property(nonatomic, strong)	ACAccountStore                  *acStore;
 
 - (void)requestUserTimeline;

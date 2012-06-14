@@ -9,10 +9,13 @@
 #import "MTFacebookConnector.h"
 #import "MTServiceConnectorDelegate.h"
 #import "MTNewsItem.h"
+#import "NSBundle+iStream.h"
 
 #define FacebookUserTimelinePath    @"me/home"
 #define FacebookUserWallPath        @"me/feed"
 #define FacebookUserPostsPath       @"me/posts"
+
+static __strong UIImage *_serviceIcon;
 
 @interface MTFacebookConnector (Private)
 - (void)requestContentForGraphAPIPath:(NSString *)graphAPIPath;
@@ -25,10 +28,17 @@
 @implementation MTFacebookConnector
 
 @synthesize authenticated       = _authenticated;
-@synthesize autoPolling         = _autoPolling;
-@synthesize autoPollingInterval = _autoPollingInterval;
 @synthesize delegate            = _delegate;
 @synthesize facebook            = _facebook;
+
++ (UIImage *)serviceIcon
+{
+    if (!_serviceIcon) {
+        _serviceIcon = [NSBundle getServiceIconForService:MTServiceTypeFacebook];
+    }
+    
+    return _serviceIcon;
+}
 
 - (id)init
 {

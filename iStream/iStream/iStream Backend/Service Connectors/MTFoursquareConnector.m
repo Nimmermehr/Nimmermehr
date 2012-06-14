@@ -12,12 +12,15 @@
 #import "GTMOAuth2ViewControllerTouch.h"
 #import "MTNewsItem.h"
 #import "NSURL+Utils.h"
+#import "NSBundle+iStream.h"
 
 #define FoursquareKeychainItemName  @"Foursquare"
 #define FoursquareUserCheckInsURL   [NSURL URLWithString:@"https://api.foursquare.com/v2/users/self/checkins"]
 #define FoursquareUserDetailsURL    [NSURL URLWithString:@"https://api.foursquare.com/v2/users/self"]
 #define FoursquareAuthURL           [NSURL URLWithString:@"https://foursquare.com/oauth2/authenticate?response_type=token"]
 #define FoursquareAPICheckDate      @"20120508"
+
+static __strong UIImage *_serviceIcon;
 
 @interface MTFoursquareConnector (Private)
 - (void)sendFoursquareRequestWithURL:(NSURL *)theURL;
@@ -28,6 +31,15 @@
 
 @synthesize authenticated   = _authenticated;
 @synthesize delegate        = _delegate;
+
++ (UIImage *)serviceIcon
+{
+    if (!_serviceIcon) {
+        _serviceIcon = [NSBundle getServiceIconForService:MTServiceTypeFoursquare];
+    }
+    
+    return _serviceIcon;
+}
 
 - (id)init
 {

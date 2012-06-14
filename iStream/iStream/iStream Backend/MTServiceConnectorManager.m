@@ -56,19 +56,11 @@ __strong static MTServiceConnectorManager *_sharedInstance = nil;
         _scheduler = nil;
     }
     
-    for (id<MTServiceConnector> service in [_services allValues]) {
-        [service setAutoPolling:autoPolling]; //TODO: evtl. kill autopolling on services itself
-    }
-    
     _autoPolling = autoPolling;
 }
 
 - (void)setAutoPollingInterval:(NSTimeInterval)autoPollingInterval
 {
-    for (id<MTServiceConnector> service in [_services allValues]) {
-        [service setAutoPollingInterval:autoPollingInterval];
-    }
-    
     _autoPollingInterval = autoPollingInterval;
 }
 

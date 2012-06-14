@@ -26,11 +26,19 @@
 		E922F7D81537620C00A5988B /* MTConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = E922F7D71537620C00A5988B /* MTConstants.m */; };
 		E922F7DA153762D800A5988B /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E922F7D9153762D800A5988B /* Twitter.framework */; };
 		E922F7DC153762E200A5988B /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E922F7DB153762E200A5988B /* Accounts.framework */; };
+		E941FDE7158130A2006AB350 /* twitterImg32x32.png in Resources */ = {isa = PBXBuildFile; fileRef = E941FDE6158130A2006AB350 /* twitterImg32x32.png */; };
+		E9482FE615488D5E009D4BAD /* MTFoursquareConnector.m in Sources */ = {isa = PBXBuildFile; fileRef = E9482FE515488D5E009D4BAD /* MTFoursquareConnector.m */; };
+		E9482FEA15488FA0009D4BAD /* NSURL+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = E9482FE915488FA0009D4BAD /* NSURL+Utils.m */; };
+		E9583F49158A6BF200DA4051 /* 4sqImg32x32.png in Resources */ = {isa = PBXBuildFile; fileRef = E9583F46158A6BF200DA4051 /* 4sqImg32x32.png */; };
+		E9583F4A158A6BF200DA4051 /* facebookImg32x32.png in Resources */ = {isa = PBXBuildFile; fileRef = E9583F47158A6BF200DA4051 /* facebookImg32x32.png */; };
+		E9583F4B158A6BF200DA4051 /* g+Img32x32.png in Resources */ = {isa = PBXBuildFile; fileRef = E9583F48158A6BF200DA4051 /* g+Img32x32.png */; };
 		E95891EE1538BB3100E72668 /* MTFacebookConnector.m in Sources */ = {isa = PBXBuildFile; fileRef = E95891ED1538BB3100E72668 /* MTFacebookConnector.m */; };
 		E95892121538BDC700E72668 /* FBDialog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E95892051538BDC700E72668 /* FBDialog.bundle */; };
 		E95892131538BDC700E72668 /* libfacebook_ios_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E958920B1538BDC700E72668 /* libfacebook_ios_sdk.a */; };
 		E95D1BF315420FDB001BA5E3 /* MTGooglePlusConnector.m in Sources */ = {isa = PBXBuildFile; fileRef = E95D1BF215420FDB001BA5E3 /* MTGooglePlusConnector.m */; };
+		E967008B157D39B000881CDB /* MTServiceContentType.m in Sources */ = {isa = PBXBuildFile; fileRef = E967008A157D39B000881CDB /* MTServiceContentType.m */; };
 		E9B406B71539958E00FD0340 /* MTUser.m in Sources */ = {isa = PBXBuildFile; fileRef = E9B406B61539958E00FD0340 /* MTUser.m */; };
+		E9C92BA6155EE36000BEFE3D /* NSBundle+iStream.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C92BA5155EE36000BEFE3D /* NSBundle+iStream.m */; };
 		E9CE31A2152332EE00C3C051 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9CE31A1152332EE00C3C051 /* UIKit.framework */; };
 		E9CE31A4152332EE00C3C051 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9CE31A3152332EE00C3C051 /* Foundation.framework */; };
 		E9CE31A6152332EE00C3C051 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9CE31A5152332EE00C3C051 /* CoreGraphics.framework */; };
@@ -77,6 +85,14 @@
 		E922F7D71537620C00A5988B /* MTConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTConstants.m; sourceTree = "<group>"; };
 		E922F7D9153762D800A5988B /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		E922F7DB153762E200A5988B /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
+		E941FDE6158130A2006AB350 /* twitterImg32x32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = twitterImg32x32.png; path = iStream/Resources/twitterImg32x32.png; sourceTree = "<group>"; };
+		E9482FE415488D5E009D4BAD /* MTFoursquareConnector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTFoursquareConnector.h; sourceTree = "<group>"; };
+		E9482FE515488D5E009D4BAD /* MTFoursquareConnector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTFoursquareConnector.m; sourceTree = "<group>"; };
+		E9482FE815488FA0009D4BAD /* NSURL+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+Utils.h"; sourceTree = "<group>"; };
+		E9482FE915488FA0009D4BAD /* NSURL+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+Utils.m"; sourceTree = "<group>"; };
+		E9583F46158A6BF200DA4051 /* 4sqImg32x32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 4sqImg32x32.png; path = iStream/Resources/4sqImg32x32.png; sourceTree = "<group>"; };
+		E9583F47158A6BF200DA4051 /* facebookImg32x32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = facebookImg32x32.png; path = iStream/Resources/facebookImg32x32.png; sourceTree = "<group>"; };
+		E9583F48158A6BF200DA4051 /* g+Img32x32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "g+Img32x32.png"; path = "iStream/Resources/g+Img32x32.png"; sourceTree = "<group>"; };
 		E95891EC1538BB3100E72668 /* MTFacebookConnector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTFacebookConnector.h; sourceTree = "<group>"; };
 		E95891ED1538BB3100E72668 /* MTFacebookConnector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTFacebookConnector.m; sourceTree = "<group>"; };
 		E95892031538BDC700E72668 /* Facebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Facebook.h; sourceTree = "<group>"; };
@@ -96,8 +112,12 @@
 		E95892111538BDC700E72668 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		E95D1BF115420FDB001BA5E3 /* MTGooglePlusConnector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTGooglePlusConnector.h; sourceTree = "<group>"; };
 		E95D1BF215420FDB001BA5E3 /* MTGooglePlusConnector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTGooglePlusConnector.m; sourceTree = "<group>"; };
+		E9670089157D39B000881CDB /* MTServiceContentType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTServiceContentType.h; sourceTree = "<group>"; };
+		E967008A157D39B000881CDB /* MTServiceContentType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTServiceContentType.m; sourceTree = "<group>"; };
 		E9B406B51539958E00FD0340 /* MTUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTUser.h; sourceTree = "<group>"; };
 		E9B406B61539958E00FD0340 /* MTUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTUser.m; sourceTree = "<group>"; };
+		E9C92BA4155EE36000BEFE3D /* NSBundle+iStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBundle+iStream.h"; sourceTree = "<group>"; };
+		E9C92BA5155EE36000BEFE3D /* NSBundle+iStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+iStream.m"; sourceTree = "<group>"; };
 		E9CE319D152332EE00C3C051 /* iStream.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iStream.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9CE31A1152332EE00C3C051 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E9CE31A3152332EE00C3C051 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -183,6 +203,10 @@
 				E922F7C7153761E700A5988B /* TWRequest+Utils.m */,
 				E9DD4E961537668F0040C9C7 /* UIImage+Utils.h */,
 				E9DD4E971537668F0040C9C7 /* UIImage+Utils.m */,
+				E9482FE815488FA0009D4BAD /* NSURL+Utils.h */,
+				E9482FE915488FA0009D4BAD /* NSURL+Utils.m */,
+				E9C92BA4155EE36000BEFE3D /* NSBundle+iStream.h */,
+				E9C92BA5155EE36000BEFE3D /* NSBundle+iStream.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -193,6 +217,8 @@
 				E922F7CA153761F600A5988B /* MTNewsItem.h */,
 				E922F7CB153761F600A5988B /* MTNewsItem.m */,
 				E922F7CC153761F600A5988B /* MTServiceConnectorDelegate.h */,
+				E9670089157D39B000881CDB /* MTServiceContentType.h */,
+				E967008A157D39B000881CDB /* MTServiceContentType.m */,
 				E922F7CD153761F600A5988B /* MTServiceConnectorManager.h */,
 				E922F7CE153761F600A5988B /* MTServiceConnectorManager.m */,
 				E9B406B51539958E00FD0340 /* MTUser.h */,
@@ -212,6 +238,8 @@
 				E95891ED1538BB3100E72668 /* MTFacebookConnector.m */,
 				E95D1BF115420FDB001BA5E3 /* MTGooglePlusConnector.h */,
 				E95D1BF215420FDB001BA5E3 /* MTGooglePlusConnector.m */,
+				E9482FE415488D5E009D4BAD /* MTFoursquareConnector.h */,
+				E9482FE515488D5E009D4BAD /* MTFoursquareConnector.m */,
 			);
 			path = "Service Connectors";
 			sourceTree = "<group>";
@@ -239,11 +267,23 @@
 			path = "iStream/3rd Party Frameworks/facebook-ios-sdk";
 			sourceTree = "<group>";
 		};
+		E9C92B9D155EE17200BEFE3D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				E9583F46158A6BF200DA4051 /* 4sqImg32x32.png */,
+				E9583F47158A6BF200DA4051 /* facebookImg32x32.png */,
+				E9583F48158A6BF200DA4051 /* g+Img32x32.png */,
+				E941FDE6158130A2006AB350 /* twitterImg32x32.png */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		E9CE3192152332EE00C3C051 = {
 			isa = PBXGroup;
 			children = (
 				E9CE31A7152332EE00C3C051 /* iStream */,
 				E9CE31A0152332EE00C3C051 /* Frameworks */,
+				E9C92B9D155EE17200BEFE3D /* Resources */,
 				E9CE319E152332EE00C3C051 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -374,6 +414,10 @@
 				E9CE31B5152332EE00C3C051 /* MainStoryboard.storyboard in Resources */,
 				E95892121538BDC700E72668 /* FBDialog.bundle in Resources */,
 				E905A3A01542117400EA5218 /* GTMOAuth2ViewTouch.xib in Resources */,
+				E941FDE7158130A2006AB350 /* twitterImg32x32.png in Resources */,
+				E9583F49158A6BF200DA4051 /* 4sqImg32x32.png in Resources */,
+				E9583F4A158A6BF200DA4051 /* facebookImg32x32.png in Resources */,
+				E9583F4B158A6BF200DA4051 /* g+Img32x32.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -404,6 +448,10 @@
 				E905A39D1542117400EA5218 /* GTMOAuth2Authentication.m in Sources */,
 				E905A39E1542117400EA5218 /* GTMOAuth2SignIn.m in Sources */,
 				E905A39F1542117400EA5218 /* GTMOAuth2ViewControllerTouch.m in Sources */,
+				E9482FE615488D5E009D4BAD /* MTFoursquareConnector.m in Sources */,
+				E9482FEA15488FA0009D4BAD /* NSURL+Utils.m in Sources */,
+				E9C92BA6155EE36000BEFE3D /* NSBundle+iStream.m in Sources */,
+				E967008B157D39B000881CDB /* MTServiceContentType.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -19,7 +19,6 @@
     BOOL            _authenticated;
     NSArray         *_twitterAccounts;
 }
-@property(nonatomic)			ACAccountStore *acStore;
 
 // Handle the Polling of checking for new Posts
 

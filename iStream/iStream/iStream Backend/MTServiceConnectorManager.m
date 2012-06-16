@@ -11,6 +11,7 @@
 #import "MTTwitterConnector.h"
 #import "MTFacebookConnector.h"
 #import "MTGooglePlusConnector.h"
+#import "MTFoursquareConnector.h"
 #import "MTNewsItem.h"
 
 @interface MTServiceConnectorManager (Private)
@@ -46,6 +47,23 @@ __strong static MTServiceConnectorManager *_sharedInstance = nil;
     return self;
 }
 
+- (void)setAutoPolling:(BOOL)autoPolling
+{
+    if (autoPolling) {
+        _scheduler = [NSTimer scheduledTimerWithTimeInterval:_autoPollingInterval target:self selector:@selector(pollForContent:) userInfo:nil repeats:YES];
+    } else {
+        [_scheduler invalidate];
+        _scheduler = nil;
+    }
+    
+    _autoPolling = autoPolling;
+}
+
+- (void)setAutoPollingInterval:(NSTimeInterval)autoPollingInterval
+{
+    _autoPollingInterval = autoPollingInterval;
+}
+
 - (void)connectService:(id<MTServiceConnector>)service
 {
     [_services setObject:service forKey:[service serviceType]];
@@ -73,6 +91,13 @@ __strong static MTServiceConnectorManager *_sharedInstance = nil;
         
         
         [self connectService:googlePlus];
+        
+    } else if ([serviceType isEqualToString:MTServiceTypeFoursquare]) {
+        
+        id<MTServiceConnector> foursquare = [[MTFoursquareConnector alloc] init];
+        
+        [self connectService:foursquare];
+        
     }
 }
 
@@ -84,6 +109,8 @@ __strong static MTServiceConnectorManager *_sharedInstance = nil;
         [[_services objectForKey:MTServiceTypeFacebook] authenticate];
     } else if ([serviceType isEqualToString:MTServiceTypeGooglePlus]) {
         [[_services objectForKey:MTServiceTypeGooglePlus] authenticate];
+    } else if ([serviceType isEqualToString:MTServiceTypeFoursquare]) {
+        [[_services objectForKey:MTServiceTypeFoursquare] authenticate];
     }
 }
 
@@ -114,6 +141,49 @@ __strong static MTServiceConnectorManager *_sharedInstance = nil;
     return [_services objectForKey:serviceType] != nil;
 }
 
+- (NSArray *)getAuthenticatedServices
+{
+    NSMutableArray *authenticatedServices = [NSMutableArray array];
+    
+    for (id<MTServiceConnector> service in [_services allValues]) {
+        if ([service authenticated]) {
+            [authenticatedServices addObject:service];
+        }
+    }
+    
+    return (NSArray *)authenticatedServices;
+}
+
+- (NSArray *)getAvailableServiceContentTypesForService:(NSString *)serviceType
+{
+    NSArray *availableContentTypes = nil;
+    
+    if ([serviceType isEqualToString:MTServiceTypeTwitter]) {
+        
+        availableContentTypes = [NSArray arrayWithObjects:
+                                 MTServiceContentTypeUserTimeline,
+                                 MTServiceContentTypeUserWall,    
+                                 MTServiceContentTypeUserPosts,
+                                 MTServiceContentTypeUserMessages,
+                                 nil
+                                 ];
+        
+    } else if ([serviceType isEqualToString:MTServiceTypeFacebook]) {
+        
+        availableContentTypes = [NSArray arrayWithObjects:
+                                 MTServiceContentTypeUserTimeline,
+                                 MTServiceContentTypeUserWall,
+                                 MTServiceContentTypeUserPosts,   
+                                 MTServiceContentTypeUserMessages,
+                                 nil
+                                 ];
+        
+    }
+    
+    return availableContentTypes;
+}
+
+// TODO: rebuild interface to make use of MTServiceContentType
 - (void)requestContentForAllConnectedServices
 {
     if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeTwitter]) {
@@ -133,6 +203,7 @@ __strong static MTServiceConnectorManager *_sharedInstance = nil;
 		DLog(@"%@.%@ - failed -checkServiceConnectedAndAuthenticated:MTServiceTypeFacebook!", NSStringFromClass(self.class),NSStringFromSelector(_cmd));
 	}
     
+    
     if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeGooglePlus]) {
         [self requestGooglePlusUserTimeline];
         [self requestGooglePlusUserWall];
@@ -140,6 +211,10 @@ __strong static MTServiceConnectorManager *_sharedInstance = nil;
     } else {
 		DLog(@"%@.%@ - failed -checkServiceConnectedAndAuthenticated:MTServiceTypeGooglePlus!", NSStringFromClass(self.class),NSStringFromSelector(_cmd));
 	}
+    
+    if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeFoursquare]) {
+        
+    }
 }
 
 - (void)requestContentForService:(NSString *)serviceType
@@ -157,7 +232,31 @@ __strong static MTServiceConnectorManager *_sharedInstance = nil;
         [self requestGooglePlusUserTimeline];
         [self requestGooglePlusUserWall];
         [self requestGooglePlusUserPosts];
+    } else if ([serviceType isEqualToString:MTServiceTypeFoursquare]) {
+        
     }
+}
+
+- (UIImage *)iconForServiceType:(NSString *)serviceType
+{
+    UIImage *serviceIcon = nil;
+    
+    if ([serviceType isEqualToString:MTServiceTypeTwitter]) {
+        serviceIcon = [MTTwitterConnector serviceIcon];
+    } else if ([serviceType isEqualToString:MTServiceTypeFacebook]) {
+        serviceIcon = [MTFacebookConnector serviceIcon];
+    } else if ([serviceType isEqualToString:MTServiceTypeGooglePlus]) {
+        serviceIcon = [MTGooglePlusConnector serviceIcon];
+    } else if ([serviceType isEqualToString:MTServiceTypeFoursquare]) {
+        serviceIcon = [MTFoursquareConnector serviceIcon];
+    }
+    
+    return serviceIcon;
+}
+
+- (void)pollForContent:(NSTimer *)theTimer
+{ // Experimental...atm at your own risk (not really tested)
+    [self requestContentForAllConnectedServices]; 
 }
 
 #pragma mark Facebook specific Service Implementation
@@ -240,7 +339,7 @@ __strong static MTServiceConnectorManager *_sharedInstance = nil;
 {
     if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeTwitter]) {
         [[_services objectForKey:MTServiceTypeTwitter] requestUserPosts];
-    } else {
+    }  else {
 		DLog(@"%@.%@ - failed -checkServiceConnectedAndAuthenticated:!", NSStringFromClass(self.class),NSStringFromSelector(_cmd));
 	}
 }
@@ -249,7 +348,7 @@ __strong static MTServiceConnectorManager *_sharedInstance = nil;
 {
     if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeTwitter]) {
         [[_services objectForKey:MTServiceTypeTwitter] logout];
-    } else {
+    }  else {
 		DLog(@"%@.%@ - failed -checkServiceConnectedAndAuthenticated:!", NSStringFromClass(self.class),NSStringFromSelector(_cmd));
 	}
 }
@@ -259,7 +358,7 @@ __strong static MTServiceConnectorManager *_sharedInstance = nil;
 {
     if ([self checkServiceConnectedAndAuthenticated:MTServiceTypeGooglePlus]) {
         [[_services objectForKey:MTServiceTypeGooglePlus] requestUserTimeline];
-    } else {
+    }  else {
 		DLog(@"%@.%@ - failed -checkServiceConnectedAndAuthenticated:!", NSStringFromClass(self.class),NSStringFromSelector(_cmd));
 	}
 }
@@ -291,6 +390,12 @@ __strong static MTServiceConnectorManager *_sharedInstance = nil;
 	}
 }
 
+#pragma mark Foursquare specific Service Implementation
+- (void)requestFoursquareCheckIns
+{
+    [[_services objectForKey:MTServiceTypeFoursquare] requestCheckIns];
+}
+
 #pragma mark MTServiceConnectorDelegate Implementation
 - (void)serviceAuthenticatedSuccessfully:(NSString *)serviceType
 {
@@ -309,6 +414,12 @@ __strong static MTServiceConnectorManager *_sharedInstance = nil;
     } else if ([serviceType isEqualToString:MTServiceTypeGooglePlus]) {
         
         [[NSNotificationCenter defaultCenter] postNotificationName:MTGooglePlusAuthenticationSucceeded object:self];
+        
+        _authenticatedServices++;
+        
+    } else if ([serviceType isEqualToString:MTServiceTypeFoursquare]) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:MTFoursquareAuthenticationSucceeded object:self];
         
         _authenticatedServices++;
     }
@@ -336,6 +447,10 @@ __strong static MTServiceConnectorManager *_sharedInstance = nil;
         
         [[NSNotificationCenter defaultCenter] postNotificationName:MTGooglePlusAuthenticationFailed object:self userInfo:errDict];
         
+    } else if ([serviceType isEqualToString:MTServiceTypeFoursquare]) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:MTFoursquareAuthenticationFailed object:self userInfo:errDict];
+        
     }
 }
 
@@ -352,6 +467,10 @@ __strong static MTServiceConnectorManager *_sharedInstance = nil;
     } else if ([serviceType isEqualToString:MTServiceTypeGooglePlus]) {
         
         [[NSNotificationCenter defaultCenter] postNotificationName:MTGooglePlusAccessNotGranted object:self];
+        
+    } else if ([serviceType isEqualToString:MTServiceTypeFoursquare]) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:MTFoursquareAccessNotGranted object:self];
         
     }
 }
@@ -370,6 +489,10 @@ __strong static MTServiceConnectorManager *_sharedInstance = nil;
         
         [[NSNotificationCenter defaultCenter] postNotificationName:MTGooglePlusConnectionInterrupted object:self userInfo:errDict];
         
+    } else if ([serviceType isEqualToString:MTServiceTypeFoursquare]) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:MTFoursquareConnectionInterrupted object:self userInfo:errDict];
+        
     }
 }
 
@@ -386,6 +509,10 @@ __strong static MTServiceConnectorManager *_sharedInstance = nil;
     } else if ([serviceType isEqualToString:MTServiceTypeGooglePlus]) {
         
         [[NSNotificationCenter defaultCenter] postNotificationName:MTGooglePlusConnectionReEstablished object:self];
+        
+    } else if ([serviceType isEqualToString:MTServiceTypeFoursquare]) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:MTFoursquareConnectionReEstablished object:self];
         
     }
 }
@@ -405,6 +532,11 @@ __strong static MTServiceConnectorManager *_sharedInstance = nil;
     } else if ([[theContent objectForKey:MTServiceTypeKey] isEqualToString:MTServiceTypeGooglePlus]) {
         
         [[NSNotificationCenter defaultCenter] postNotificationName:MTGooglePlusNewsItemsReceived object:self userInfo:theContent];
+        
+    } else if ([[theContent objectForKey:MTServiceTypeKey] isEqualToString:MTServiceTypeFoursquare]) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:MTFoursquareNewsItemsReceived object:self userInfo:theContent];
+        
     }
 }
 
@@ -412,7 +544,7 @@ __strong static MTServiceConnectorManager *_sharedInstance = nil;
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:MTServiceNewsItemsRequestFailed object:self userInfo:errDict];
     
-    if ([[errDict objectForKey:MTServiceTypeKey] isEqualToString:MTServiceTypeTwitter]) {
+    if ([[errDict objectForKey:MTServiceTypeKey] isEqualToString:MTServiceTypeKey]) {
         
         [[NSNotificationCenter defaultCenter] postNotificationName:MTTwitterNewsItemsRequestFailed object:self userInfo:errDict];
         
@@ -423,6 +555,10 @@ __strong static MTServiceConnectorManager *_sharedInstance = nil;
     } else if ([[errDict objectForKey:MTServiceTypeKey] isEqualToString:MTServiceTypeGooglePlus]) {
         
         [[NSNotificationCenter defaultCenter] postNotificationName:MTGooglePlusNewsItemsRequestFailed object:self userInfo:errDict];
+        
+    } else if ([[errDict objectForKey:MTServiceTypeKey] isEqualToString:MTServiceTypeFoursquare]) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:MTFoursquareNewsItemsRequestFailed object:self userInfo:errDict];
         
     }
 }
@@ -440,6 +576,10 @@ __strong static MTServiceConnectorManager *_sharedInstance = nil;
     } else if ([serviceType isEqualToString:MTServiceTypeGooglePlus]) {
         
         [[NSNotificationCenter defaultCenter] postNotificationName:MTGooglePlusLogoutCompleted object:self];
+        
+    } else if ([serviceType isEqualToString:MTServiceTypeFoursquare]) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:MTFoursquareLogoutCompleted object:self];
         
     }
 }
@@ -465,6 +605,9 @@ __strong static MTServiceConnectorManager *_sharedInstance = nil;
         
         [[NSNotificationCenter defaultCenter] postNotificationName:MTGooglePlusOAuth2DialogNeedsDisplay object:self userInfo:[NSDictionary dictionaryWithObject:theDialog forKey:MTServiceOAuth2UserDialog]];
         
+    } else if ([serviceType isEqualToString:MTServiceTypeFoursquare]) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:MTFoursquareOAuth2DialogNeedsDisplay object:self userInfo:[NSDictionary dictionaryWithObject:theDialog forKey:MTServiceOAuth2UserDialog]];
     }
 }
 
@@ -474,6 +617,9 @@ __strong static MTServiceConnectorManager *_sharedInstance = nil;
         
         [[NSNotificationCenter defaultCenter] postNotificationName:MTGooglePlusOAuth2DialogNeedsDismissal object:self];
         
+    } else if ([serviceType isEqualToString:MTServiceTypeFoursquare]) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:MTFoursquareOAuth2DialogNeedsDismissal object:self];
     }
 }
 
@@ -492,6 +638,9 @@ __strong static MTServiceConnectorManager *_sharedInstance = nil;
     } else if ([serviceType isEqualToString:MTServiceTypeGooglePlus]) {
         
         [[NSNotificationCenter defaultCenter] postNotificationName:MTGooglePlusDidStartLoading object:self];
+        
+    } else if ([serviceType isEqualToString:MTServiceTypeFoursquare]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:MTFoursquareDidStartLoading object:self];
     }
 }
 
@@ -503,6 +652,8 @@ __strong static MTServiceConnectorManager *_sharedInstance = nil;
 {
     _services = [[NSMutableDictionary alloc] init];
     _authenticatedServices = 0;
+    
+    _autoPollingInterval = 30;
     
     // Check DB/Prefs File for connected services and add them
 }
@@ -546,6 +697,19 @@ __strong static MTServiceConnectorManager *_sharedInstance = nil;
         } else {
             [[NSNotificationCenter defaultCenter] postNotificationName:MTGooglePlusServiceNotConnected object:self];
         }
+        
+    } else if ([serviceType isEqualToString:MTServiceTypeFoursquare]) {
+        
+        if ([_services objectForKey:MTServiceTypeFoursquare]) {
+            if ([[_services objectForKey:MTServiceTypeFoursquare] authenticated]) {
+                connectedAndAuthenticated = YES;
+            } else {
+                [[NSNotificationCenter defaultCenter] postNotificationName:MTFoursquareNotAuthenticated object:self];
+            }
+        } else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:MTFoursquareServiceNotConnected object:self];
+        }
+        
     }
     
     return connectedAndAuthenticated;

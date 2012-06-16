@@ -10,49 +10,52 @@
 
 
 @interface MTNewsItem ()
-@property (strong, nonatomic, readwrite)	NSString    *author;
-@property (strong, nonatomic, readwrite)	NSString    *content;
-@property (strong, nonatomic, readwrite)	NSString    *serviceType;
-@property (strong, nonatomic, readwrite)	NSString    *authorRealName;
-@property (strong, nonatomic, readwrite)	NSDate      *timestamp;
-@property (strong, nonatomic, readwrite)	UIImage     *authorProfileImage;
-@property (strong, nonatomic, readwrite)	NSArray     *adherentConversation;
-@property (nonatomic, readwrite)			NSUInteger  conversationLength;
-@property (nonatomic, readwrite)			NSUInteger  shareCount;			
-@property (strong, nonatomic, readwrite)	NSArray     *taggedPeople;		
+@property (strong, nonatomic, readwrite)	NSString    			*author;
+@property (strong, nonatomic, readwrite)	NSString    			*content;
+@property (strong, nonatomic, readwrite)	MTServiceContentType	*serviceContentType;
+@property (strong, nonatomic, readwrite)	NSString   				*authorRealName;
+@property (strong, nonatomic, readwrite)	NSDate      			*timestamp;
+@property (strong, nonatomic, readwrite)	UIImage     			*authorProfileImage;
+@property (strong, nonatomic, readwrite)	NSArray     			*adherentConversation;
+@property (nonatomic, readwrite)			NSUInteger  			conversationLength;
+@property (nonatomic, readwrite)			NSUInteger  			shareCount;			
+@property (strong, nonatomic, readwrite)	NSArray     			*taggedPeople;	
+@property (strong, nonatomic, readwrite)    NSString                *repliedToMsgId;
 @end
 
 
 @implementation MTNewsItem
 @synthesize  author
-			,content
-			,serviceType
-			,authorRealName
-			,timestamp
-			,authorProfileImage
-			,adherentConversation
-			,conversationLength
-			,shareCount
-			,taggedPeople
-			,unread;
+,content
+,serviceContentType
+,authorRealName
+,timestamp
+,authorProfileImage
+,adherentConversation
+,conversationLength
+,shareCount
+,taggedPeople
+,unread
+,repliedToMsgId;
 
 #pragma mark Initialization / Deallocation
 
 - (id)initWithAuthor:(NSString *)theAuthor 
              content:(NSString *)theContent 
-         serviceType:(NSString *)theServiceType 
+  serviceContentType:(MTServiceContentType *)theServiceContentType 
       authorRealName:(NSString *)theAuthorRealName
            timestamp:(NSDate *)theTimestamp
   authorProfileImage:(UIImage *)theAuthorProfileImage
 adherentConversation:(NSArray *)theAdherentConversation
   conversationLength:(NSUInteger)theConversationLength
           shareCount:(NSUInteger)theShareCount
-        taggedPeople:(NSArray *)theTaggedPeople {
-	
+        taggedPeople:(NSArray *)theTaggedPeople
+      repliedToMsgId:(NSString *)theRepliedToMsgId{
+    
     if ((self = [super init])) {
         self.author					= theAuthor;
         self.content				= theContent;
-        self.serviceType			= theServiceType;
+        self.serviceContentType		= theServiceContentType;
         self.authorRealName			= theAuthorRealName;
         self.timestamp				= theTimestamp;
         self.authorProfileImage		= theAuthorProfileImage;
@@ -60,25 +63,29 @@ adherentConversation:(NSArray *)theAdherentConversation
         self.conversationLength		= theConversationLength;
         self.shareCount				= theShareCount;
         self.taggedPeople			= theTaggedPeople;
+        self.repliedToMsgId         = theRepliedToMsgId;
         self.unread					= YES;
     }
     
     return self;
 }
 
-- (id)initUserPostTemplateWithContent:(NSString *)theContent serviceType:(NSString *)theServiceType {
+- (id)initUserPostTemplateWithContent:(NSString *)theContent serviceContentType:(MTServiceContentType *)theServiceContentType {
     // TODO: Improve
     // TODO: What about Cross-Share among more services?
+    // TODO: Support more than 1 account per service for sharing
     return [self initWithAuthor:[_template author]
                         content:theContent 
-                    serviceType:theServiceType 
+             serviceContentType:theServiceContentType 
                  authorRealName:[_template authorRealName] 
                       timestamp:nil 
              authorProfileImage:[_template authorProfileImage] 
            adherentConversation:nil 
              conversationLength:0 
                      shareCount:0 
-                   taggedPeople:nil ];
+                   taggedPeople:nil
+                 repliedToMsgId:nil
+            ];
 }
 
 #pragma mark Superclass overrides
@@ -86,26 +93,39 @@ adherentConversation:(NSArray *)theAdherentConversation
 // TODO: v-- improve this, it's quick and dirty and will only work for NSArrays
 - (BOOL)isEqual:(id)object {
 	BOOL equality = NO;
-	
+    
 	if ([object isKindOfClass:self.class]) {
 		MTNewsItem *otherItem = (MTNewsItem *)object;
-		
-		if (   [self.serviceType		isEqual:otherItem.serviceType]
+        
+		if (   [self.serviceContentType	isEqual:otherItem.serviceContentType]
 			&& [self.content			isEqual:otherItem.content]
 			&& [self.author				isEqual:otherItem.author]	)
 			equality = YES;
 	}
-	
+    
 	return equality;
+}
+
+- (NSComparisonResult)compare:(MTNewsItem *)other
+{
+    // So far only comparing the timestamps, do we need more?
+    return [[self timestamp] compare:[other timestamp]];
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    // We only need a shallow copy, as all members are either readonly or primitive
+    // TODO: Check twice if we really only need a shallow copy (I'm thinking Twitter & adherentConversations)
+    return [super copy];
 }
 
 #pragma mark Debug methods
 
 - (NSString *)description {
 	NSMutableString *desc = [NSMutableString string];
-	
+    
 	[desc appendFormat:@"%@:\n",NSStringFromClass(self.class)];
-	[desc appendFormat:@" serviceType          [%@]\n",self.serviceType];
+	[desc appendFormat:@" serviceContentType   [%@]\n",self.serviceContentType];
 	[desc appendFormat:@" author               [%@]\n",self.author];
 	[desc appendFormat:@" authorRealName       [%@]\n",self.authorRealName];
 	[desc appendFormat:@" content              [%@]\n",self.content];
@@ -115,7 +135,7 @@ adherentConversation:(NSArray *)theAdherentConversation
 	[desc appendFormat:@" shareCount           [%ld]\n",self.shareCount];
 	[desc appendFormat:@" taggedPeople         [%@]\n",self.taggedPeople];
 	[desc appendFormat:@" unread               [%@]\n",BoolString(self.unread)];
-	
+    
     return (NSString *)desc;
 }
 

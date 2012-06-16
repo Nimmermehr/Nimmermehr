@@ -128,26 +128,26 @@ static __strong UIImage *_serviceIcon;
     [theReq setHTTPMethod:@"GET"];
     
     [_authToken authorizeRequest:theReq
-         completionHandler:^(NSError *error) {
-             if (!error) {
-                 // the request has been authorized
-                 
-                 NSURLResponse *response = nil;
-                 NSError *terror = nil;
-                 // The G+ API is so horribly beta, its completely useless
-                 // TODO: put in a block
-                 NSData *theData = [NSURLConnection sendSynchronousRequest:theReq returningResponse:&response error:&terror];
-                 
-                 NSString *theString = [[NSString alloc] initWithData:theData encoding:NSUTF8StringEncoding];
-                 
-                 NSLog(@"SOME STRING: %@", theString);
-                 
-                 NSLog(@"SHIT=[%@] MORE SHIT=[%@] EVEN MORE SHIT=[%@]", [_authToken properties], [_authToken userData], [_authToken parameters]);
-                                  
-             } else {
-                 [_delegate contentRequestFailed:[NSDictionary dictionaryWithObject:error forKey:MTServiceContentRequestFailedErrorKey]];
-             }
-         }];
+               completionHandler:^(NSError *error) {
+                   if (!error) {
+                       // the request has been authorized
+                       
+                       NSURLResponse *response = nil;
+                       NSError *terror = nil;
+                       // The G+ API is so horribly beta, its completely useless
+                       // TODO: put in a block
+                       NSData *theData = [NSURLConnection sendSynchronousRequest:theReq returningResponse:&response error:&terror];
+                       
+                       NSString *theString = [[NSString alloc] initWithData:theData encoding:NSUTF8StringEncoding];
+                       
+                       NSLog(@"SOME STRING: %@", theString);
+                       
+                       NSLog(@"SHIT=[%@] MORE SHIT=[%@] EVEN MORE SHIT=[%@]", [_authToken properties], [_authToken userData], [_authToken parameters]);
+                       
+                   } else {
+                       [_delegate contentRequestFailed:[NSDictionary dictionaryWithObject:error forKey:MTServiceContentRequestFailedErrorKey]];
+                   }
+               }];
 }
 
 @end

@@ -14,15 +14,11 @@
 
 @interface MTFacebookConnector : NSObject <MTServiceConnector, FBSessionDelegate, FBRequestDelegate> {
     
-    BOOL        _authenticated;
-    BOOL        _autoPolling;
-    float       _autoPollingInterval;
-    Facebook    *_facebook;
+    BOOL            _authenticated;
+    Facebook        *_facebook;
 }
 
 @property (nonatomic, readonly) BOOL                            authenticated;
-@property (nonatomic)           BOOL                            autoPolling;
-@property (nonatomic)           float                           autoPollingInterval;
 @property (weak, nonatomic)     id<MTServiceConnectorDelegate>  delegate;
 @property (strong, nonatomic)   Facebook                        *facebook;
 

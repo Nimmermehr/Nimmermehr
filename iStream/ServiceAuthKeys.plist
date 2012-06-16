@@ -32,9 +32,9 @@
 	<key>flickr</key>
 	<dict>
 		<key>consumer-key</key>
-		<string>dj0yJmk9c0d3YVV4bUxRd2ZyJmQ9WVdrOU0zSnFORkZwTjJVbWNHbzlORGM0TURVek5qWXkmcz1jb25zdW1lcnNlY3JldCZ4PTYz</string>
+		<string>70cba07d3a3b41ea79469a85b4c14cbc</string>
 		<key>consumer-secret</key>
-		<string>48fc0958b5f0d78c1452f4cd4e8026e8399657ec</string>
+		<string>9df348b45325cc79</string>
 	</dict>
 	<key>readitlater</key>
 	<dict>
@@ -117,6 +117,17 @@
 		<string>83d239da6c4a4035b4f8afc3b99768c0</string>
 		<key>client-secret</key>
 		<string>4d89b93ae0cb40408e9259dd8268f68b</string>
+	</dict>
+	<key>yelp</key>
+	<dict>
+		<key>consumer-key</key>
+		<string>ChwMu2IxdOcVfSeIExiQmA</string>
+		<key>consumer-secret</key>
+		<string>-3EU9__UlSpVKCzRQJI_BqrIWaA</string>
+		<key>token</key>
+		<string>4qlej6U4sixr-h4Jtkla93O_omHwympB</string>
+		<key>token-secret</key>
+		<string></string>
 	</dict>
 </dict>
 </plist>

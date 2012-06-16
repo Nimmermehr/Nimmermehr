@@ -12,13 +12,12 @@
 #import "MTServiceConnector.h"
 
 @protocol MTServiceConnectorDelegate;
+@class MTNewsItem;
 
 @interface MTTwitterConnector : NSObject <MTServiceConnector> {
     
-    BOOL    _authenticated;
-    NSArray *_twitterAccounts;
-    BOOL    _autoPolling;
-    float   _autoPollingInterval;
+    BOOL            _authenticated;
+    NSArray         *_twitterAccounts;
 }
 @property(nonatomic)			ACAccountStore *acStore;
 
@@ -26,14 +25,15 @@
 
 @property(nonatomic, readonly)  BOOL                            authenticated;
 @property(nonatomic, weak)      id<MTServiceConnectorDelegate>  delegate;
-@property(nonatomic)            BOOL                            autoPolling;
-@property(nonatomic)            float                           autoPollingInterval;
+@property(nonatomic, strong)	ACAccountStore                  *acStore;
 
 - (void)requestUserTimeline;
 - (void)requestPublicTimeline;
 - (void)requestReplyMessages;
 - (void)requestDirectMessages;
 - (void)requestUserPosts;
+
+- (void)requestConversationForTweet:(MTNewsItem *)initialTweet withCompletionHandler:(void(^)(NSArray *conversation, MTNewsItem *initialTweet))completionHandler;
 
 - (void)authenticate;
 

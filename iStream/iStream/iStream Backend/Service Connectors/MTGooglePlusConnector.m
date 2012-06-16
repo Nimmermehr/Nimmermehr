@@ -8,11 +8,15 @@
 
 #import "MTGooglePlusConnector.h"
 #import "GTMOAuth2ViewControllerTouch.h"
+#import "GTMHTTPFetcher.h"
+#import "NSBundle+iStream.h"
 #import "MTServiceConnectorDelegate.h"
 
 #define GooglePlusKeychainItemName      @"Google+ OAuth2"
 #define GooglePlusAPIUserTimelineURL    [NSURL URLWithString:@""]
 #define GooglePlusAPIUserPostsURL       [NSURL URLWithString:@"https://www.googleapis.com/plus/v1/people/me/activities/public"]
+
+static __strong UIImage *_serviceIcon;
 
 @interface MTGooglePlusConnector (Private)
 - (void)sendGooglePlusRequestWithURL:(NSURL *)reqURL;
@@ -21,9 +25,16 @@
 @implementation MTGooglePlusConnector
 
 @synthesize authenticated       = _authenticated;
-@synthesize autoPolling         = _autoPolling;
-@synthesize autoPollingInterval = _autoPollingInterval;
 @synthesize delegate            = _delegate;
+
++ (UIImage *)serviceIcon
+{
+    if (!_serviceIcon) {
+        _serviceIcon = [NSBundle getServiceIconForService:MTServiceTypeGooglePlus];
+    }
+    
+    return _serviceIcon;
+}
 
 - (id)init
 {
@@ -112,10 +123,29 @@
     // TODO: Create NSMutableURLRequest with URL & some Params
     // https://developers.google.com/+/api/
     
-    [_authToken authorizeRequest:nil
+    NSMutableURLRequest *theReq = [NSMutableURLRequest requestWithURL:reqURL];
+    
+    [theReq setHTTPMethod:@"GET"];
+    
+    [_authToken authorizeRequest:theReq
          completionHandler:^(NSError *error) {
-             if (error == nil) {
+             if (!error) {
                  // the request has been authorized
+                 
+                 NSURLResponse *response = nil;
+                 NSError *terror = nil;
+                 // The G+ API is so horribly beta, its completely useless
+                 // TODO: put in a block
+                 NSData *theData = [NSURLConnection sendSynchronousRequest:theReq returningResponse:&response error:&terror];
+                 
+                 NSString *theString = [[NSString alloc] initWithData:theData encoding:NSUTF8StringEncoding];
+                 
+                 NSLog(@"SOME STRING: %@", theString);
+                 
+                 NSLog(@"SHIT=[%@] MORE SHIT=[%@] EVEN MORE SHIT=[%@]", [_authToken properties], [_authToken userData], [_authToken parameters]);
+                                  
+             } else {
+                 [_delegate contentRequestFailed:[NSDictionary dictionaryWithObject:error forKey:MTServiceContentRequestFailedErrorKey]];
              }
          }];
 }

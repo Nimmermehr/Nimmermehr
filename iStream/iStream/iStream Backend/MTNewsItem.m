@@ -21,6 +21,7 @@
 @property (nonatomic, readwrite)			NSUInteger  			shareCount;			
 @property (strong, nonatomic, readwrite)	NSArray     			*taggedPeople;	
 @property (strong, nonatomic, readwrite)    NSString                *repliedToMsgId;
+@property (strong, nonatomic, readwrite)    NSArray                 *links;
 @end
 
 
@@ -36,7 +37,8 @@
 ,shareCount
 ,taggedPeople
 ,unread
-,repliedToMsgId;
+,repliedToMsgId
+,links;
 
 #pragma mark Initialization / Deallocation
 
@@ -50,7 +52,9 @@ adherentConversation:(NSArray *)theAdherentConversation
   conversationLength:(NSUInteger)theConversationLength
           shareCount:(NSUInteger)theShareCount
         taggedPeople:(NSArray *)theTaggedPeople
-      repliedToMsgId:(NSString *)theRepliedToMsgId{
+      repliedToMsgId:(NSString *)theRepliedToMsgId
+               links:(NSArray *)theLinks
+{
     
     if ((self = [super init])) {
         self.author					= theAuthor;
@@ -64,6 +68,7 @@ adherentConversation:(NSArray *)theAdherentConversation
         self.shareCount				= theShareCount;
         self.taggedPeople			= theTaggedPeople;
         self.repliedToMsgId         = theRepliedToMsgId;
+        self.links                  = theLinks;
         self.unread					= YES;
     }
     
@@ -85,6 +90,7 @@ adherentConversation:(NSArray *)theAdherentConversation
                      shareCount:0 
                    taggedPeople:nil
                  repliedToMsgId:nil
+                          links:nil
             ];
 }
 
@@ -134,6 +140,7 @@ adherentConversation:(NSArray *)theAdherentConversation
 	[desc appendFormat:@" conversationLength   [%ld]\n",(unsigned long)self.conversationLength];
 	[desc appendFormat:@" shareCount           [%ld]\n",(unsigned long)self.shareCount];
 	[desc appendFormat:@" taggedPeople         [%@]\n",self.taggedPeople];
+    [desc appendFormat:@" links                [%@]\n",self.links];
 	[desc appendFormat:@" unread               [%@]\n",BoolString(self.unread)];
     
     return (NSString *)desc;

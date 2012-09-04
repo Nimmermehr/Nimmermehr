@@ -29,6 +29,7 @@
 @property (nonatomic, readonly)         NSUInteger              shareCount; // Likes (FB), +1 (G+), RT's (Twitter)
 @property (strong, nonatomic, readonly) NSArray                 *taggedPeople;// tagged People/"with..." (FB), @recipients (Twitter)
 @property (strong, nonatomic, readonly) NSString                *repliedToMsgId;
+@property (strong, nonatomic, readonly) NSArray                 *links;
 @property (nonatomic)                   BOOL                    unread;
 
 // TODO: an own array for people who like sth???
@@ -45,7 +46,8 @@ adherentConversation:(NSArray *)theAdherentConversation
   conversationLength:(NSUInteger)theConversationLength
           shareCount:(NSUInteger)theShareCount
         taggedPeople:(NSArray *)theTaggedPeople
-      repliedToMsgId:(NSString *)theRepliedToMsgId;
+      repliedToMsgId:(NSString *)theRepliedToMsgId
+               links:(NSArray *)theLinks;
 
 // When the User Posts a new message, we keep a Template with some of his data cached
 // for convenience use by the frontend :)

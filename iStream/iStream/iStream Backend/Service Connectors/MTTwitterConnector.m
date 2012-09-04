@@ -25,6 +25,7 @@
 #define TwitterAPIGetTweetByIdURL   [NSURL URLWithString:@"http://api.twitter.com/1/statuses/show.json"]
 
 #define RegexExtractRecipients      @"@([a-zA-Z0-9-_])+"
+#define RegexExtractLinks           @"[https?]+://[A-Za-z0-9-_:%&~\?/.=]+"
 
 static __strong UIImage *_serviceIcon;
 
@@ -37,7 +38,7 @@ static __strong UIImage *_serviceIcon;
 
 - (NSArray *)parseContent:(NSArray *)theTimeline contentType:(MTServiceContentType *)serviceContentType;
 
-- (NSArray *)parseRecipients:(NSString *)content;
+- (NSArray *)parseContent:(NSString *)theContent usingRegex:(NSString *)theRegex;
 
 @end
 
@@ -169,9 +170,9 @@ static __strong UIImage *_serviceIcon;
             
             [twitterReq performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                 
-                NSLog(@"STATUS CODE: %d", [urlResponse statusCode]);
-                NSLog(@"TERROR: %@", error);
-                NSLog(@"DATA: %@", responseData);
+                DLog(@"STATUS CODE: %d", [urlResponse statusCode]);
+                DLog(@"TERROR: %@", error);
+                DLog(@"DATA: %@", responseData);
                 
                 isLoading = NO;
                 
@@ -181,10 +182,10 @@ static __strong UIImage *_serviceIcon;
                     twitterContent = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:&jsonParsingError];
                     
                     if (jsonParsingError) {
-                        NSLog(@"JSON ERROR: %@", jsonParsingError);
+                        DLog(@"JSON ERROR: %@", jsonParsingError);
                     }
                     
-                    NSLog(@"PARSING FOR CONVERSATION: %@", twitterContent);
+                    DLog(@"PARSING FOR CONVERSATION: %@", twitterContent);
                     
                     theTweet = [[self parseContent:[NSArray arrayWithObject:twitterContent] contentType:nil] objectAtIndex:0]; // TODO: serviceContentType!!!!
                     
@@ -195,14 +196,14 @@ static __strong UIImage *_serviceIcon;
                     
                     hasReply = [theTweet repliedToMsgId] != nil;
                 } else {
-                    NSLog(@"FFFAAAIIILLL!!!");
+                    DLog(@"FAIL!!!");
                     hasReply = NO;
                 }
             }];
         }
     }
     
-    NSLog(@"THE CONVERSATION: %@", theConversation);
+    DLog(@"THE CONVERSATION: %@", theConversation);
     
     completionHandler((NSArray *)theConversation, initialTweet);
 }
@@ -210,12 +211,12 @@ static __strong UIImage *_serviceIcon;
 // TODO:
 - (void)requestUserFavourites
 {
-    NSLog(@"%@.%@ NOT YET IMPLEMENTED :(", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
+    DLog(@"%@.%@ NOT YET IMPLEMENTED :(", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
 }
 
 - (void)logout
 {
-    NSLog(@"%@.%@ NOT YET IMPLEMENTED :(", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
+    DLog(@"%@.%@ NOT YET IMPLEMENTED :(", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
 }
 
 @end
@@ -242,7 +243,7 @@ static __strong UIImage *_serviceIcon;
             
             twitterContent = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:&jsonParsingError];
             
-            NSLog(@"### CONTENT: %@", twitterContent);
+            DLog(@"### CONTENT: %@", twitterContent);
             
             NSArray *parsedContent = [self parseContent:twitterContent contentType:serviceContentType];
             
@@ -307,8 +308,9 @@ static __strong UIImage *_serviceIcon;
                                 adherentConversation:nil //TODO: 
                                   conversationLength:0 //TODO:
                                           shareCount:[[tweet objectForKey:@"retweet_count"] unsignedIntegerValue]
-                                        taggedPeople:[self parseRecipients:[tweet objectForKey:@"text"]]
+                                        taggedPeople:[self parseContent:[tweet objectForKey:@"text"] usingRegex:RegexExtractRecipients]
                                       repliedToMsgId:![[tweet objectForKey:@"in_reply_to_status_id_str"] isEqual:[NSNull null]] ? [tweet objectForKey:@"in_reply_to_status_id_str"] : nil
+                                               links:[self parseContent:[tweet objectForKey:@"text"] usingRegex:RegexExtractLinks]
                    ];
         
         [newPosts addObject:thePost];
@@ -317,12 +319,12 @@ static __strong UIImage *_serviceIcon;
     return newPosts;
 }
 
-- (NSArray *)parseRecipients:(NSString *)content
+- (NSArray *)parseContent:(NSString *)content usingRegex:(NSString *)theRegex
 {
     NSArray *theArray = nil;
     
     NSError *terror = nil;
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:RegexExtractRecipients options:NSRegularExpressionCaseInsensitive error:&terror];
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:theRegex options:NSRegularExpressionCaseInsensitive error:&terror];
     
     if (!terror) {
         NSArray *matches = [regex matchesInString:content
@@ -340,7 +342,7 @@ static __strong UIImage *_serviceIcon;
         
         theArray = (NSArray *)taggedPeople;
     } else {
-        NSLog(@"REGEX TERROR: %@", terror);
+        DLog(@"REGEX TERROR: %@", terror);
     }
     
     return theArray;

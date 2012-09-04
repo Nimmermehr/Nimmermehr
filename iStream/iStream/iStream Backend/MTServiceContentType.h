@@ -31,6 +31,12 @@
 + (id)getTwitterUserMessagesContentType;
 + (id)getTwitterAnyContentType;
 
++ (id)getFacebookUserPostsContentType;
++ (id)getFacebookUserTimelineContentType;
++ (id)getFacebookUserWallContentType;
++ (id)getFacebookUserMessagesContentType;
++ (id)getFacebookAnyContentType;
+
 - (BOOL)isEqual:(id)object;
 - (NSUInteger)hash;
 // TODO: description (I know, I'm lazy...)

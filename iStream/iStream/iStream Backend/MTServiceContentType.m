@@ -22,6 +22,13 @@ __strong static MTServiceContentType *_twitterUserTimelineContentType   = nil;
 __strong static MTServiceContentType *_twitterUserMessagesContentType   = nil;
 __strong static MTServiceContentType *_twitterAnyContentType            = nil;
 
+// facebook static factory singleton objects
+__strong static MTServiceContentType *_facebookUserPostsContentType     = nil;
+__strong static MTServiceContentType *_facebookUserWallContentType      = nil;
+__strong static MTServiceContentType *_facebookUserTimelineContentType  = nil;
+__strong static MTServiceContentType *_facebookUserMessagesContentType  = nil;
+__strong static MTServiceContentType *_facebookAnyContentType           = nil;
+
 - (id)initWithServiceType:(NSString *)serviceType
 {
     return [self initWithServiceType:serviceType contentType:MTServiceContentTypeAny shouldLoadContent:YES];
@@ -86,6 +93,51 @@ __strong static MTServiceContentType *_twitterAnyContentType            = nil;
     }
     
     return _twitterAnyContentType;
+}
+
++ (id)getFacebookUserPostsContentType
+{
+    if (!_facebookUserPostsContentType) {
+        _facebookUserPostsContentType = [[MTServiceContentType alloc] initWithServiceType:MTServiceTypeFacebook contentType:MTServiceContentTypeUserPosts];
+    }
+    
+    return _facebookUserPostsContentType;
+}
+
++ (id)getFacebookUserTimelineContentType
+{
+    if (!_facebookUserTimelineContentType) {
+        _facebookUserTimelineContentType = [[MTServiceContentType alloc] initWithServiceType:MTServiceTypeFacebook contentType:MTServiceContentTypeUserTimeline];
+    }
+    
+    return _facebookUserTimelineContentType;
+}
+
++ (id)getFacebookUserWallContentType
+{
+    if (!_facebookUserWallContentType) {
+        _facebookUserWallContentType = [[MTServiceContentType alloc] initWithServiceType:MTServiceTypeFacebook contentType:MTServiceContentTypeUserWall];
+    }
+    
+    return _facebookUserWallContentType;
+}
+
++ (id)getFacebookUserMessagesContentType
+{
+    if (!_facebookUserMessagesContentType) {
+        _facebookUserMessagesContentType = [[MTServiceContentType alloc] initWithServiceType:MTServiceTypeFacebook contentType:MTServiceContentTypeUserMessages];
+    }
+    
+    return _facebookUserMessagesContentType;
+}
+
++ (id)getFacebookAnyContentType
+{
+    if (!_facebookAnyContentType) {
+        _facebookAnyContentType = [[MTServiceContentType alloc] initWithServiceType:MTServiceTypeFacebook contentType:MTServiceContentTypeAny];
+    }
+    
+    return _facebookAnyContentType;
 }
 
 - (BOOL)isEqual:(id)object

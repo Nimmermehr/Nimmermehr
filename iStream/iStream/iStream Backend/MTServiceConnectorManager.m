@@ -599,7 +599,7 @@ __strong static MTServiceConnectorManager *_sharedInstance = nil;
 
 - (void)displayOAuth2UserDialog:(NSString *)serviceType userDialog:(id)theDialog
 {
-    NSLog(@"SELF MANAGER: %@", self);
+    DLog(@"SELF MANAGER: %@", self);
     
     if ([serviceType isEqualToString:MTServiceTypeGooglePlus]) {
         

@@ -31,9 +31,8 @@
 		E922F7D81537620C00A5988B /* MTConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = E922F7D71537620C00A5988B /* MTConstants.m */; };
 		E922F7DA153762D800A5988B /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E922F7D9153762D800A5988B /* Twitter.framework */; };
 		E922F7DC153762E200A5988B /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E922F7DB153762E200A5988B /* Accounts.framework */; };
+		E923496F15DAA64D007622F5 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E923496E15DAA64D007622F5 /* FacebookSDK.framework */; };
 		E95891EE1538BB3100E72668 /* MTFacebookConnector.m in Sources */ = {isa = PBXBuildFile; fileRef = E95891ED1538BB3100E72668 /* MTFacebookConnector.m */; };
-		E95892121538BDC700E72668 /* FBDialog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E95892051538BDC700E72668 /* FBDialog.bundle */; };
-		E95892131538BDC700E72668 /* libfacebook_ios_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E958920B1538BDC700E72668 /* libfacebook_ios_sdk.a */; };
 		E95D1BF315420FDB001BA5E3 /* MTGooglePlusConnector.m in Sources */ = {isa = PBXBuildFile; fileRef = E95D1BF215420FDB001BA5E3 /* MTGooglePlusConnector.m */; };
 		E9794641158CA60700AF2085 /* NSBundle+iStream.m in Sources */ = {isa = PBXBuildFile; fileRef = E979463E158CA60700AF2085 /* NSBundle+iStream.m */; };
 		E9794642158CA60700AF2085 /* NSURL+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = E9794640158CA60700AF2085 /* NSURL+Utils.m */; };
@@ -98,23 +97,9 @@
 		E922F7D71537620C00A5988B /* MTConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTConstants.m; sourceTree = "<group>"; };
 		E922F7D9153762D800A5988B /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		E922F7DB153762E200A5988B /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
+		E923496E15DAA64D007622F5 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = "iStream/3rd Party Frameworks/FacebookSDK.framework"; sourceTree = "<group>"; };
 		E95891EC1538BB3100E72668 /* MTFacebookConnector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTFacebookConnector.h; sourceTree = "<group>"; };
 		E95891ED1538BB3100E72668 /* MTFacebookConnector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTFacebookConnector.m; sourceTree = "<group>"; };
-		E95892031538BDC700E72668 /* Facebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Facebook.h; sourceTree = "<group>"; };
-		E95892041538BDC700E72668 /* FBConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBConnect.h; sourceTree = "<group>"; };
-		E95892051538BDC700E72668 /* FBDialog.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FBDialog.bundle; sourceTree = "<group>"; };
-		E95892061538BDC700E72668 /* FBDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBDialog.h; sourceTree = "<group>"; };
-		E95892071538BDC700E72668 /* FBFrictionlessRequestSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBFrictionlessRequestSettings.h; sourceTree = "<group>"; };
-		E95892081538BDC700E72668 /* FBLoginDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBLoginDialog.h; sourceTree = "<group>"; };
-		E95892091538BDC700E72668 /* FBRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBRequest.h; sourceTree = "<group>"; };
-		E958920A1538BDC700E72668 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
-		E958920B1538BDC700E72668 /* libfacebook_ios_sdk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libfacebook_ios_sdk.a; sourceTree = "<group>"; };
-		E958920C1538BDC700E72668 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
-		E958920D1538BDC700E72668 /* NSString+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SBJSON.h"; sourceTree = "<group>"; };
-		E958920E1538BDC700E72668 /* SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJSON.h; sourceTree = "<group>"; };
-		E958920F1538BDC700E72668 /* SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonBase.h; sourceTree = "<group>"; };
-		E95892101538BDC700E72668 /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
-		E95892111538BDC700E72668 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		E95D1BF115420FDB001BA5E3 /* MTGooglePlusConnector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTGooglePlusConnector.h; sourceTree = "<group>"; };
 		E95D1BF215420FDB001BA5E3 /* MTGooglePlusConnector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTGooglePlusConnector.m; sourceTree = "<group>"; };
 		E979463D158CA60700AF2085 /* NSBundle+iStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBundle+iStream.h"; sourceTree = "<group>"; };
@@ -153,6 +138,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E923496F15DAA64D007622F5 /* FacebookSDK.framework in Frameworks */,
 				4C7583C7155856BA00D6B81E /* QuartzCore.framework in Frameworks */,
 				E905A3A51542125600EA5218 /* Security.framework in Frameworks */,
 				E905A3A3154211FB00EA5218 /* SystemConfiguration.framework in Frameworks */,
@@ -161,7 +147,6 @@
 				E9CE31A2152332EE00C3C051 /* UIKit.framework in Frameworks */,
 				E9CE31A4152332EE00C3C051 /* Foundation.framework in Frameworks */,
 				E9CE31A6152332EE00C3C051 /* CoreGraphics.framework in Frameworks */,
-				E95892131538BDC700E72668 /* libfacebook_ios_sdk.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,29 +270,6 @@
 			path = "Service Connectors";
 			sourceTree = "<group>";
 		};
-		E95892021538BDC700E72668 /* facebook-ios-sdk */ = {
-			isa = PBXGroup;
-			children = (
-				E95892031538BDC700E72668 /* Facebook.h */,
-				E95892041538BDC700E72668 /* FBConnect.h */,
-				E95892051538BDC700E72668 /* FBDialog.bundle */,
-				E95892061538BDC700E72668 /* FBDialog.h */,
-				E95892071538BDC700E72668 /* FBFrictionlessRequestSettings.h */,
-				E95892081538BDC700E72668 /* FBLoginDialog.h */,
-				E95892091538BDC700E72668 /* FBRequest.h */,
-				E958920A1538BDC700E72668 /* JSON.h */,
-				E958920B1538BDC700E72668 /* libfacebook_ios_sdk.a */,
-				E958920C1538BDC700E72668 /* NSObject+SBJSON.h */,
-				E958920D1538BDC700E72668 /* NSString+SBJSON.h */,
-				E958920E1538BDC700E72668 /* SBJSON.h */,
-				E958920F1538BDC700E72668 /* SBJsonBase.h */,
-				E95892101538BDC700E72668 /* SBJsonParser.h */,
-				E95892111538BDC700E72668 /* SBJsonWriter.h */,
-			);
-			name = "facebook-ios-sdk";
-			path = "iStream/3rd Party Frameworks/facebook-ios-sdk";
-			sourceTree = "<group>";
-		};
 		E9CE3192152332EE00C3C051 = {
 			isa = PBXGroup;
 			children = (
@@ -330,6 +292,7 @@
 			isa = PBXGroup;
 			children = (
 				E9CE31D81523773500C3C051 /* 3rd Party Frameworks */,
+				E923496E15DAA64D007622F5 /* FacebookSDK.framework */,
 				E905A3A41542125600EA5218 /* Security.framework */,
 				E905A3A2154211FB00EA5218 /* SystemConfiguration.framework */,
 				E922F7DB153762E200A5988B /* Accounts.framework */,
@@ -376,7 +339,6 @@
 				4C7583BE1558559D00D6B81E /* PullToRefresh */,
 				E905A3921542117400EA5218 /* GTMOAuth2 */,
 				4CE6E206153C87EC004539E9 /* ECSlidingViewController */,
-				E95892021538BDC700E72668 /* facebook-ios-sdk */,
 			);
 			name = "3rd Party Frameworks";
 			sourceTree = "<group>";
@@ -416,7 +378,7 @@
 		E9CE3194152332EE00C3C051 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0440;
 				ORGANIZATIONNAME = Nimmermehr;
 			};
 			buildConfigurationList = E9CE3197152332EE00C3C051 /* Build configuration list for PBXProject "iStream" */;
@@ -444,7 +406,6 @@
 			files = (
 				E9CE31AC152332EE00C3C051 /* InfoPlist.strings in Resources */,
 				E9CE31B5152332EE00C3C051 /* MainStoryboard.storyboard in Resources */,
-				E95892121538BDC700E72668 /* FBDialog.bundle in Resources */,
 				E905A3A01542117400EA5218 /* GTMOAuth2ViewTouch.xib in Resources */,
 				4C7583C5155855B900D6B81E /* arrow.png in Resources */,
 				E979464E158CA67200AF2085 /* 4sqImg32x32.png in Resources */,
@@ -563,13 +524,15 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CURRENT_PROJECT_VERSION = 4;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/iStream/3rd Party Frameworks\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iStream/iStream-Prefix.pch";
 				INFOPLIST_FILE = "iStream/iStream-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/iStream/3rd Party Frameworks/facebook-ios-sdk\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				OTHER_LDFLAGS = "-lsqlite3.0";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -580,13 +543,15 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CURRENT_PROJECT_VERSION = 4;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/iStream/3rd Party Frameworks\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iStream/iStream-Prefix.pch";
 				INFOPLIST_FILE = "iStream/iStream-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/iStream/3rd Party Frameworks/facebook-ios-sdk\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				OTHER_LDFLAGS = "-lsqlite3.0";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

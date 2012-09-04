@@ -12,7 +12,7 @@
 // Encapsulates all relevant data of the service
 // Add location, coords, creationdate, whatever else we need
 
-@interface MTNewsItem : NSObject <NSCopying>{
+@interface MTNewsItem : NSObject <NSCopying> {
     
     // Template for User Posts
     MTNewsItem              *_template; // NSUserDefaults
@@ -30,6 +30,10 @@
 @property (strong, nonatomic, readonly) NSArray                 *taggedPeople;// tagged People/"with..." (FB), @recipients (Twitter)
 @property (strong, nonatomic, readonly) NSString                *repliedToMsgId;
 @property (nonatomic)                   BOOL                    unread;
+
+// TODO: an own array for people who like sth???
+// TODO: Shall we create own MTNewsItem subclasses for all Types???
+//          getting a bit awkward w/ all the service specific shites....
 
 - (id)initWithAuthor:(NSString *)theAuthor 
              content:(NSString *)theContent 

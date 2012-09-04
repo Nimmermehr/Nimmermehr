@@ -131,8 +131,8 @@ adherentConversation:(NSArray *)theAdherentConversation
 	[desc appendFormat:@" content              [%@]\n",self.content];
 	[desc appendFormat:@" timestamp            [%@]\n",self.timestamp];
 	[desc appendFormat:@" adherentConversation [%@]\n",self.adherentConversation];
-	[desc appendFormat:@" conversationLength   [%ld]\n",self.conversationLength];
-	[desc appendFormat:@" shareCount           [%ld]\n",self.shareCount];
+	[desc appendFormat:@" conversationLength   [%ld]\n",(unsigned long)self.conversationLength];
+	[desc appendFormat:@" shareCount           [%ld]\n",(unsigned long)self.shareCount];
 	[desc appendFormat:@" taggedPeople         [%@]\n",self.taggedPeople];
 	[desc appendFormat:@" unread               [%@]\n",BoolString(self.unread)];
     

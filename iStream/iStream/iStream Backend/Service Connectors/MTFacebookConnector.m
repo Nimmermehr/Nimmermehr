@@ -9,27 +9,36 @@
 #import "MTFacebookConnector.h"
 #import "MTServiceConnectorDelegate.h"
 #import "MTNewsItem.h"
+#import "MTServiceContentType.h"
 #import "NSBundle+iStream.h"
+#import <FacebookSDK/FacebookSDK.h>
 
 #define FacebookUserTimelinePath    @"me/home"
 #define FacebookUserWallPath        @"me/feed"
 #define FacebookUserPostsPath       @"me/posts"
+#define FacebookUserLikedPages      @"me/likes"
 
 static __strong UIImage *_serviceIcon;
 
+NSString * const FBContentTypePhoto = @"photo";
+NSString * const FBContentTypeLink = @"link";
+NSString * const FBContentTypeStatus = @"status";
+
 @interface MTFacebookConnector (Private)
-- (void)requestContentForGraphAPIPath:(NSString *)graphAPIPath;
-- (NSArray *)parseDictionaryContent:(NSDictionary *)dictContent;
-- (NSArray *)parseArrayContent:(NSArray *)arrContent;
-- (NSArray *)parseStringContent:(NSString *)strContent;
-- (NSArray *)parseNumberContent:(NSNumber *)nrContent;
+- (void)requestContentForContentType:(MTServiceContentType *)serviceContentType;
+- (NSString *)getGraphPathForServiceContentType:(MTServiceContentType *)serviceContentType;
+- (NSArray *)parseContent:(NSDictionary *)dictContent serviceContentType:(MTServiceContentType *)serviceContentType;
+- (NSArray *)parseAdherentConversation:(NSDictionary *)data;
+
+- (MTNewsItem *)parsePhoto:(NSDictionary *)rawPost serviceContentType:(MTServiceContentType *)serviceContentType;
+- (MTNewsItem *)parseLink:(NSDictionary *)rawPost serviceContentType:(MTServiceContentType *)serviceContentType;
+- (MTNewsItem *)parseStatus:(NSDictionary *)rawPost serviceContentType:(MTServiceContentType *)serviceContentType;
 @end
 
 @implementation MTFacebookConnector
 
 @synthesize authenticated       = _authenticated;
 @synthesize delegate            = _delegate;
-@synthesize facebook            = _facebook;
 
 + (UIImage *)serviceIcon
 {
@@ -46,12 +55,41 @@ static __strong UIImage *_serviceIcon;
         
         _authenticated = NO;
         
+        _dateFormatter = [[NSDateFormatter alloc] init];
+        [_dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZZ"];
+        
+        // TODO: Check what more permissions we need
+        NSArray *permissions = [NSArray arrayWithObjects:
+                                @"user_likes",
+                                @"read_stream",
+                                @"user_photos",
+                                @"user_status",
+                                @"user_videos",
+                                @"publish_stream",
+                                nil
+                                ];
+        
         //TODO: prep macro to define whether we are premium or free app
         // paidapp
         // freeapp
         // testapp
         
-        _facebook = [[Facebook alloc] initWithAppId:MTFacebookAppId urlSchemeSuffix:@"paidapp" andDelegate:self];
+        _session = [[FBSession alloc] initWithAppID:MTFacebookAppId permissions:permissions urlSchemeSuffix:@"paidapp" tokenCacheStrategy:nil]; // nil = default (@“FBAccessTokenInformationKey”)
+        
+        [FBSession setActiveSession:_session];
+        /*
+        NSLog(@"TOKEN: %@", [_session accessToken]);
+        
+        NSLog(@"SESSION STATE: %d", [_session state]);
+        NSLog(@"##############################################");
+        NSLog(@"FBSessionStateClosed: %d", FBSessionStateClosed);
+        NSLog(@"FBSessionStateClosedLoginFailed: %d", FBSessionStateClosedLoginFailed);
+        NSLog(@"FBSessionStateCreated: %d", FBSessionStateCreated);
+        NSLog(@"FBSessionStateCreatedOpening: %d", FBSessionStateCreatedOpening);
+        NSLog(@"FBSessionStateCreatedTokenLoaded: %d", FBSessionStateCreatedTokenLoaded);
+        NSLog(@"FBSessionStateOpen: %d", FBSessionStateOpen);
+        NSLog(@"FBSessionStateOpenTokenExtended: %d", FBSessionStateOpenTokenExtended);
+         */
     }
     
     return self;
@@ -64,174 +102,91 @@ static __strong UIImage *_serviceIcon;
 
 - (void)authenticate
 {
-    // Facebook SSO, check if access tokens are already there, otherwise request some
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
-    if ([defaults objectForKey:@"FBAccessTokenKey"] && [defaults objectForKey:@"FBExpirationDateKey"]) {
-        
-        [_facebook setAccessToken:[defaults objectForKey:@"FBAccessTokenKey"]];
-        [_facebook setExpirationDate:[defaults objectForKey:@"FBExpirationDateKey"]];
+    if (![_session isOpen]) {
+        if ([_session state] == FBSessionStateCreatedTokenLoaded || [_session state] == FBSessionStateCreated) { // Any token here s(cached or new)?
+            [_session openWithCompletionHandler:^(FBSession *session, FBSessionState state, NSError *terror) {
+               
+                if (!terror) {
+                    
+                    switch (state) {
+                        case FBSessionStateOpen:
+                            DLog(@"%@.%@ session opened successfully!", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
+                            _authenticated = YES;
+                            [_delegate serviceAuthenticatedSuccessfully:[self serviceType]];
+                            break;
+                            
+                        case FBSessionStateClosed:
+                        case FBSessionStateClosedLoginFailed:
+                            DLog(@"%@.%@ failed! State=[%d]; Error=[%@]; Session=[%@]", NSStringFromClass([self class]), NSStringFromSelector(_cmd), state, terror, session);
+                            _authenticated = NO;
+                            [_delegate serviceAuthenticationFailed:[self serviceType] errDict:[NSDictionary dictionaryWithObject:terror forKey:MTServiceAuthenticationErrorKey]];
+                            break;
+                            
+                        default:
+                            break;
+                    }
+                } else {
+                    DLog(@"%@.%@ epic fail! Error=[%@]; Session=[%@]; State=[%d]", NSStringFromClass([self class]), NSStringFromSelector(_cmd), terror, session, state);
+                    _authenticated = NO;
+                    [_delegate serviceAuthenticationFailed:[self serviceType] errDict:[NSDictionary dictionaryWithObject:terror forKey:MTServiceAuthenticationErrorKey]];
+                }
+            }];
+        } else {
+            // TODO: Check the Docs again, in the meantime poll for a while and then fail
+            DLog(@"%@.%@ token not yet loaded, polling for a bit then timing out...", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
+            
+            NSInteger timeout = 100;
+            NSInteger i = 0;
+            
+            // I know its kinda...erm...blocking the main thread...thats why there is a TODO in the else clause above...
+            while (i <= timeout && [_session state] != FBSessionStateCreatedTokenLoaded) {
+                i++;
+            }
+            
+            if (i > timeout || [_session state] != FBSessionStateCreatedTokenLoaded) {
+                // Fail here
+                DLog(@"%@.%@ failed to load the created token. Clueless what to do now...", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
+                _authenticated = NO;
+                NSError *terror = [NSError errorWithDomain:@"FBAuthenticationFailedDomain" code:666 userInfo:[NSDictionary dictionaryWithObject:@"Failed to load the created access token!" forKey:NSUnderlyingErrorKey]];
+                [_delegate serviceAuthenticationFailed:[self serviceType] errDict:[NSDictionary dictionaryWithObject:terror forKey:MTServiceAuthenticationErrorKey]];
+            } else {
+                // Retry here (a little bit of recursion shouldn't hurt too much)
+                [self authenticate];
+            }
+        }
+    } else {
+        DLog(@"%@.%@ session already/still open. Nothing to do!", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
     }
+}
+
+- (void)requestUserDetails
+{
     
-    // TODO: Check what more permissions we need
-    NSArray *permissions = [NSArray arrayWithObjects:
-                            @"user_likes", 
-                            @"read_stream",
-                            @"user_photos",
-                            @"user_status",
-                            @"user_videos",
-                            nil
-                            ];
-    
-    if (![_facebook isSessionValid]) {
-        [_facebook authorize:permissions];
-    } else { // We're already authenticated, notify everybody, good news, yay!!!
-        _authenticated = YES;
-        
-        [_delegate serviceAuthenticatedSuccessfully:[self serviceType]];
-    }
 }
 
 - (void)requestUserTimeline
 {
-    [self requestContentForGraphAPIPath:FacebookUserTimelinePath];
+    [self requestContentForContentType:[MTServiceContentType getFacebookUserTimelineContentType]];
 }
 
 - (void)requestUserWall
 {
-    [self requestContentForGraphAPIPath:FacebookUserWallPath];
+    [self requestContentForContentType:[MTServiceContentType getFacebookUserWallContentType]];
 }
 
 - (void)requestUserPosts
 {
-    [self requestContentForGraphAPIPath:FacebookUserPostsPath];
+    [self requestContentForContentType:[MTServiceContentType getFacebookUserPostsContentType]];
 }
 
 - (void)logout
 {
-    [_facebook logout];
+    [_session closeAndClearTokenInformation];
 }
 
 - (BOOL)handleSSOCallback:(NSURL *)url
 {
-    return [_facebook handleOpenURL:url];
-}
-
-#pragma mark FBSessionDelegate Implementation
-// http://developers.facebook.com/docs/reference/iossdk/FBSessionDelegate/
-
-- (void)fbSessionInvalidated
-{
-    // Send a Notif as well
-    if (![_facebook isSessionValid]) {
-        _authenticated = NO;
-        
-        [_delegate serviceConnectionInterrupted:[self serviceType] errDict:nil];
-    }
-    
-    // Try to Extend Access Token in this case as well
-    [_facebook extendAccessTokenIfNeeded];
-}
-
-- (void)fbDidExtendToken:(NSString *)accessToken expiresAt:(NSDate *)expiresAt
-{
-    if ([_facebook isSessionValid] && !_authenticated) {
-        _authenticated = YES;
-        
-        [_delegate serviceConnectionReEstablished:[self serviceType]];
-    }
-}
-
-- (void)fbDidLogout
-{
-    // Remove saved authorization information if it exists
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    if ([defaults objectForKey:@"FBAccessTokenKey"]) {
-        [defaults removeObjectForKey:@"FBAccessTokenKey"];
-        [defaults removeObjectForKey:@"FBExpirationDateKey"];
-        [defaults synchronize];
-    }
-    
-    [_delegate serviceLogoutCompleted:[self serviceType]];
-}
-
-- (void)fbDidNotLogin:(BOOL)cancelled
-{
-    // If cancelled == YES --> access not granted
-    
-    _authenticated = NO;
-    
-    if (cancelled) {
-        [_delegate accessNotGranted:[self serviceType]];
-    } else {
-        [_delegate serviceAuthenticationFailed:[self serviceType] errDict:nil];
-    }
-}
-
-- (void)fbDidLogin
-{
-    _authenticated = YES;
-    
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:[_facebook accessToken]     forKey:@"FBAccessTokenKey"];
-    [defaults setObject:[_facebook expirationDate]  forKey:@"FBExpirationDateKey"];
-    [defaults synchronize];
-    
-    [_delegate serviceAuthenticatedSuccessfully:[self serviceType]];
-    
-}
-
-#pragma mark FBRequestDelegate Implementation
-// http://developers.facebook.com/docs/reference/iossdk/FBRequestDelegate/
-
-- (void)requestLoading:(FBRequest *)request
-{
-    [_delegate serviceDidStartLoading:[self serviceType]];
-}
-
-- (void)request:(FBRequest *)request didReceiveResponse:(NSURLResponse *)response
-{
-    
-}
-
-- (void)request:(FBRequest *)request didFailWithError:(NSError *)error
-{
-    NSDictionary *errDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                             [self serviceType], MTServiceTypeKey,
-                             error,              MTServiceContentRequestFailedErrorKey,
-                             nil,                MTServiceContentRequestFailedResponseKey,
-                             nil
-                             ];
-    
-    [_delegate contentRequestFailed:errDict];
-}
-
-- (void)request:(FBRequest *)request didLoad:(id)result
-{
-    NSArray *theContent = nil;
-    
-    if ([result isKindOfClass:[NSDictionary class]]) {
-        theContent = [self parseDictionaryContent:result];
-    } else if ([result isKindOfClass:[NSArray class]]) {
-        theContent = [self parseArrayContent:result];
-    } else if ([result isKindOfClass:[NSString class]]) {
-        theContent = [self parseStringContent:result];
-    } else if ([result isKindOfClass:[NSNumber class]]) {
-        theContent = [self parseNumberContent:result];
-    }
-    
-    NSDictionary *newPosts = [NSDictionary dictionaryWithObjectsAndKeys:
-                              theContent,         MTServiceContentKey,
-                              [self serviceType], MTServiceTypeKey,
-                              nil
-                              ];
-    
-    [_delegate contentReceived:newPosts];
-}
-
-- (void)request:(FBRequest *)request didLoadRawResponse:(NSData *)data
-{
-    
+    return [[FBSession activeSession] handleOpenURL:url];
 }
 
 @end
@@ -239,17 +194,50 @@ static __strong UIImage *_serviceIcon;
 #pragma mark Private Implementation
 @implementation MTFacebookConnector (Private)
 
-- (void)requestContentForGraphAPIPath:(NSString *)graphAPIPath
+// To get the User Details use [FBRequest requestForMe]
+- (void)requestContentForContentType:(MTServiceContentType *)serviceContentType
 {
-    FBRequest *request = [_facebook requestWithGraphPath:graphAPIPath andDelegate:self];
+    NSString *graphAPIPath = [self getGraphPathForServiceContentType:serviceContentType];
+    
+    FBRequest *request = [[FBRequest alloc] initWithSession:_session graphPath:graphAPIPath];
+    
+    [_delegate serviceDidStartLoading:[self serviceType]];
+    
+    [request startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary *graphObj, NSError *terror) {
+        
+        if (!terror) {
+            DLog(@"%@.%@ request completed successfully!", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
+            
+            // Parse Content
+            NSArray *parsedContent = [self parseContent:graphObj serviceContentType:serviceContentType];
+            
+            NSDictionary *newPosts = [NSDictionary dictionaryWithObjectsAndKeys:
+                                        parsedContent,        MTServiceContentKey,
+                                        [self serviceType],   MTServiceTypeKey,
+                                        nil
+                                      ];
+            
+            [_delegate contentReceived:newPosts];
+            
+        } else {
+            DLog(@"%@.%@ content request for graphPath=[%@] failed! Error=[%@]!", NSStringFromClass([self class]), NSStringFromSelector(_cmd), graphAPIPath, terror);
+            
+            NSDictionary *errDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                        [self serviceType],         MTServiceTypeKey,
+                                        terror,                     MTServiceContentRequestFailedErrorKey,
+                                        [connection urlResponse],   MTServiceContentRequestFailedResponseKey,
+                                        nil
+                                     ];
+            
+            [_delegate contentRequestFailed:errDict];
+        }
+    }];
     
 	// TODO: v-- maybe we should add a timeout to this thing later
-	while (request.state < kFBRequestStateComplete && [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:.25]]);
-    
-	request = nil;
+	//while (request.state < kFBRequestStateComplete && [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:.25]]);
 }
 
-- (NSArray *)parseDictionaryContent:(NSDictionary *)dictContent
+- (NSArray *)parseContent:(NSDictionary *)dictContent serviceContentType:(MTServiceContentType *)serviceContentType
 {
     NSMutableArray *newPosts = [NSMutableArray array];
     
@@ -257,62 +245,115 @@ static __strong UIImage *_serviceIcon;
     
     MTNewsItem *newPost = nil;
     
-    NSDate *timestamp = nil;
-    
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZZ"];
-    
-    UIImage *profilePic = nil;
-    
-    NSString *content = nil;
-    
     for (NSDictionary *thePost in theContent) {
         
-        timestamp = [formatter dateFromString:[thePost objectForKey:@"created_time"]];
-        
-        // TODO: profilePic, i guess we need to fetch the pic for the user id #argh
-        
-        // Check if FB Content is a Message or a Story (fucking FB clusterfuck)
-        if (!(content = [thePost objectForKey:@"message"])) {
-			if (!(content = [thePost objectForKey:@"story"])) {
-				if (!(content = [thePost objectForKey:@"caption"])) {
-					content = [thePost objectForKey:@"description"];
-                }
-            }
+        // Parse by type, #hooray
+        if ([[thePost objectForKey:@"type"] isEqualToString:FBContentTypeStatus]) {
+            newPost = [self parseStatus:thePost serviceContentType:serviceContentType];
+        } else if ([[thePost objectForKey:@"type"] isEqualToString:FBContentTypePhoto]) {
+            newPost = [self parsePhoto:thePost serviceContentType:serviceContentType];
+        } else if ([[thePost objectForKey:@"type"] isEqualToString:FBContentTypeLink]) {
+            newPost = [self parseLink:thePost serviceContentType:serviceContentType];
         }
         
-        newPost = [[MTNewsItem alloc] initWithAuthor:[[thePost objectForKey:@"from"] objectForKey:@"name"]
-                                             content:content
-                                  serviceContentType:nil // TODO: find out what we have here
-                                      authorRealName:[[thePost objectForKey:@"from"] objectForKey:@"name"]
-                                           timestamp:timestamp
-                                  authorProfileImage:profilePic
-                                adherentConversation:nil //TODO: 
-                                  conversationLength:0 //TODO:
-                                          shareCount:0 //TODO:
-                                        taggedPeople:nil//TODO:
-                                      repliedToMsgId:nil//TODO:
-                   ];
-        
+        // TODO: profilePic, i guess we need to fetch the pic for the user id #argh
         [newPosts addObject:newPost];
     }
     
     return newPosts;
 }
 
-- (NSArray *)parseArrayContent:(NSArray *)arrContent
+- (MTNewsItem *)parsePhoto:(NSDictionary *)rawPost serviceContentType:(MTServiceContentType *)serviceContentType
+{
+    NSDate *timestamp = [_dateFormatter dateFromString:[rawPost objectForKey:@"created_time"]];
+    
+    MTNewsItem *newPost = [[MTNewsItem alloc] initWithAuthor:[[rawPost objectForKey:@"from"] objectForKey:@"name"]
+                                                     content:nil
+                                          serviceContentType:nil // TODO: find out what we have here
+                                              authorRealName:[[rawPost objectForKey:@"from"] objectForKey:@"name"]
+                                                   timestamp:timestamp
+                                          authorProfileImage:nil
+                                        adherentConversation:nil //TODO:
+                                          conversationLength:0 //TODO:
+                                                  shareCount:0 //TODO:
+                                                taggedPeople:nil//TODO:
+                                              repliedToMsgId:nil//TODO:
+                           ];
+    
+    return newPost;
+}
+
+- (MTNewsItem *)parseLink:(NSDictionary *)rawPost serviceContentType:(MTServiceContentType *)serviceContentType
+{
+    NSDate *timestamp = [_dateFormatter dateFromString:[rawPost objectForKey:@"created_time"]];
+    
+    MTNewsItem *newPost = [[MTNewsItem alloc] initWithAuthor:[[rawPost objectForKey:@"from"] objectForKey:@"name"]
+                                                     content:nil
+                                          serviceContentType:nil // TODO: find out what we have here
+                                              authorRealName:[[rawPost objectForKey:@"from"] objectForKey:@"name"]
+                                                   timestamp:timestamp
+                                          authorProfileImage:nil
+                                        adherentConversation:nil //TODO:
+                                          conversationLength:0 //TODO:
+                                                  shareCount:0 //TODO:
+                                                taggedPeople:nil//TODO:
+                                              repliedToMsgId:nil//TODO:
+                           ];
+    
+    return newPost;
+}
+
+- (MTNewsItem *)parseStatus:(NSDictionary *)rawPost serviceContentType:(MTServiceContentType *)serviceContentType
+{
+    NSDate *timestamp = [_dateFormatter dateFromString:[rawPost objectForKey:@"created_time"]];
+    
+    NSInteger shareCount = [[[rawPost objectForKey:@"likes"] objectForKey:@"count"] integerValue];
+    NSInteger commentCount = [[[rawPost objectForKey:@"comments"] objectForKey:@"count"] integerValue];
+    
+    NSArray *adherentConversation = nil;
+    
+    if (commentCount > 0) { // da hell, we definitely need separate News Item Objects
+        adherentConversation = [self parseAdherentConversation:[[rawPost objectForKey:@"comments"] objectForKey:@"data"]];
+    }
+    
+    //ad profile pic, we may need to send a normal urlrequest to the url for the pic...muahahaha
+    
+    MTNewsItem *newPost = [[MTNewsItem alloc] initWithAuthor:[[rawPost objectForKey:@"from"] objectForKey:@"name"]
+                                                     content:[rawPost objectForKey:@"message"]
+                                          serviceContentType:serviceContentType
+                                              authorRealName:[[rawPost objectForKey:@"from"] objectForKey:@"name"]
+                                                   timestamp:timestamp
+                                          authorProfileImage:nil
+                                        adherentConversation:adherentConversation
+                                          conversationLength:0 //TODO:
+                                                  shareCount:shareCount
+                                                taggedPeople:nil//TODO:
+                                              repliedToMsgId:nil//TODO:
+                           ];
+    
+    return newPost;
+}
+
+- (NSArray *)parseAdherentConversation:(NSDictionary *)data
 {
     return nil;
 }
 
-- (NSArray *)parseStringContent:(NSString *)strContent
+- (NSString *)getGraphPathForServiceContentType:(MTServiceContentType *)serviceContentType
 {
-    return nil;
-}
-
-- (NSArray *)parseNumberContent:(NSNumber *)nrContent
-{
-    return nil;
+    NSString *graphAPIPath = nil;
+    
+    if ([[serviceContentType contentType] isEqualToString:MTServiceContentTypeUserPosts]) {
+        graphAPIPath = FacebookUserPostsPath;
+    } else if ([[serviceContentType contentType] isEqualToString:MTServiceContentTypeUserMessages]) {
+        graphAPIPath = nil;//TODO: !!!!
+    } else if ([[serviceContentType contentType] isEqualToString:MTServiceContentTypeUserTimeline]) {
+        graphAPIPath = FacebookUserTimelinePath;
+    } else if ([[serviceContentType contentType] isEqualToString:MTServiceContentTypeUserWall]) {
+        graphAPIPath = FacebookUserWallPath;
+    }
+    
+    return graphAPIPath;
 }
 
 @end

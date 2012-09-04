@@ -8,24 +8,26 @@
 
 #import <Foundation/Foundation.h>
 #import "MTServiceConnector.h"
-#import "FBConnect.h"
 
 @protocol MTServiceConnectorDelegate;
+@class FBSession;
 
-@interface MTFacebookConnector : NSObject <MTServiceConnector, FBSessionDelegate, FBRequestDelegate> {
+@interface MTFacebookConnector : NSObject <MTServiceConnector> {
     
     BOOL            _authenticated;
-    Facebook        *_facebook;
+    FBSession       *_session;
+    NSDateFormatter *_dateFormatter;
 }
 
 @property (nonatomic, readonly) BOOL                            authenticated;
 @property (weak, nonatomic)     id<MTServiceConnectorDelegate>  delegate;
-@property (strong, nonatomic)   Facebook                        *facebook;
 
 - (void)authenticate;
 - (NSString *)serviceType;
 
 - (BOOL)handleSSOCallback:(NSURL *)url;
+
+- (void)requestUserDetails;
 
 - (void)requestUserTimeline;
 - (void)requestUserWall;

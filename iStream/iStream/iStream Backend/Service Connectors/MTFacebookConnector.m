@@ -278,6 +278,7 @@ NSString * const FBContentTypeStatus = @"status";
                                                   shareCount:0 //TODO:
                                                 taggedPeople:nil//TODO:
                                               repliedToMsgId:nil//TODO:
+                                                       links:nil
                            ];
     
     return newPost;
@@ -298,6 +299,7 @@ NSString * const FBContentTypeStatus = @"status";
                                                   shareCount:0 //TODO:
                                                 taggedPeople:nil//TODO:
                                               repliedToMsgId:nil//TODO:
+                                                       links:nil
                            ];
     
     return newPost;
@@ -329,6 +331,7 @@ NSString * const FBContentTypeStatus = @"status";
                                                   shareCount:shareCount
                                                 taggedPeople:nil//TODO:
                                               repliedToMsgId:nil//TODO:
+                                                       links:nil
                            ];
     
     return newPost;

@@ -30,6 +30,8 @@ NSString * const FBContentTypeStatus = @"status";
 - (NSArray *)parseContent:(NSDictionary *)dictContent serviceContentType:(MTServiceContentType *)serviceContentType;
 - (NSArray *)parseAdherentConversation:(NSDictionary *)data;
 
+- (NSString *)getItemContent:(NSDictionary *)rawPost;
+
 - (MTNewsItem *)parsePhoto:(NSDictionary *)rawPost serviceContentType:(MTServiceContentType *)serviceContentType;
 - (MTNewsItem *)parseLink:(NSDictionary *)rawPost serviceContentType:(MTServiceContentType *)serviceContentType;
 - (MTNewsItem *)parseStatus:(NSDictionary *)rawPost serviceContentType:(MTServiceContentType *)serviceContentType;
@@ -268,7 +270,7 @@ NSString * const FBContentTypeStatus = @"status";
     NSDate *timestamp = [_dateFormatter dateFromString:[rawPost objectForKey:@"created_time"]];
     
     MTNewsItem *newPost = [[MTNewsItem alloc] initWithAuthor:[[rawPost objectForKey:@"from"] objectForKey:@"name"]
-                                                     content:nil
+                                                     content:[self getItemContent:rawPost]
                                           serviceContentType:nil // TODO: find out what we have here
                                               authorRealName:[[rawPost objectForKey:@"from"] objectForKey:@"name"]
                                                    timestamp:timestamp
@@ -289,7 +291,7 @@ NSString * const FBContentTypeStatus = @"status";
     NSDate *timestamp = [_dateFormatter dateFromString:[rawPost objectForKey:@"created_time"]];
     
     MTNewsItem *newPost = [[MTNewsItem alloc] initWithAuthor:[[rawPost objectForKey:@"from"] objectForKey:@"name"]
-                                                     content:nil
+                                                     content:[self getItemContent:rawPost]
                                           serviceContentType:nil // TODO: find out what we have here
                                               authorRealName:[[rawPost objectForKey:@"from"] objectForKey:@"name"]
                                                    timestamp:timestamp
@@ -317,17 +319,17 @@ NSString * const FBContentTypeStatus = @"status";
     if (commentCount > 0) { // da hell, we definitely need separate News Item Objects
         adherentConversation = [self parseAdherentConversation:[[rawPost objectForKey:@"comments"] objectForKey:@"data"]];
     }
-    
+        
     //ad profile pic, we may need to send a normal urlrequest to the url for the pic...muahahaha
     
     MTNewsItem *newPost = [[MTNewsItem alloc] initWithAuthor:[[rawPost objectForKey:@"from"] objectForKey:@"name"]
-                                                     content:[rawPost objectForKey:@"message"]
+                                                     content:[self getItemContent:rawPost]
                                           serviceContentType:serviceContentType
                                               authorRealName:[[rawPost objectForKey:@"from"] objectForKey:@"name"]
                                                    timestamp:timestamp
                                           authorProfileImage:nil
                                         adherentConversation:adherentConversation
-                                          conversationLength:0 //TODO:
+                                          conversationLength:commentCount
                                                   shareCount:shareCount
                                                 taggedPeople:nil//TODO:
                                               repliedToMsgId:nil//TODO:
@@ -357,6 +359,19 @@ NSString * const FBContentTypeStatus = @"status";
     }
     
     return graphAPIPath;
+}
+
+- (NSString *)getItemContent:(NSDictionary *)rawPost
+{
+    NSString *content = nil;
+    
+    if ([rawPost objectForKey:@"message"]) {
+        content = [rawPost objectForKey:@"message"];
+    } else {
+        content = [rawPost objectForKey:@"story"];
+    }
+    
+    return content;
 }
 
 @end

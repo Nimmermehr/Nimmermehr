@@ -29,8 +29,8 @@ NSString * const FBContentTypeStatus = @"status";
 - (NSString *)getGraphPathForServiceContentType:(MTServiceContentType *)serviceContentType;
 - (NSArray *)parseContent:(NSDictionary *)dictContent serviceContentType:(MTServiceContentType *)serviceContentType;
 - (NSArray *)parseAdherentConversation:(NSDictionary *)data;
-
 - (NSString *)getItemContent:(NSDictionary *)rawPost;
+- (NSArray *)parseTaggedPeople:(NSDictionary *)rawPost;
 
 - (MTNewsItem *)parsePhoto:(NSDictionary *)rawPost serviceContentType:(MTServiceContentType *)serviceContentType;
 - (MTNewsItem *)parseLink:(NSDictionary *)rawPost serviceContentType:(MTServiceContentType *)serviceContentType;
@@ -271,14 +271,14 @@ NSString * const FBContentTypeStatus = @"status";
     
     MTNewsItem *newPost = [[MTNewsItem alloc] initWithAuthor:[[rawPost objectForKey:@"from"] objectForKey:@"name"]
                                                      content:[self getItemContent:rawPost]
-                                          serviceContentType:nil // TODO: find out what we have here
+                                          serviceContentType:serviceContentType
                                               authorRealName:[[rawPost objectForKey:@"from"] objectForKey:@"name"]
                                                    timestamp:timestamp
                                           authorProfileImage:nil
                                         adherentConversation:nil //TODO:
-                                          conversationLength:0 //TODO:
-                                                  shareCount:0 //TODO:
-                                                taggedPeople:nil//TODO:
+                                          conversationLength:[[[rawPost objectForKey:@"comments"] objectForKey:@"count"] integerValue]
+                                                  shareCount:[[[rawPost objectForKey:@"likes"] objectForKey:@"count"] integerValue]
+                                                taggedPeople:[self parseTaggedPeople:rawPost]
                                               repliedToMsgId:nil//TODO:
                                                        links:nil
                            ];
@@ -292,14 +292,14 @@ NSString * const FBContentTypeStatus = @"status";
     
     MTNewsItem *newPost = [[MTNewsItem alloc] initWithAuthor:[[rawPost objectForKey:@"from"] objectForKey:@"name"]
                                                      content:[self getItemContent:rawPost]
-                                          serviceContentType:nil // TODO: find out what we have here
+                                          serviceContentType:serviceContentType
                                               authorRealName:[[rawPost objectForKey:@"from"] objectForKey:@"name"]
                                                    timestamp:timestamp
                                           authorProfileImage:nil
                                         adherentConversation:nil //TODO:
-                                          conversationLength:0 //TODO:
-                                                  shareCount:0 //TODO:
-                                                taggedPeople:nil//TODO:
+                                          conversationLength:[[[rawPost objectForKey:@"comments"] objectForKey:@"count"] integerValue]
+                                                  shareCount:[[[rawPost objectForKey:@"likes"] objectForKey:@"count"] integerValue]
+                                                taggedPeople:[self parseTaggedPeople:rawPost]
                                               repliedToMsgId:nil//TODO:
                                                        links:nil
                            ];
@@ -311,10 +311,9 @@ NSString * const FBContentTypeStatus = @"status";
 {
     NSDate *timestamp = [_dateFormatter dateFromString:[rawPost objectForKey:@"created_time"]];
     
-    NSInteger shareCount = [[[rawPost objectForKey:@"likes"] objectForKey:@"count"] integerValue];
-    NSInteger commentCount = [[[rawPost objectForKey:@"comments"] objectForKey:@"count"] integerValue];
-    
     NSArray *adherentConversation = nil;
+    
+    NSInteger commentCount = [[[rawPost objectForKey:@"comments"] objectForKey:@"count"] integerValue];
     
     if (commentCount > 0) { // da hell, we definitely need separate News Item Objects
         adherentConversation = [self parseAdherentConversation:[[rawPost objectForKey:@"comments"] objectForKey:@"data"]];
@@ -330,8 +329,8 @@ NSString * const FBContentTypeStatus = @"status";
                                           authorProfileImage:nil
                                         adherentConversation:adherentConversation
                                           conversationLength:commentCount
-                                                  shareCount:shareCount
-                                                taggedPeople:nil//TODO:
+                                                  shareCount:[[[rawPost objectForKey:@"likes"] objectForKey:@"count"] integerValue]
+                                                taggedPeople:[self parseTaggedPeople:rawPost]
                                               repliedToMsgId:nil//TODO:
                                                        links:nil
                            ];
@@ -359,6 +358,19 @@ NSString * const FBContentTypeStatus = @"status";
     }
     
     return graphAPIPath;
+}
+
+- (NSArray *)parseTaggedPeople:(NSDictionary *)rawPost
+{
+    NSMutableArray *taggedPeople = [NSMutableArray array];
+    
+    for (NSDictionary *storyTag in [rawPost objectForKey:@"story_tags"]) {
+        if ([[storyTag objectForKey:@"type"] isEqualToString:@"user"]) { // TODO: potentially create a MTServiceUser object which stores the important stuffs
+            [taggedPeople addObject:[storyTag objectForKey:@"name"]];
+        }
+    }
+    
+    return (NSArray *)taggedPeople;
 }
 
 - (NSString *)getItemContent:(NSDictionary *)rawPost
